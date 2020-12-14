@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >播放状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled  >
+					 <script type="text/javascript"> 
+						  var optionJson= cmsManageStatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >设备类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="device_kind"       >
+					 <script type="text/javascript"> 
+						  var optionJson= cmsDeviceTypeData;
+						 for(var key in optionJson)  $('select[name="device_kind"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >设备编号*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_code" type="text"      maxlength="40"     required=true />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >设备名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_name" type="text"      maxlength="80"     required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >在线状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="online_ststue"       >
+					 <script type="text/javascript"> 
+						  var optionJson= cmsOnlineStatusData;
+						 for(var key in optionJson)  $('select[name="online_ststue"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >管理部门*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="dept_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","")'  required=true  />
+					<button type='button'  name="btn_dept_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >区域位置*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="position_code"       style='width:80%;float:left; '  onclick='formSelectWindow("cmsfieldSelect","field_name;field_id","position_code;position_id","")'  required=true  />
+					<button type='button'  name="btn_position_code"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("cmsfieldSelect","field_name;field_id","position_code;position_id","")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label thBlue" >启用日期*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="use_date" type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"      required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >操作系统：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="system_version" type="text"      maxlength="60"      />
+				</div>
+				<label class="col-sm-2 control-label "  >分辨率：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="screen_ratio" type="text"      maxlength="20"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >硬盘：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="disk_info" type="text"      maxlength="60"      />
+				</div>
+				<label class="col-sm-2 control-label "  >硬盘使用：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="disk_use" type="text"      maxlength="60"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >内存：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="mem_info" type="text"      maxlength="60"      />
+				</div>
+				<label class="col-sm-2 control-label "  >内存使用：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="mem_use" type="text"      maxlength="60"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >软件版本：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="soft_version" type="text"      maxlength="200"      />
+				</div>
+				<label class="col-sm-2 control-label "  >广告版本：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="advert_version" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >生产厂家*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_factory" type="text"      maxlength="80"     required=true />
+				</div>
+				<label class="col-sm-2 control-label "  >设备型号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_type" type="text"      maxlength="80"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >设备规格：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_size" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:100px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:95px" name="memo"       maxlength="200"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>管理部门id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>限制ip：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="fix_ip" type="text"   style='display:none;'   maxlength="40"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>group_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="group_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>设备分组：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="group_name" type="text"   style='display:none;'   maxlength="60"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>type_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="type_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>点位_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="position_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>图片：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="pic_url" type="text"   style='display:none;'   maxlength="200"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+	</form>
+</div>  

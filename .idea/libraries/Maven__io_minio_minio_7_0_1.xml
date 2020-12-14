@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: io.minio:minio:7.0.1">
+    <CLASSES>
+      <root url="jar://C:/Users/yonsi/.m2/repository/io/minio/minio/7.0.1/minio-7.0.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://C:/Users/yonsi/.m2/repository/io/minio/minio/7.0.1/minio-7.0.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://C:/Users/yonsi/.m2/repository/io/minio/minio/7.0.1/minio-7.0.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,81 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '订单状态', width:74,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'order_time', title: '下单时间', width:133,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'order_no', title: '订单编号', width:114,visible:true, halign: 'center' }, 
+	 {field: 'goods_num', title: '商品数量', width:55,visible:true, halign: 'center' }, 
+	 {field: 'out_status', title: '出货状态', width:55,visible:true, halign: 'center',formatter:chuhuostatusFormatter }, 
+	 {field: 'order_money', title: '订单金额', width:55,visible:true, halign: 'center' }, 
+	 {field: 'discount_money', title: '优惠金额', width:55,visible:true, halign: 'center' }, 
+	 {field: 'pay_money', title: '付款金额', width:63,visible:true, halign: 'center' }, 
+	 {field: 'pay_type', title: '付款方式', width:66,visible:true, halign: 'center',formatter:paytypeFormatter }, 
+	 {field: 'pay_status', title: '支付状态', width:58,visible:true, halign: 'center' }, 
+	 {field: 'pay_time', title: '付款时间', width:124,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'device_code', title: '设备编号', width:117,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称', width:117,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:144,visible:true, halign: 'center' }, 
+	 {field: 'member_name', title: '购买会员', width:70,visible:true, halign: 'center' }, 
+	 {field: 'mobile_no', title: '手机号', width:122,visible:true, halign: 'center',formatter:passwordFormatter }, 
+	 {field: 'is_invoice', title: '是否开发票', width:69,visible:true, halign: 'center' }, 
+	 {field: 'service_status', title: '售后状态', width:82,visible:true, halign: 'center',formatter:shouhoustatusFormatter }, 
+	 {field: 'back_status', title: '退款状态', width:69,visible:true, halign: 'center',formatter:backpaystatusFormatter }, 
+	 {field: 'back_time', title: '退款时间', width:103,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:145,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'member_id', title: '购买会员id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'order_id', title: '主键id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'pay_id', title: '收单方id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:128,visible:false, halign: 'center' }, 
+	 {field: 'invoice_url', title: '电子发票链接', width:128,visible:false, halign: 'center' }, 
+	 {field: 'id_card', title: '身份证号', width:128,visible:false, halign: 'center',formatter:passwordFormatter }, 
+	 {field: 'e_mail', title: '发票接收邮箱', width:128,visible:false, halign: 'center' }, 
+	 {field: 'social_card', title: '社保卡号', width:128,visible:false, halign: 'center',formatter:passwordFormatter } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.auditing',formatter:'recordsatusFormatter'}, 
+	  order_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'order_record.order_time',formatter:'dateTimeFormatter'}, 
+	  order_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.order_no'}, 
+	  goods_num:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'order_record.goods_num'}, 
+	  out_status:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.out_status',control_name:'chuhuostatusData',formatter:'chuhuostatusFormatter'}, 
+	  order_money:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'order_record.order_money'}, 
+	  discount_money:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'order_record.discount_money'}, 
+	  pay_money:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'order_record.pay_money'}, 
+	  pay_type:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.pay_type',control_name:'paytypeData',formatter:'paytypeFormatter'}, 
+	  pay_status:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.pay_status'}, 
+	  pay_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'order_record.pay_time',formatter:'dateTimeFormatter'}, 
+	  device_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_code'}, 
+	  device_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_name'}, 
+	  company_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.company_name'}, 
+	  member_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.member_name'}, 
+	  mobile_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.mobile_no',formatter:'passwordFormatter'}, 
+	  is_invoice:{addedit:false,edit:false,type:'checkbox',required:false,default:'',orgfield:'order_record.is_invoice'}, 
+	  service_status:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.service_status',control_name:'shouhoustatusData',formatter:'shouhoustatusFormatter'}, 
+	  back_status:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'order_record.back_status',control_name:'backpaystatusData',formatter:'backpaystatusFormatter'}, 
+	  back_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'order_record.back_time',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.memo'}, 
+	  company_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.company_id'}, 
+	  device_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.device_id'}, 
+	  member_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.member_id'}, 
+	  order_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.order_id'}, 
+	  pay_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.pay_id'}, 
+	  project_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.project_id'}, 
+	  record_flag:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.record_flag'}, 
+	  invoice_url:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.invoice_url'}, 
+	  id_card:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.id_card',formatter:'passwordFormatter'}, 
+	  e_mail:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.e_mail'}, 
+	  social_card:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'order_record.social_card',formatter:'passwordFormatter'} 
+	 }; 
+</script>  

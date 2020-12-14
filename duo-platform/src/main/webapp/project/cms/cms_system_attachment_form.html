@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >素材状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled  >
+					 <script type="text/javascript"> 
+						  var optionJson= cmsAuditStatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >素材分类：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="type_id"     disabled  >
+					 <script type="text/javascript"> 
+						  var optionJson= cmsFileTypeData;
+						 for(var key in optionJson)  $('select[name="type_id"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >素材文件名称：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_name" type="text"      maxlength="80"    readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >素材类型：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_type" type="text"      maxlength="20"    readonly  />
+				</div>
+				<label class="col-sm-2 control-label "  >素材路径：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_path" type="text"      maxlength="500"    readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:79px;"   >适用描述：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:74px" name="use_descript"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >上传部门：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_name" type="text"      maxlength="80"    readonly  />
+				</div>
+				<label class="col-sm-2 control-label "  >上传人：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="upload_user" type="text"      maxlength="50"    readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >审核时间：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="audit_date" type="text" readonly    />
+				</div>
+				<label class="col-sm-2 control-label "  >审核人：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="audit_user" type="text"      maxlength="40"    readonly  />
+				</div>
+				<label class="col-sm-2 control-label " >创建时间：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_date" type="text" readonly    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >上传IP：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="upload_ip" type="text"      maxlength="50"    readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:86px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:81px" name="memo"       maxlength="200"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="data_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>表名或标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="table_name" type="text"   style='display:none;'   maxlength="60"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>dept_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " style='display:none;'>上传时间：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="upload_date" type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   maxlength="10"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>文件MD5：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_md5" type="text"   style='display:none;'   maxlength="32"    readonly  />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>文件大小：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="file_size" type="text"   style='display:none;'   maxlength="50"    readonly  />
+				</div>
+		</div>
+	</form>
+</div>  

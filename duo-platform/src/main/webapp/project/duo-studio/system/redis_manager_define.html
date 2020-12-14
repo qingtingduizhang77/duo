@@ -1,0 +1,70 @@
+<script  th:fragment="gridScript">
+  
+
+    $(function () {
+
+
+    });
+
+    function deleteredis(that){
+
+        //删除前自定义方法
+        if(typeof(predelete)!="undefined"){
+            if(predelete()) return;
+        }
+        var datas=$table.bootstrapTable('getSelections');
+        if(datas==null||datas.length==0){
+            alert("请选择至少一条记录后再操作！");
+            return;
+        }
+        var ids="";
+        for(var i=0;i<datas.length;i++){
+            let  keyId=datas[i]["redis_key"];
+            if(keyId==null||keyId=="") {
+                continue;
+            }
+            ids+= keyId+";"
+        }
+        if(ids==""){
+            alert("没有选中要删除的记录数据，请确认后再删除！");
+            return;
+        }
+
+        BootstrapDialog.confirm({
+            title : '确认',
+            message : "确认要删除？",
+            type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+            // BootstrapDialog.TYPE_PRIMARY
+            closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+            draggable : true, // <-- Default value is false，可拖拽
+            btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+            btnOKLabel : '确定', // <-- Default value is 'OK',
+            btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+            size : BootstrapDialog.SIZE_SMALL,
+            // 对话框关闭的时候执行方法
+            onhide : function () {
+
+            },
+            callback : function(result) {
+                // 点击确定按钮时，result为true
+                if (result) {
+
+                    var url= '/redisadmin/delete';
+
+                    var parames="";
+                    if(that!=null){//指定了执行自定义类
+                        if($(that).attr("bo-function")!=null&&$(that).attr("bo-function")!=""){
+                            if($(that).attr("bo-function").indexOf("/")>-1) url=$(that).attr("bo-function");
+                            else parames=$(that).attr("bo-function");
+                        }
+                    }
+                    // 执行方法
+                    ajaxSumit(url+'?funId='+funId+parames,{ids:ids}, callback);
+                }
+            }
+        });
+    }
+
+
+
+</script>

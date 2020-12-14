@@ -1,0 +1,1692 @@
+<script  th:fragment="formatterScript"> 
+
+	 //是否控件
+	 function yesnoFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','否;').replace('1;','是;');
+		 if(value=='0') return '<span style="color:#ccc;">否</span>';
+		 if(value=='1') return '是';
+		 return value;
+	}
+
+	 //性别
+	 function sextypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','女;').replace('1;','男;');
+		 if(value=='0') return '<span style="color:red;">女</span>';
+		 if(value=='1') return '<span style="color:green;">男</span>';
+		 return value;
+	}
+
+	 //文档资料分类
+	 function fileTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('100310011001;','数据附件;').replace('100310011002;','培训资料;').replace('100310011003;','管理制度规范;').replace('100310011004;','技术文库;').replace('100310011005;','其他;').replace('100310011006;','temp;').replace('100310011007;','软件升级包;').replace('100310011008;','广告升级包;');
+		 if(value=='100310011001') return '数据附件';
+		 if(value=='100310011002') return '培训资料';
+		 if(value=='100310011003') return '管理制度规范';
+		 if(value=='100310011004') return '技术文库';
+		 if(value=='100310011005') return '其他';
+		 if(value=='100310011006') return 'temp';
+		 if(value=='100310011007') return '软件升级包';
+		 if(value=='100310011008') return '广告升级包';
+		 return value;
+	}
+
+	 //停机状态
+	 function stopstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','停机待处理;').replace('1;','已处理;').replace('3;','已忽略;');
+		 if(value=='0') return '停机待处理';
+		 if(value=='1') return '已处理';
+		 if(value=='3') return '已忽略';
+		 return value;
+	}
+
+	 //停机类型
+	 function stoptypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('plan;','计划停机;').replace('fault;','故障停机;').replace('pause;','维护停机;');
+		 if(value=='plan') return '计划停机';
+		 if(value=='fault') return '故障停机';
+		 if(value=='pause') return '维护停机';
+		 return value;
+	}
+
+	 //记录状态
+	 function imsdatastatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未复核;').replace('1;','已复核;');
+		 if(value=='0') return '未复核';
+		 if(value=='1') return '已复核';
+		 return value;
+	}
+
+	 //字段树属性
+	 function treepropertieFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('level;','级别列;').replace('text;','显示列;');
+		 if(value=='level') return '级别列';
+		 if(value=='text') return '显示列';
+		 return value;
+	}
+
+	 //设备在线状态
+	 function cmsOnlineStatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','离线;').replace('1;','在线;');
+		 if(value=='0') return '<span style="color:red;">离线</span>';
+		 if(value=='1') return '<span style="color:green;">在线</span>';
+		 return value;
+	}
+
+	 //表字段类型
+	 function columntypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('varchar;','varchar;').replace('datetime;','datetime;').replace('int;','int;').replace('text;','text;').replace('float;','float;');
+		 if(value=='varchar') return 'varchar';
+		 if(value=='datetime') return 'datetime';
+		 if(value=='int') return 'int';
+		 if(value=='text') return 'text';
+		 if(value=='float') return 'float';
+		 return value;
+	}
+
+	 //系统用户默认值
+	 function systemdefaultFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('{CURRENTUSERID};','当前用户id;').replace('{CURRENTUSERNAME};','当前用户名称;').replace('{CURRENTDEPTNAME};','当前用户所在部门名称;').replace('{CURRENTDEPTID};','当前用户所在部门id;').replace('{CURRENTCOMPANYID};','当前用户所在公司id;').replace('{CURRENTONEDEPTID};','当前用户所在一级部门id;').replace('{CURRENTTWODEPTID};','当前用户所在二级部门id;').replace('{CURRENTYEAR};','当前年份(yyyy);').replace('{CURRENTMONTH};','当前年月(yyyymm);').replace('{CURRENTDATE};','当前日期(yyyymmdd);').replace('{CURRENTTIME};','当前时间(ymd hh:mi:ss);');
+		 if(value=='{CURRENTUSERID}') return '当前用户id';
+		 if(value=='{CURRENTUSERNAME}') return '当前用户名称';
+		 if(value=='{CURRENTDEPTNAME}') return '当前用户所在部门名称';
+		 if(value=='{CURRENTDEPTID}') return '当前用户所在部门id';
+		 if(value=='{CURRENTCOMPANYID}') return '当前用户所在公司id';
+		 if(value=='{CURRENTONEDEPTID}') return '当前用户所在一级部门id';
+		 if(value=='{CURRENTTWODEPTID}') return '当前用户所在二级部门id';
+		 if(value=='{CURRENTYEAR}') return '当前年份(yyyy)';
+		 if(value=='{CURRENTMONTH}') return '当前年月(yyyymm)';
+		 if(value=='{CURRENTDATE}') return '当前日期(yyyymmdd)';
+		 if(value=='{CURRENTTIME}') return '当前时间(ymd hh:mi:ss)';
+		 return value;
+	}
+
+	 //支付方式
+	 function paytypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('weixinpay;','微信支付;').replace('alipay;','支付宝支付;').replace('unionpay;','云闪付支付;');
+		 if(value=='weixinpay') return '微信支付';
+		 if(value=='alipay') return '支付宝支付';
+		 if(value=='unionpay') return '云闪付支付';
+		 return value;
+	}
+
+	 //仓库货架级别
+	 function imsstocklevelFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','仓库;').replace('2;','货架;').replace('3;','货架;').replace('4;','货架;').replace('5;','货架;').replace('6;','货架;');
+		 if(value=='1') return '仓库';
+		 if(value=='2') return '货架';
+		 if(value=='3') return '货架';
+		 if(value=='4') return '货架';
+		 if(value=='5') return '货架';
+		 if(value=='6') return '货架';
+		 return value;
+	}
+
+	 //多语言分类
+	 function i18ntypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('fun;','功能;').replace('data;','数据字典;').replace('self;','自定义;');
+		 if(value=='fun') return '功能';
+		 if(value=='data') return '数据字典';
+		 if(value=='self') return '自定义';
+		 return value;
+	}
+
+	 //设备管理状态
+	 function cmsManageStatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','暂停中;').replace('1;','播放中;').replace('3;','未知;');
+		 if(value=='0') return '暂停中';
+		 if(value=='1') return '播放中';
+		 if(value=='3') return '<span style="color:#ccc;">未知</span>';
+		 return value;
+	}
+
+	 //功能类型
+	 function funtypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('main;','主功能;').replace('maintree;','树型功能;').replace('sub;','子功能;').replace('total;','统计功能;').replace('select;','选择窗口功能;').replace('other;','其他;');
+		 if(value=='main') return '<span style="color:red;">主功能</span>';
+		 if(value=='maintree') return '<span style="color:blue;">树型功能</span>';
+		 if(value=='sub') return '<span style="color:green;">子功能</span>';
+		 if(value=='total') return '统计功能';
+		 if(value=='select') return '<span style="color:pink;">选择窗口功能</span>';
+		 if(value=='other') return '<span style="color:#ccc;">其他</span>';
+		 return value;
+	}
+
+	 //自动编码方式
+	 function autocodetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','不自动编码;').replace('monseq;','按月流水号;').replace('sequence;','全表流水号;').replace('sql;','sql编码;').replace('uuid;','uuid号;').replace('uid;','随机号;').replace('class;','来自class;');
+		 if(value=='0') return '不自动编码';
+		 if(value=='monseq') return '按月流水号';
+		 if(value=='sequence') return '全表流水号';
+		 if(value=='sql') return 'sql编码';
+		 if(value=='uuid') return 'uuid号';
+		 if(value=='uid') return '随机号';
+		 if(value=='class') return '来自class';
+		 return value;
+	}
+
+	 //激活状态
+	 function useractivestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未激活;').replace('1;','已激活;');
+		 if(value=='0') return '未激活';
+		 if(value=='1') return '已激活';
+		 return value;
+	}
+
+	 //商户注册状态
+	 function companyststusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','商务中;').replace('1;','已通过;').replace('3;','已失效;').replace('9;','已拒绝;');
+		 if(value=='0') return '<span style="color:#4138C2;">商务中</span>';
+		 if(value=='1') return '<span style="color:#07C24D;">已通过</span>';
+		 if(value=='3') return '<span style="color:#c2c2c2;">已失效</span>';
+		 if(value=='9') return '<span style="color:#C24705;">已拒绝</span>';
+		 return value;
+	}
+
+	 //入库类型
+	 function imsintypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('buy;','采购入库;').replace('profit;','盘盈入库;').replace('red;','冲红入库;');
+		 if(value=='buy') return '采购入库';
+		 if(value=='profit') return '<span style="color:green;">盘盈入库</span>';
+		 if(value=='red') return '<span style="color:red;">冲红入库</span>';
+		 return value;
+	}
+
+	 //权限类型
+	 function permissiontypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('view;','查看;').replace('edit;','编辑;').replace('delete;','删除;').replace('print;','打印;');
+		 if(value=='view') return '查看';
+		 if(value=='edit') return '编辑';
+		 if(value=='delete') return '删除';
+		 if(value=='print') return '打印';
+		 return value;
+	}
+
+	 //设备类型
+	 function cmsDeviceTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('tv;','电视机;').replace('hub;','触摸屏一体机;').replace('led;','LED大屏;').replace('lcd;','LCD拼接屏;');
+		 if(value=='tv') return '电视机';
+		 if(value=='hub') return '触摸屏一体机';
+		 if(value=='led') return 'LED大屏';
+		 if(value=='lcd') return 'LCD拼接屏';
+		 return value;
+	}
+
+	 //流程类型
+	 function wftypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('audit;','审批流;').replace('workflow;','工作流;');
+		 if(value=='audit') return '审批流';
+		 if(value=='workflow') return '工作流';
+		 return value;
+	}
+
+	 //用户级别
+	 function systemuserlvFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('9;','9级员工;').replace('8;','8级员工;').replace('7;','7级员工;').replace('6;','6级员工;').replace('5;','5级员工;').replace('4;','4级员工;').replace('3;','3级员工;').replace('2;','2级员工;').replace('1;','1级员工;');
+		 if(value=='9') return '9级员工';
+		 if(value=='8') return '8级员工';
+		 if(value=='7') return '7级员工';
+		 if(value=='6') return '6级员工';
+		 if(value=='5') return '5级员工';
+		 if(value=='4') return '4级员工';
+		 if(value=='3') return '3级员工';
+		 if(value=='2') return '2级员工';
+		 if(value=='1') return '1级员工';
+		 return value;
+	}
+
+	 //商户类型
+	 function companytypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('drugstore;','药店;').replace('bank;','银行;').replace('insurance ;','保险公司;').replace('hospital;','医院;').replace('business;','商业伙伴;').replace('advert;','广告主;').replace('position;','点位业主;').replace('other;','其他;');
+		 if(value=='drugstore') return '药店';
+		 if(value=='bank') return '银行';
+		 if(value=='insurance ') return '保险公司';
+		 if(value=='hospital') return '医院';
+		 if(value=='business') return '商业伙伴';
+		 if(value=='advert') return '广告主';
+		 if(value=='position') return '点位业主';
+		 if(value=='other') return '其他';
+		 return value;
+	}
+
+	 //出库类型
+	 function imsouttypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('use;','领用出库;').replace('loss;','盘亏出库;').replace('red;','冲红出库;');
+		 if(value=='use') return '领用出库';
+		 if(value=='loss') return '<span style="color:green;">盘亏出库</span>';
+		 if(value=='red') return '<span style="color:red;">冲红出库</span>';
+		 return value;
+	}
+
+	 //节点类型
+	 function nodetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('start;','开始节点;').replace('user;','任务节点;').replace('counter;','会签节点;').replace('time;','定时节点;').replace('end;','结束节点;');
+		 if(value=='start') return '开始节点';
+		 if(value=='user') return '任务节点';
+		 if(value=='counter') return '会签节点';
+		 if(value=='time') return '定时节点';
+		 if(value=='end') return '结束节点';
+		 return value;
+	}
+
+	 //星期
+	 function cmsWeekDayFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','星期日;').replace('1;','星期一;').replace('2;','星期二;').replace('3;','星期三;').replace('4;','星期四;').replace('5;','星期五;').replace('6;','星期六;');
+		 if(value=='0') return '星期日';
+		 if(value=='1') return '星期一';
+		 if(value=='2') return '星期二';
+		 if(value=='3') return '星期三';
+		 if(value=='4') return '星期四';
+		 if(value=='5') return '星期五';
+		 if(value=='6') return '星期六';
+		 return value;
+	}
+
+	 //管理级别
+	 function systemmangelvFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('9;','高管;').replace('7;','协管;').replace('6;','经理(部门负责人);').replace('5;','主任;').replace('4;','高工;').replace('3;','员工;').replace('1;','实习生;');
+		 if(value=='9') return '高管';
+		 if(value=='7') return '协管';
+		 if(value=='6') return '经理(部门负责人)';
+		 if(value=='5') return '主任';
+		 if(value=='4') return '高工';
+		 if(value=='3') return '员工';
+		 if(value=='1') return '实习生';
+		 return value;
+	}
+
+	 //出租结算方式
+	 function rentsettletypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('month;','月租金;').replace('rate;','比例分成;').replace('free;','免费;');
+		 if(value=='month') return '月租金';
+		 if(value=='rate') return '比例分成';
+		 if(value=='free') return '免费';
+		 return value;
+	}
+
+	 //盘点结果
+	 function imscheckresultFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','正常;').replace('2;','盘盈;').replace('3;','盘亏;');
+		 if(value=='1') return '正常';
+		 if(value=='2') return '<span style="color:green;">盘盈</span>';
+		 if(value=='3') return '<span style="color:red;">盘亏</span>';
+		 return value;
+	}
+
+	 //用户在线状态
+	 function onlinestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','离线;').replace('1;','在线;');
+		 if(value=='0') return '<span style="color:#ccc;">离线</span>';
+		 if(value=='1') return '<span style="color:green;">在线</span>';
+		 return value;
+	}
+
+	 //指令类型
+	 function cmsOrderTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('101;','开始营业;').replace('102;','暂停营业;').replace('105;','关闭机器;').replace('106;','重启机器;').replace('110;','提取文件;').replace('120;','截屏;').replace('130;','获取参数;').replace('140;','修改参数;').replace('151;','暂停播放;').replace('152;','启动播放;').replace('155;','上一页;').replace('156;','下一页;').replace('159;','重新播放;').replace('201;','软件升级;').replace('202;','广告升级;').replace('220;','离线播放模式;').replace('230;','在线播放模式;').replace('610;','响应报文;').replace('801;','回传报文;').replace('999;','心跳报文;');
+		 if(value=='101') return '开始营业';
+		 if(value=='102') return '暂停营业';
+		 if(value=='105') return '关闭机器';
+		 if(value=='106') return '重启机器';
+		 if(value=='110') return '提取文件';
+		 if(value=='120') return '截屏';
+		 if(value=='130') return '获取参数';
+		 if(value=='140') return '修改参数';
+		 if(value=='151') return '暂停播放';
+		 if(value=='152') return '启动播放';
+		 if(value=='155') return '上一页';
+		 if(value=='156') return '下一页';
+		 if(value=='159') return '重新播放';
+		 if(value=='201') return '软件升级';
+		 if(value=='202') return '广告升级';
+		 if(value=='220') return '离线播放模式';
+		 if(value=='230') return '在线播放模式';
+		 if(value=='610') return '响应报文';
+		 if(value=='801') return '回传报文';
+		 if(value=='999') return '心跳报文';
+		 return value;
+	}
+
+	 //定时器状态
+	 function timerstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未生效;').replace('1;','生效中;').replace('2;','已停用;');
+		 if(value=='0') return '未生效';
+		 if(value=='1') return '<span style="color:green;">生效中</span>';
+		 if(value=='2') return '<span style="color:#ccc;">已停用</span>';
+		 return value;
+	}
+
+	 //通用记录状态
+	 function recordsatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未复核;').replace('1;','已复核;').replace('9;','已取消;');
+		 if(value=='0') return '未复核';
+		 if(value=='1') return '已复核';
+		 if(value=='9') return '<span style="color:#c2c2c2;">已取消</span>';
+		 return value;
+	}
+
+	 //生效状态
+	 function imdatastatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未生效;').replace('1;','已生效;');
+		 if(value=='0') return '<span style="color:#cccccc;">未生效</span>';
+		 if(value=='1') return '已生效';
+		 return value;
+	}
+
+	 //指令状态
+	 function cmsOrderStatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('-1;','编制中;').replace('0;','待审批;').replace('1;','已审批待下发;').replace('2;','已下发待执行;').replace('3;','执行成功;').replace('4;','执行失败;').replace('5;','已取消;');
+		 if(value=='-1') return '编制中';
+		 if(value=='0') return '待审批';
+		 if(value=='1') return '已审批待下发';
+		 if(value=='2') return '已下发待执行';
+		 if(value=='3') return '执行成功';
+		 if(value=='4') return '执行失败';
+		 if(value=='5') return '已取消';
+		 return value;
+	}
+
+	 //定时器周期类型
+	 function timerperiodtypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('cron;','Cron表达式;').replace('minute;','分钟;').replace('hour;','小时;').replace('day;','日;').replace('week;','周;').replace('month;','月;');
+		 if(value=='cron') return 'Cron表达式';
+		 if(value=='minute') return '分钟';
+		 if(value=='hour') return '小时';
+		 if(value=='day') return '日';
+		 if(value=='week') return '周';
+		 if(value=='month') return '月';
+		 return value;
+	}
+
+	 //定时器任务类型
+	 function timertasktypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('sql;','SQL任务;').replace('bo;','后台服务任务;').replace('ai;','AI建模任务;').replace('label;','用户标签任务;').replace('data;','数据治理任务;').replace('flow;','定时审批任务;').replace('interface;','接口任务;');
+		 if(value=='sql') return 'SQL任务';
+		 if(value=='bo') return '后台服务任务';
+		 if(value=='ai') return 'AI建模任务';
+		 if(value=='label') return '用户标签任务';
+		 if(value=='data') return '数据治理任务';
+		 if(value=='flow') return '定时审批任务';
+		 if(value=='interface') return '接口任务';
+		 return value;
+	}
+
+	 //审核状态
+	 function cmsAuditStatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','编辑中;').replace('1;','审核中;').replace('2;','审核退回;').replace('3;','已审核;');
+		 if(value=='0') return '编辑中';
+		 if(value=='1') return '审核中';
+		 if(value=='2') return '审核退回';
+		 if(value=='3') return '已审核';
+		 return value;
+	}
+
+	 //定时器执行状态
+	 function timerrunstateFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待执行;').replace('1;','执行中;').replace('2;','执行成功;').replace('3;','执行失败;').replace('4;','超时失败;');
+		 if(value=='0') return '待执行';
+		 if(value=='1') return '<span style="color:blue;">执行中</span>';
+		 if(value=='2') return '<span style="color:green;">执行成功</span>';
+		 if(value=='3') return '<span style="color:red;">执行失败</span>';
+		 if(value=='4') return '<span style="color:orange;">超时失败</span>';
+		 return value;
+	}
+
+	 //生效状态
+	 function effectivestateFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','已生效;').replace('0;','未生效;');
+		 if(value=='1') return '已生效';
+		 if(value=='0') return '<span style="color:#ccc;">未生效</span>';
+		 return value;
+	}
+
+	 //点位性质
+	 function positionpropertyFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('org;','政府/村委;').replace('cbd;','写字楼;').replace('factory;','工厂;').replace('afc;','交通枢纽;').replace('parking;','停车场;').replace('drugstore;','药店;').replace('hospital;','医院;');
+		 if(value=='org') return '政府/村委';
+		 if(value=='cbd') return '写字楼';
+		 if(value=='factory') return '工厂';
+		 if(value=='afc') return '交通枢纽';
+		 if(value=='parking') return '停车场';
+		 if(value=='drugstore') return '药店';
+		 if(value=='hospital') return '医院';
+		 return value;
+	}
+
+	 //入库状态
+	 function imsinstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未提交;').replace('1;','已完成;').replace('2;','审核中;').replace('4;','审核退回;');
+		 if(value=='0') return '未提交';
+		 if(value=='1') return '已完成';
+		 if(value=='2') return '审核中';
+		 if(value=='4') return '审核退回';
+		 return value;
+	}
+
+	 //功能字段类型
+	 function formcolumntypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('text;','文本控件;').replace('number;','数值控件;').replace('combobox;','下拉控件;').replace('comboboxmult;','多选下拉控件;').replace('editcombobox;','可编辑下拉控件;').replace('selectwindow;','选择窗口;').replace('checkbox;','复选框;').replace('date;','日期控件;').replace('datetime;','日期时间控件;').replace('time;','仅时间控件;').replace('timeminute;','仅时分控件;').replace('year;','年份控件;').replace('yearmonth;','月份控件;').replace('image;','图片上传控件;').replace('editor;','editor文本编辑器控件;');
+		 if(value=='text') return '文本控件';
+		 if(value=='number') return '<span style="color:blue;">数值控件</span>';
+		 if(value=='combobox') return '<span style="color:#fc7f0f;">下拉控件</span>';
+		 if(value=='comboboxmult') return '多选下拉控件';
+		 if(value=='editcombobox') return '可编辑下拉控件';
+		 if(value=='selectwindow') return '<span style="color:green;">选择窗口</span>';
+		 if(value=='checkbox') return '<span style="color:red;">复选框</span>';
+		 if(value=='date') return '<span style="color:pink;">日期控件</span>';
+		 if(value=='datetime') return '<span style="color:pink;">日期时间控件</span>';
+		 if(value=='time') return '仅时间控件';
+		 if(value=='timeminute') return '仅时分控件';
+		 if(value=='year') return '年份控件';
+		 if(value=='yearmonth') return '月份控件';
+		 if(value=='image') return '图片上传控件';
+		 if(value=='editor') return 'editor文本编辑器控件';
+		 return value;
+	}
+
+	 //模版类型
+	 function cmsTeamplateTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('content;','内容模版;').replace('column;','栏目模版;').replace('program;','节目模版;');
+		 if(value=='content') return '内容模版';
+		 if(value=='column') return '栏目模版';
+		 if(value=='program') return '节目模版';
+		 return value;
+	}
+
+	 //发布状态
+	 function publicstateFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','编辑中;').replace('1;','已发布;').replace('9;','已失效;');
+		 if(value=='0') return '编辑中';
+		 if(value=='1') return '<span style="color:green;">已发布</span>';
+		 if(value=='9') return '<span style="color:#ccc;">已失效</span>';
+		 return value;
+	}
+
+	 //设备类型
+	 function devicekindFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('vending;','售卖机;').replace('medicine;','售药机;').replace('treatment;','问诊室;').replace('other;','其他;');
+		 if(value=='vending') return '售卖机';
+		 if(value=='medicine') return '售药机';
+		 if(value=='treatment') return '问诊室';
+		 if(value=='other') return '其他';
+		 return value;
+	}
+
+	 //出库状态
+	 function imsoutstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未提交;').replace('1;','已完成;').replace('2;','审核中;').replace('4;','审核退回;');
+		 if(value=='0') return '未提交';
+		 if(value=='1') return '已完成';
+		 if(value=='2') return '审核中';
+		 if(value=='4') return '审核退回';
+		 return value;
+	}
+
+	 //移库状态
+	 function imsmovestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未提交;').replace('1;','已完成;').replace('2;','审核中;').replace('4;','审核退回;');
+		 if(value=='0') return '未提交';
+		 if(value=='1') return '已完成';
+		 if(value=='2') return '审核中';
+		 if(value=='4') return '审核退回';
+		 return value;
+	}
+
+	 //Portal类型
+	 function portaltypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('fun;','功能;').replace('home;','首页;').replace('big;','大屏界面;');
+		 if(value=='fun') return '功能';
+		 if(value=='home') return '首页';
+		 if(value=='big') return '大屏界面';
+		 return value;
+	}
+
+	 //素材分类
+	 function cmsFileTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('teamplate;','模版素材;').replace('office;','office文档;').replace('img;','图片素材;').replace('file;','文件素材;').replace('video;','视频素材;').replace('audio;','音频素材;').replace('flash;','flash素材;').replace('other;','其他素材;');
+		 if(value=='teamplate') return '模版素材';
+		 if(value=='office') return 'office文档';
+		 if(value=='img') return '图片素材';
+		 if(value=='file') return '文件素材';
+		 if(value=='video') return '视频素材';
+		 if(value=='audio') return '音频素材';
+		 if(value=='flash') return 'flash素材';
+		 if(value=='other') return '其他素材';
+		 return value;
+	}
+
+	 //数据源类型
+	 function dbsourcetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('system;','系统;').replace('bi;','BI;').replace('ai;','AI建模;');
+		 if(value=='system') return '系统';
+		 if(value=='bi') return 'BI';
+		 if(value=='ai') return 'AI建模';
+		 return value;
+	}
+
+	 //开启状态
+	 function openorcloseFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','关闭;').replace('1;','开启;');
+		 if(value=='0') return '关闭';
+		 if(value=='1') return '开启';
+		 return value;
+	}
+
+	 //盘点状态
+	 function imscheckstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待盘点;').replace('1;','已完成;').replace('2;','审核中;');
+		 if(value=='0') return '待盘点';
+		 if(value=='1') return '已完成';
+		 if(value=='2') return '审核中';
+		 return value;
+	}
+
+	 //excel导入列号
+	 function excelcolnoFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','A;').replace('1;','B;').replace('2;','C;').replace('3;','D;').replace('4;','E;').replace('5;','F;').replace('6;','G;').replace('7;','H;').replace('8;','I;').replace('9;','J;').replace('10;','K;').replace('11;','L;').replace('12;','M;').replace('13;','N;').replace('14;','O;').replace('15;','P;').replace('16;','Q;').replace('17;','R;').replace('18;','S;').replace('19;','T;').replace('20;','U;');
+		 if(value=='0') return 'A';
+		 if(value=='1') return 'B';
+		 if(value=='2') return 'C';
+		 if(value=='3') return 'D';
+		 if(value=='4') return 'E';
+		 if(value=='5') return 'F';
+		 if(value=='6') return 'G';
+		 if(value=='7') return 'H';
+		 if(value=='8') return 'I';
+		 if(value=='9') return 'J';
+		 if(value=='10') return 'K';
+		 if(value=='11') return 'L';
+		 if(value=='12') return 'M';
+		 if(value=='13') return 'N';
+		 if(value=='14') return 'O';
+		 if(value=='15') return 'P';
+		 if(value=='16') return 'Q';
+		 if(value=='17') return 'R';
+		 if(value=='18') return 'S';
+		 if(value=='19') return 'T';
+		 if(value=='20') return 'U';
+		 return value;
+	}
+
+	 //excel导入转换方式
+	 function exceletltypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('no;','不转换;').replace('dept;','部门name转id;').replace('user;','用户name转id;').replace('data;','下拉值name转value;');
+		 if(value=='no') return '不转换';
+		 if(value=='dept') return '部门name转id';
+		 if(value=='user') return '用户name转id';
+		 if(value=='data') return '下拉值name转value';
+		 return value;
+	}
+
+	 //excel导入取值方式
+	 function excelvaluetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('excel;','取excel值;').replace('default;','取默认值;');
+		 if(value=='excel') return '取excel值';
+		 if(value=='default') return '取默认值';
+		 return value;
+	}
+
+	 //JDBC驱动类
+	 function jdbcdriverFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('com.mysql.jdbc.Driver;','MySQL;').replace('oracle.jdbc.OracleDriver;','Oracle;').replace('com.microsoft.jdbc.sqlserver.SQLServerDriver;','SQLServer;').replace('com.ibm.db2.jdbc.app.DB2Driver ;','DB2;').replace('org.h2.Driver;','H2;');
+		 if(value=='com.mysql.jdbc.Driver') return 'MySQL';
+		 if(value=='oracle.jdbc.OracleDriver') return 'Oracle';
+		 if(value=='com.microsoft.jdbc.sqlserver.SQLServerDriver') return 'SQLServer';
+		 if(value=='com.ibm.db2.jdbc.app.DB2Driver ') return 'DB2';
+		 if(value=='org.h2.Driver') return 'H2';
+		 return value;
+	}
+
+	 //分辨率
+	 function cmsScreenRatioFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1024*768;','1024*768;').replace('1280*720;','1280*720;').replace('1280*1024;','1280*1024;').replace('1440*900;','1440*900;').replace('1920*1080;','1920*1080;');
+		 if(value=='1024*768') return '1024*768';
+		 if(value=='1280*720') return '1280*720';
+		 if(value=='1280*1024') return '1280*1024';
+		 if(value=='1440*900') return '1440*900';
+		 if(value=='1920*1080') return '1920*1080';
+		 return value;
+	}
+
+	 //首页风格
+	 function indexlayoutFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('main;','默认布局;').replace('maintabs;','Tabs布局;');
+		 if(value=='main') return '默认布局';
+		 if(value=='maintabs') return 'Tabs布局';
+		 return value;
+	}
+
+	 //温控模式
+	 function temperaturetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('no;','无;').replace('cool;','制冷;').replace('hot;','制热;');
+		 if(value=='no') return '<span style="color:#c2c2c2;">无</span>';
+		 if(value=='cool') return '<span style="color:#4138C2;">制冷</span>';
+		 if(value=='hot') return '<span style="color:#C20723;">制热</span>';
+		 return value;
+	}
+
+	 //计量单位
+	 function imsuintFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('bao;','包;').replace('dai;','袋;').replace('jian;','件;').replace('xiang;','箱;').replace('tai;','台;').replace('ge;','个;').replace('gen;','根;').replace('he;','盒;').replace('g;','克G;').replace('kg;','千克KG;').replace('t;','吨;').replace('cm;','厘米;').replace('m;','米;');
+		 if(value=='bao') return '包';
+		 if(value=='dai') return '袋';
+		 if(value=='jian') return '件';
+		 if(value=='xiang') return '箱';
+		 if(value=='tai') return '台';
+		 if(value=='ge') return '个';
+		 if(value=='gen') return '根';
+		 if(value=='he') return '盒';
+		 if(value=='g') return '克G';
+		 if(value=='kg') return '千克KG';
+		 if(value=='t') return '吨';
+		 if(value=='cm') return '厘米';
+		 if(value=='m') return '米';
+		 return value;
+	}
+
+	 //布局页面
+	 function layoutpageFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('/layout/layout-common-grid;','一般布局页面;').replace('/layout/layout-common-tree;','树型布局页面;').replace('/layout/layout-common-tree-tabsubgrid;','树型tab布局页面;').replace('/layout/layout-common-tabgrid;','表格tab布局页面;').replace('/layout/layout-common-iframe;','iframe布局页面;').replace('/layout/layout-common-grid-tabsubgrid;','左右grid布局页面;');
+		 if(value=='/layout/layout-common-grid') return '一般布局页面';
+		 if(value=='/layout/layout-common-tree') return '树型布局页面';
+		 if(value=='/layout/layout-common-tree-tabsubgrid') return '树型tab布局页面';
+		 if(value=='/layout/layout-common-tabgrid') return '表格tab布局页面';
+		 if(value=='/layout/layout-common-iframe') return 'iframe布局页面';
+		 if(value=='/layout/layout-common-grid-tabsubgrid') return '左右grid布局页面';
+		 return value;
+	}
+
+	 //图表类型
+	 function charttypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('line;','折线;').replace('bar;','柱状图;').replace('pie;','饼图;').replace('gauge;','仪表盘;');
+		 if(value=='line') return '折线';
+		 if(value=='bar') return '柱状图';
+		 if(value=='pie') return '饼图';
+		 if(value=='gauge') return '仪表盘';
+		 return value;
+	}
+
+	 //图表数据来源
+	 function chartsourceFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('sql;','SQL语句;').replace('fun;','功能;').replace('url;','url服务;');
+		 if(value=='sql') return 'SQL语句';
+		 if(value=='fun') return '功能';
+		 if(value=='url') return 'url服务';
+		 return value;
+	}
+
+	 //售卖状态
+	 function sellststusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','暂停营业;').replace('1;','营业中;').replace('2;','维护中;');
+		 if(value=='0') return '<span style="color:#000000;">暂停营业</span>';
+		 if(value=='1') return '<span style="color:#1BC205;">营业中</span>';
+		 if(value=='2') return '<span style="color:#C20723;">维护中</span>';
+		 return value;
+	}
+
+	 //内容类型
+	 function cmsContentTypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('img;','图片内容;').replace('video;','视频内容;').replace('file;','文件内容;').replace('mix;','图文内容;').replace('audio;','音频内容;').replace('flash;','flash内容;');
+		 if(value=='img') return '图片内容';
+		 if(value=='video') return '视频内容';
+		 if(value=='file') return '文件内容';
+		 if(value=='mix') return '图文内容';
+		 if(value=='audio') return '音频内容';
+		 if(value=='flash') return 'flash内容';
+		 return value;
+	}
+
+	 //x轴数据来源
+	 function chartxdataFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('fix;','指定值;').replace('column;','字段值;');
+		 if(value=='fix') return '指定值';
+		 if(value=='column') return '字段值';
+		 return value;
+	}
+
+	 //y轴数据来源
+	 function chartydataFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('auto;','自动值;').replace('fix;','指定值;');
+		 if(value=='auto') return '自动值';
+		 if(value=='fix') return '指定值';
+		 return value;
+	}
+
+	 //在线状态
+	 function deviceonlinestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','在线;').replace('1;','离线;');
+		 if(value=='0') return '<span style="color:#1BC205;">在线</span>';
+		 if(value=='1') return '<span style="color:#c2c2c2;">离线</span>';
+		 return value;
+	}
+
+	 //图标模板
+	 function charttemplateFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('default;','柱、线图;').replace('pie;','饼图;').replace('gauge;','仪表盘;');
+		 if(value=='default') return '柱、线图';
+		 if(value=='pie') return '饼图';
+		 if(value=='gauge') return '仪表盘';
+		 return value;
+	}
+
+	 //货道状态
+	 function cargostatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未知;').replace('1;','正常;').replace('2;','故障;');
+		 if(value=='0') return '未知';
+		 if(value=='1') return '<span style="color:#1BC205;">正常</span>';
+		 if(value=='2') return '<span style="color:#C20B0C;">故障</span>';
+		 return value;
+	}
+
+	 //出货状态
+	 function chuhuostatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','出货失败;').replace('1;','出货成功;');
+		 if(value=='0') return '<span style="color:red;">出货失败</span>';
+		 if(value=='1') return '出货成功';
+		 return value;
+	}
+
+	 //售后状态
+	 function shouhoustatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','7天无理由中;').replace('1;','已过售后;').replace('2;','已申请售后;');
+		 if(value=='0') return '7天无理由中';
+		 if(value=='1') return '已过售后';
+		 if(value=='2') return '已申请售后';
+		 return value;
+	}
+
+	 //portal组件类型
+	 function poratlunittypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('chart;','EChart图表;').replace('grid;','表格;').replace('form;','表单;').replace('number;','色块数字条;').replace('scroll;','滚动消息;').replace('advert;','广告;').replace('url;','url链接;').replace('backgroup;','背景图片;');
+		 if(value=='chart') return 'EChart图表';
+		 if(value=='grid') return '表格';
+		 if(value=='form') return '表单';
+		 if(value=='number') return '色块数字条';
+		 if(value=='scroll') return '滚动消息';
+		 if(value=='advert') return '广告';
+		 if(value=='url') return 'url链接';
+		 if(value=='backgroup') return '背景图片';
+		 return value;
+	}
+
+	 //合同状态
+	 function contractstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待签订;').replace('1;','已签订;').replace('2;','已过期;');
+		 if(value=='0') return '待签订';
+		 if(value=='1') return '已签订';
+		 if(value=='2') return '已过期';
+		 return value;
+	}
+
+	 //商品发布状态
+	 function goodsstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未审核;').replace('1;','可售卖;').replace('3;','已下架;');
+		 if(value=='0') return '未审核';
+		 if(value=='1') return '可售卖';
+		 if(value=='3') return '<span style="color:#c2c2c2;">已下架</span>';
+		 return value;
+	}
+
+	 //入库类型
+	 function instoretypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','补货入库;').replace('2;','退货入库;').replace('3;','盘盈入库;').replace('4;','冲红入库;');
+		 if(value=='1') return '补货入库';
+		 if(value=='2') return '退货入库';
+		 if(value=='3') return '盘盈入库';
+		 if(value=='4') return '冲红入库';
+		 return value;
+	}
+
+	 //盘点结果
+	 function checkresultFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('normal;','正常;').replace('loss;','盘亏;').replace('profit;','盘盈;');
+		 if(value=='normal') return '正常';
+		 if(value=='loss') return '<span style="color:#C20B0C;">盘亏</span>';
+		 if(value=='profit') return '<span style="color:#06C240;">盘盈</span>';
+		 return value;
+	}
+
+	 //优惠券类型
+	 function coupontypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('join;','入会优惠券;').replace('free;','赠品优惠券;').replace('gift;','福利优惠券;').replace('member;','会员优惠券;');
+		 if(value=='join') return '入会优惠券';
+		 if(value=='free') return '赠品优惠券';
+		 if(value=='gift') return '福利优惠券';
+		 if(value=='member') return '会员优惠券';
+		 return value;
+	}
+
+	 //优惠券叠加方式
+	 function couponusetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','平台券不可叠加;').replace('1;','平台券可叠加;').replace('2;','商家券不可叠加;').replace('3;','商家券可叠加;').replace('4;','赠送券;');
+		 if(value=='0') return '平台券不可叠加';
+		 if(value=='1') return '平台券可叠加';
+		 if(value=='2') return '商家券不可叠加';
+		 if(value=='3') return '商家券可叠加';
+		 if(value=='4') return '赠送券';
+		 return value;
+	}
+
+	 //优惠券使用状态
+	 function couponusestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('-1;','待激活;').replace('0;','未使用;').replace('1;','已使用;').replace('2;','已过期;').replace('3;','已转赠;').replace('9;','已回收;');
+		 if(value=='-1') return '待激活';
+		 if(value=='0') return '未使用';
+		 if(value=='1') return '已使用';
+		 if(value=='2') return '<span style="color:#c2c2c2;">已过期</span>';
+		 if(value=='3') return '<span style="color:#c2c2c2;">已转赠</span>';
+		 if(value=='9') return '<span style="color:#c2c2c2;">已回收</span>';
+		 return value;
+	}
+
+	 //审批记录状态
+	 function checkauditingFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未审批;').replace('1;','已审批;').replace('2;','审批中;').replace('3;','已完成;').replace('4;','已取消;').replace('9;','退回编辑;');
+		 if(value=='0') return '未审批';
+		 if(value=='1') return '已审批';
+		 if(value=='2') return '审批中';
+		 if(value=='3') return '已完成';
+		 if(value=='4') return '已取消';
+		 if(value=='9') return '退回编辑';
+		 return value;
+	}
+
+	 //审批意见
+	 function checkagreeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','不同意;').replace('1;','同意;');
+		 if(value=='0') return '不同意';
+		 if(value=='1') return '同意';
+		 return value;
+	}
+
+	 //审批状态
+	 function checkstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待办理;').replace('1;','已办理;').replace('3;','已委托;').replace('4;','已挂起;');
+		 if(value=='0') return '待办理';
+		 if(value=='1') return '已办理';
+		 if(value=='3') return '已委托';
+		 if(value=='4') return '已挂起';
+		 return value;
+	}
+
+	 //订单状态
+	 function orderstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待支付;').replace('1;','待发货;').replace('2;','取消申请中;').replace('3;','取消通过;').replace('4;','已取消;').replace('9;','已完成;');
+		 if(value=='0') return '待支付';
+		 if(value=='1') return '待发货';
+		 if(value=='2') return '取消申请中';
+		 if(value=='3') return '取消通过';
+		 if(value=='4') return '已取消';
+		 if(value=='9') return '已完成';
+		 return value;
+	}
+
+	 //出货状态
+	 function outstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','出货中;').replace('1;','出货成功;').replace('3;','出货失败;');
+		 if(value=='0') return '出货中';
+		 if(value=='1') return '出货成功';
+		 if(value=='3') return '出货失败';
+		 return value;
+	}
+
+	 //支付状态
+	 function paystatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待支付;').replace('1;','已支付;').replace('2;','已取消;').replace('3;','退款中;').replace('4;','退款审批中;').replace('5;','退款完成;');
+		 if(value=='0') return '待支付';
+		 if(value=='1') return '已支付';
+		 if(value=='2') return '已取消';
+		 if(value=='3') return '退款中';
+		 if(value=='4') return '退款审批中';
+		 if(value=='5') return '退款完成';
+		 return value;
+	}
+
+	 //售后状态
+	 function outservicestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','7天无理由保障中;').replace('1;','已完成;').replace('3;','已退货;');
+		 if(value=='0') return '7天无理由保障中';
+		 if(value=='1') return '已完成';
+		 if(value=='3') return '已退货';
+		 return value;
+	}
+
+	 //退款状态
+	 function backpaystatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','无退款;').replace('1;','退款中;').replace('2;','已退款;');
+		 if(value=='0') return '无退款';
+		 if(value=='1') return '退款中';
+		 if(value=='2') return '已退款';
+		 return value;
+	}
+
+	 //订单付款方式
+	 function orderpaytypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','微信支付;').replace('2;','支付宝支付;').replace('3;','云闪付支付;').replace('4;','医保卡支付;').replace('5;','货到付款;').replace('6;','会员余额支付;');
+		 if(value=='1') return '微信支付';
+		 if(value=='2') return '支付宝支付';
+		 if(value=='3') return '云闪付支付';
+		 if(value=='4') return '医保卡支付';
+		 if(value=='5') return '货到付款';
+		 if(value=='6') return '会员余额支付';
+		 return value;
+	}
+
+	 //指令类型
+	 function controlordertypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('201;','软件升级;').replace('202;','广告升级;').replace('101;','开始营业;').replace('102;','暂停营业;').replace('105;','关闭机器;').replace('106;','重启机器;').replace('110;','提取文件;').replace('120;','截屏;').replace('130;','获取参数;').replace('140;','修改参数;');
+		 if(value=='201') return '软件升级';
+		 if(value=='202') return '广告升级';
+		 if(value=='101') return '开始营业';
+		 if(value=='102') return '暂停营业';
+		 if(value=='105') return '关闭机器';
+		 if(value=='106') return '重启机器';
+		 if(value=='110') return '提取文件';
+		 if(value=='120') return '截屏';
+		 if(value=='130') return '获取参数';
+		 if(value=='140') return '修改参数';
+		 return value;
+	}
+
+	 //指令状态
+	 function controlorderstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未审批;').replace('1;','已审批待下发;').replace('2;','已下发待执行;').replace('3;','执行成功;').replace('4;','执行失败;').replace('5;','已取消;');
+		 if(value=='0') return '未审批';
+		 if(value=='1') return '已审批待下发';
+		 if(value=='2') return '已下发待执行';
+		 if(value=='3') return '执行成功';
+		 if(value=='4') return '执行失败';
+		 if(value=='5') return '已取消';
+		 return value;
+	}
+
+	 //出库类型
+	 function outstoretypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','加货出库;').replace('2;','退货出库;').replace('3;','盘亏出库;').replace('4;','冲红出库;');
+		 if(value=='1') return '加货出库';
+		 if(value=='2') return '退货出库';
+		 if(value=='3') return '盘亏出库';
+		 if(value=='4') return '冲红出库';
+		 return value;
+	}
+
+	 //会员激活状态
+	 function memberstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待激活;').replace('1;','正常;').replace('2;','锁定;').replace('3;','已注销;');
+		 if(value=='0') return '待激活';
+		 if(value=='1') return '正常';
+		 if(value=='2') return '锁定';
+		 if(value=='3') return '已注销';
+		 return value;
+	}
+
+	 //报表类型
+	 function reporttypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('grid;','表格报表;').replace('form;','表单报表;').replace('total;','统计报表;').replace('label;','套打标签;');
+		 if(value=='grid') return '表格报表';
+		 if(value=='form') return '表单报表';
+		 if(value=='total') return '统计报表';
+		 if(value=='label') return '套打标签';
+		 return value;
+	}
+
+	 //会员级别
+	 function memberlevelFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','普通会员;').replace('2;','星级会员;').replace('3;','银牌会员;').replace('4;','金牌会员;').replace('5;','钻石会员;');
+		 if(value=='1') return '普通会员';
+		 if(value=='2') return '星级会员';
+		 if(value=='3') return '银牌会员';
+		 if(value=='4') return '金牌会员';
+		 if(value=='5') return '钻石会员';
+		 return value;
+	}
+
+	 //报表区域类型
+	 function reportareatypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('main;','主数据区域;').replace('sub;','从表数据区域;').replace('total;','统计数据区域;').replace('head;','表头表尾区域;');
+		 if(value=='main') return '主数据区域';
+		 if(value=='sub') return '从表数据区域';
+		 if(value=='total') return '统计数据区域';
+		 if(value=='head') return '表头表尾区域';
+		 return value;
+	}
+
+	 //积分变动类型
+	 function pointvarytypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','增加积分;').replace('2;','减少积分;').replace('3;','锁定积分;');
+		 if(value=='1') return '增加积分';
+		 if(value=='2') return '减少积分';
+		 if(value=='3') return '锁定积分';
+		 return value;
+	}
+
+	 //积分变动来源
+	 function pointvarysourceFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('11;','入会积分;').replace('12;','获赠积分;').replace('13;','签到积分;').replace('21;','兑换积分;').replace('22;','赠送积分;');
+		 if(value=='11') return '入会积分';
+		 if(value=='12') return '获赠积分';
+		 if(value=='13') return '签到积分';
+		 if(value=='21') return '兑换积分';
+		 if(value=='22') return '赠送积分';
+		 return value;
+	}
+
+	 //广告位类型
+	 function adplacetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','纯文字;').replace('2;','图片;').replace('3;','视频;').replace('4;','图文介绍;');
+		 if(value=='1') return '纯文字';
+		 if(value=='2') return '图片';
+		 if(value=='3') return '视频';
+		 if(value=='4') return '图文介绍';
+		 return value;
+	}
+
+	 //内容发布状态
+	 function contentstatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','编辑中;').replace('1;','待审核;').replace('2;','已审核;').replace('3;','已撤销;');
+		 if(value=='0') return '编辑中';
+		 if(value=='1') return '待审核';
+		 if(value=='2') return '已审核';
+		 if(value=='3') return '已撤销';
+		 return value;
+	}
+
+	 //内容分类
+	 function contenttypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','图片广告;').replace('2;','视频广告;').replace('3;','文字广告;').replace('4;','软文广告;');
+		 if(value=='1') return '图片广告';
+		 if(value=='2') return '视频广告';
+		 if(value=='3') return '文字广告';
+		 if(value=='4') return '软文广告';
+		 return value;
+	}
+
+	 //留言状态
+	 function messagestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','待跟进;').replace('1;','已回复;').replace('2;','已撤销;').replace('3;','超时未回复;').replace('4;','超时已回复;');
+		 if(value=='0') return '待跟进';
+		 if(value=='1') return '已回复';
+		 if(value=='2') return '已撤销';
+		 if(value=='3') return '超时未回复';
+		 if(value=='4') return '超时已回复';
+		 return value;
+	}
+
+	 //留言来源
+	 function messagesourceFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','留言功能;').replace('2;','商品介绍;').replace('3;','订单;');
+		 if(value=='1') return '留言功能';
+		 if(value=='2') return '商品介绍';
+		 if(value=='3') return '订单';
+		 return value;
+	}
+
+	 //值班方式
+	 function classtypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','白班;').replace('2;','夜班;').replace('3;','全天;');
+		 if(value=='1') return '白班';
+		 if(value=='2') return '夜班';
+		 if(value=='3') return '全天';
+		 return value;
+	}
+
+	 //星期
+	 function weekdaysFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','星期日;').replace('1;','星期一;').replace('2;','星期二;').replace('3;','星期三;').replace('4;','星期四;').replace('5;','星期五;').replace('6;','星期六;');
+		 if(value=='0') return '星期日';
+		 if(value=='1') return '星期一';
+		 if(value=='2') return '星期二';
+		 if(value=='3') return '星期三';
+		 if(value=='4') return '星期四';
+		 if(value=='5') return '星期五';
+		 if(value=='6') return '星期六';
+		 return value;
+	}
+
+	 //可接待客户数
+	 function allownumsFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('-1;','不接诊;').replace('1;','接1人;').replace('2;','接2人;').replace('3;','接3人;').replace('4;','接4人;').replace('5;','接5人;');
+		 if(value=='-1') return '不接诊';
+		 if(value=='1') return '接1人';
+		 if(value=='2') return '接2人';
+		 if(value=='3') return '接3人';
+		 if(value=='4') return '接4人';
+		 if(value=='5') return '接5人';
+		 return value;
+	}
+
+	 //预约资源状态
+	 function resourcestatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','可预约;').replace('1;','已预约;').replace('2;','不可用;');
+		 if(value=='0') return '可预约';
+		 if(value=='1') return '已预约';
+		 if(value=='2') return '不可用';
+		 return value;
+	}
+
+	 //预约时间段
+	 function reservetimeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','8:00~8:30;').replace('2;','8:30~9:00;').replace('3;','9:00~9:30;').replace('4;','9:30~10:00;').replace('5;','10:00~10:30;').replace('6;','10:30~11:00;').replace('7;','11:00~11:30;').replace('8;','11:30~12:00;').replace('9;','13:30~14:00;').replace('10;','14:00~14:30;').replace('11;','14:30~15:00;').replace('12;','15:00~15:30;').replace('13;','15:30~16:00;').replace('14;','16:00~16:30;').replace('15;','16:30~17:00;').replace('16;','17:00~17:30;').replace('17;','17:30~18:00;');
+		 if(value=='1') return '8:00~8:30';
+		 if(value=='2') return '8:30~9:00';
+		 if(value=='3') return '9:00~9:30';
+		 if(value=='4') return '9:30~10:00';
+		 if(value=='5') return '10:00~10:30';
+		 if(value=='6') return '10:30~11:00';
+		 if(value=='7') return '11:00~11:30';
+		 if(value=='8') return '11:30~12:00';
+		 if(value=='9') return '13:30~14:00';
+		 if(value=='10') return '14:00~14:30';
+		 if(value=='11') return '14:30~15:00';
+		 if(value=='12') return '15:00~15:30';
+		 if(value=='13') return '15:30~16:00';
+		 if(value=='14') return '16:00~16:30';
+		 if(value=='15') return '16:30~17:00';
+		 if(value=='16') return '17:00~17:30';
+		 if(value=='17') return '17:30~18:00';
+		 return value;
+	}
+
+	 //子系统前缀
+	 function duosystemFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('duo;','开发平台;').replace('ims;','仓库系统;').replace('health;','大健康系统;').replace('cms;','内容控制系统;');
+		 if(value=='duo') return '开发平台';
+		 if(value=='ims') return '仓库系统';
+		 if(value=='health') return '大健康系统';
+		 if(value=='cms') return '内容控制系统';
+		 return value;
+	}
+
+	 //API状态
+	 function apistatusFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','未启用;').replace('1;','已启用;').replace('-1;','历史版本;');
+		 if(value=='0') return '未启用';
+		 if(value=='1') return '<span style="color:green;">已启用</span>';
+		 if(value=='-1') return '<span style="color:#ccc;">历史版本</span>';
+		 return value;
+	}
+
+	 //消息通知方式
+	 function messagetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('sms;','短信;').replace('email;','邮件;').replace('system;','系统内;').replace('app;','app推送;');
+		 if(value=='sms') return '短信';
+		 if(value=='email') return '邮件';
+		 if(value=='system') return '系统内';
+		 if(value=='app') return 'app推送';
+		 return value;
+	}
+
+	 //API类型
+	 function apitypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('auth;','认证API;').replace('onerow;','查单条结果API;').replace('list;','查多条结果API;').replace('addone;','新增单条数据API;').replace('addlist;','新增多条数据API;').replace('modifyone;','修改单条数据API;').replace('modifylist;','修改多条数据API;').replace('deleteone;','删除单条数据API;').replace('deletelist;','删除多条数据API;');
+		 if(value=='auth') return '认证API';
+		 if(value=='onerow') return '查单条结果API';
+		 if(value=='list') return '查多条结果API';
+		 if(value=='addone') return '新增单条数据API';
+		 if(value=='addlist') return '新增多条数据API';
+		 if(value=='modifyone') return '修改单条数据API';
+		 if(value=='modifylist') return '修改多条数据API';
+		 if(value=='deleteone') return '删除单条数据API';
+		 if(value=='deletelist') return '删除多条数据API';
+		 return value;
+	}
+
+	 //API项目
+	 function apiprojectFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('duo;','平台接口;').replace('little;','小程序接口;').replace('wx;','公众号接口;').replace('app;','APP接口;');
+		 if(value=='duo') return '平台接口';
+		 if(value=='little') return '小程序接口';
+		 if(value=='wx') return '公众号接口';
+		 if(value=='app') return 'APP接口';
+		 return value;
+	}
+
+	 //API参数字段类型
+	 function apicolumntypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('string;','文本;').replace('date;','日期;').replace('number;','数值;').replace('list;','List数组;').replace('map;','Map对象;');
+		 if(value=='string') return '文本';
+		 if(value=='date') return '日期';
+		 if(value=='number') return '数值';
+		 if(value=='list') return 'List数组';
+		 if(value=='map') return 'Map对象';
+		 return value;
+	}
+
+	 //API值转换方式
+	 function apichangetypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('no;','不转换;').replace('dataid;','数字字典转换(text->value);').replace('datatext;','数字字典转换(value->text);').replace('deptid;','部门转换(name->id);').replace('deptname;','部门转换(id->name);').replace('userid;','部门转换(name->id);').replace('username;','部门转换(id->name);');
+		 if(value=='no') return '<span style="color:#ccc;">不转换</span>';
+		 if(value=='dataid') return '数字字典转换(text->value)';
+		 if(value=='datatext') return '数字字典转换(value->text)';
+		 if(value=='deptid') return '部门转换(name->id)';
+		 if(value=='deptname') return '部门转换(id->name)';
+		 if(value=='userid') return '部门转换(name->id)';
+		 if(value=='username') return '部门转换(id->name)';
+		 return value;
+	}
+
+	 //API样式转换方式
+	 function apichangestyleFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('no;','不转换;').replace('date;','转日期格式;').replace('datetime;','转日期时间格式;').replace('regex;','正则表达式;');
+		 if(value=='no') return '<span style="color:#ccc;">不转换</span>';
+		 if(value=='date') return '转日期格式';
+		 if(value=='datetime') return '转日期时间格式';
+		 if(value=='regex') return '正则表达式';
+		 return value;
+	}
+
+	 //API参数字段来源
+	 function apicolumnsourceFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('param;','参数传入;').replace('tocken;','tocken获得;').replace('default;','默认值;');
+		 if(value=='param') return '参数传入';
+		 if(value=='tocken') return 'tocken获得';
+		 if(value=='default') return '默认值';
+		 return value;
+	}
+
+	 //医院等级
+	 function hospitallevelFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','卫生站;').replace('1;','社区医院;').replace('2;','二甲医院;').replace('3;','三甲医院;').replace('4;','私立医院;');
+		 if(value=='0') return '卫生站';
+		 if(value=='1') return '社区医院';
+		 if(value=='2') return '二甲医院';
+		 if(value=='3') return '三甲医院';
+		 if(value=='4') return '私立医院';
+		 return value;
+	}
+
+	 //医院类别
+	 function hospitaltypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','全科医院;').replace('2;','牙科医院;').replace('3;','妇科医院;').replace('4;','男科医院;');
+		 if(value=='1') return '全科医院';
+		 if(value=='2') return '牙科医院';
+		 if(value=='3') return '妇科医院';
+		 if(value=='4') return '男科医院';
+		 return value;
+	}
+
+	 //常见疾病
+	 function commondiseasesFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','感冒;').replace('2;','发烧;').replace('3;','流鼻涕;').replace('4;','咳嗽;');
+		 if(value=='1') return '感冒';
+		 if(value=='2') return '发烧';
+		 if(value=='3') return '流鼻涕';
+		 if(value=='4') return '咳嗽';
+		 return value;
+	}
+
+	 //常用服用药品方式
+	 function commonuseFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','一天1次;').replace('2;','一天2次;').replace('3;','一天3次;').replace('4;','每2小时一次;').replace('5;','每4小时一次;');
+		 if(value=='1') return '一天1次';
+		 if(value=='2') return '一天2次';
+		 if(value=='3') return '一天3次';
+		 if(value=='4') return '每2小时一次';
+		 if(value=='5') return '每4小时一次';
+		 return value;
+	}
+
+	 //专家类型
+	 function doctortypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','医生;').replace('2;','药剂师;');
+		 if(value=='1') return '医生';
+		 if(value=='2') return '药剂师';
+		 return value;
+	}
+
+	 //诊疗状态
+	 function treatmentrecordtypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1;','等待接诊;').replace('2;','等待支付;').replace('3;','视频问诊中;').replace('4;','药品审核中;').replace('5;','完成问诊;').replace('6;','取消问诊;');
+		 if(value=='1') return '等待接诊';
+		 if(value=='2') return '等待支付';
+		 if(value=='3') return '视频问诊中';
+		 if(value=='4') return '药品审核中';
+		 if(value=='5') return '完成问诊';
+		 if(value=='6') return '取消问诊';
+		 return value;
+	}
+
+	 //排号状态
+	 function reservenumstypeFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('0;','等待叫号;').replace('1;','正在叫号;').replace('2;','超时过号;').replace('3;','正在问诊;').replace('4;','问诊结束;');
+		 if(value=='0') return '等待叫号';
+		 if(value=='1') return '正在叫号';
+		 if(value=='2') return '超时过号';
+		 if(value=='3') return '正在问诊';
+		 if(value=='4') return '问诊结束';
+		 return value;
+	}
+
+	 //system系统
+	 function systemFormatter(value, row, index){ 
+ 		 if(value!=null&&value.indexOf(';')>0) return value.replace('1001;','DUO大数据开发平台;').replace('1002;','5G大健康运营后台系统;').replace('1003;','5G大健康商家后台系统;').replace('1004;','5G大健康远程诊断后台系统;').replace('1005;','IMS仓库管理系统;').replace('1006;','CMS展厅内容控制系统;');
+		 if(value=='1001') return  'DUO大数据开发平台' ;
+		 if(value=='1002') return  '5G大健康运营后台系统' ;
+		 if(value=='1003') return  '5G大健康商家后台系统' ;
+		 if(value=='1004') return  '5G大健康远程诊断后台系统' ;
+		 if(value=='1005') return  'IMS仓库管理系统' ;
+		 if(value=='1006') return  'CMS展厅内容控制系统' ;
+		 return value;
+	}
+
+
+
+
+//定义Data的Json对象
+//是否控件
+ var yesnoData={'0':'否','1':'是'};
+//性别
+ var sextypeData={'0':'女','1':'男'};
+//文档资料分类
+ var fileTypeData={'100310011001':'数据附件','100310011002':'培训资料','100310011003':'管理制度规范','100310011004':'技术文库','100310011005':'其他','100310011006':'temp','100310011007':'软件升级包','100310011008':'广告升级包'};
+//停机状态
+ var stopstatusData={'0':'停机待处理','1':'已处理','3':'已忽略'};
+//停机类型
+ var stoptypeData={'plan':'计划停机','fault':'故障停机','pause':'维护停机'};
+//记录状态
+ var imsdatastatusData={'0':'未复核','1':'已复核'};
+//字段树属性
+ var treepropertieData={'level':'级别列','text':'显示列'};
+//设备在线状态
+ var cmsOnlineStatusData={'0':'离线','1':'在线'};
+//表字段类型
+ var columntypeData={'varchar':'varchar','datetime':'datetime','int':'int','text':'text','float':'float'};
+//系统用户默认值
+ var systemdefaultData={'{CURRENTUSERID}':'当前用户id','{CURRENTUSERNAME}':'当前用户名称','{CURRENTDEPTNAME}':'当前用户所在部门名称','{CURRENTDEPTID}':'当前用户所在部门id','{CURRENTCOMPANYID}':'当前用户所在公司id','{CURRENTONEDEPTID}':'当前用户所在一级部门id','{CURRENTTWODEPTID}':'当前用户所在二级部门id','{CURRENTYEAR}':'当前年份(yyyy)','{CURRENTMONTH}':'当前年月(yyyymm)','{CURRENTDATE}':'当前日期(yyyymmdd)','{CURRENTTIME}':'当前时间(ymd hh:mi:ss)'};
+//支付方式
+ var paytypeData={'weixinpay':'微信支付','alipay':'支付宝支付','unionpay':'云闪付支付'};
+//仓库货架级别
+ var imsstocklevelData={'1':'仓库','2':'货架','3':'货架','4':'货架','5':'货架','6':'货架'};
+//多语言分类
+ var i18ntypeData={'fun':'功能','data':'数据字典','self':'自定义'};
+//设备管理状态
+ var cmsManageStatusData={'0':'暂停中','1':'播放中','3':'未知'};
+//功能类型
+ var funtypeData={'main':'主功能','maintree':'树型功能','sub':'子功能','total':'统计功能','select':'选择窗口功能','other':'其他'};
+//自动编码方式
+ var autocodetypeData={'0':'不自动编码','monseq':'按月流水号','sequence':'全表流水号','sql':'sql编码','uuid':'uuid号','uid':'随机号','class':'来自class'};
+//激活状态
+ var useractivestatusData={'0':'未激活','1':'已激活'};
+//商户注册状态
+ var companyststusData={'0':'商务中','1':'已通过','3':'已失效','9':'已拒绝'};
+//入库类型
+ var imsintypeData={'buy':'采购入库','profit':'盘盈入库','red':'冲红入库'};
+//权限类型
+ var permissiontypeData={'view':'查看','edit':'编辑','delete':'删除','print':'打印'};
+//设备类型
+ var cmsDeviceTypeData={'tv':'电视机','hub':'触摸屏一体机','led':'LED大屏','lcd':'LCD拼接屏'};
+//流程类型
+ var wftypeData={'audit':'审批流','workflow':'工作流'};
+//用户级别
+ var systemuserlvData={'9':'9级员工','8':'8级员工','7':'7级员工','6':'6级员工','5':'5级员工','4':'4级员工','3':'3级员工','2':'2级员工','1':'1级员工'};
+//商户类型
+ var companytypeData={'drugstore':'药店','bank':'银行','insurance ':'保险公司','hospital':'医院','business':'商业伙伴','advert':'广告主','position':'点位业主','other':'其他'};
+//出库类型
+ var imsouttypeData={'use':'领用出库','loss':'盘亏出库','red':'冲红出库'};
+//节点类型
+ var nodetypeData={'start':'开始节点','user':'任务节点','counter':'会签节点','time':'定时节点','end':'结束节点'};
+//星期
+ var cmsWeekDayData={'0':'星期日','1':'星期一','2':'星期二','3':'星期三','4':'星期四','5':'星期五','6':'星期六'};
+//管理级别
+ var systemmangelvData={'9':'高管','7':'协管','6':'经理(部门负责人)','5':'主任','4':'高工','3':'员工','1':'实习生'};
+//出租结算方式
+ var rentsettletypeData={'month':'月租金','rate':'比例分成','free':'免费'};
+//盘点结果
+ var imscheckresultData={'1':'正常','2':'盘盈','3':'盘亏'};
+//用户在线状态
+ var onlinestatusData={'0':'离线','1':'在线'};
+//指令类型
+ var cmsOrderTypeData={'101':'开始营业','102':'暂停营业','105':'关闭机器','106':'重启机器','110':'提取文件','120':'截屏','130':'获取参数','140':'修改参数','151':'暂停播放','152':'启动播放','155':'上一页','156':'下一页','159':'重新播放','201':'软件升级','202':'广告升级','220':'离线播放模式','230':'在线播放模式','610':'响应报文','801':'回传报文','999':'心跳报文'};
+//定时器状态
+ var timerstatusData={'0':'未生效','1':'生效中','2':'已停用'};
+//通用记录状态
+ var recordsatusData={'0':'未复核','1':'已复核','9':'已取消'};
+//生效状态
+ var imdatastatusData={'0':'未生效','1':'已生效'};
+//指令状态
+ var cmsOrderStatusData={'-1':'编制中','0':'待审批','1':'已审批待下发','2':'已下发待执行','3':'执行成功','4':'执行失败','5':'已取消'};
+//定时器周期类型
+ var timerperiodtypeData={'cron':'Cron表达式','minute':'分钟','hour':'小时','day':'日','week':'周','month':'月'};
+//定时器任务类型
+ var timertasktypeData={'sql':'SQL任务','bo':'后台服务任务','ai':'AI建模任务','label':'用户标签任务','data':'数据治理任务','flow':'定时审批任务','interface':'接口任务'};
+//审核状态
+ var cmsAuditStatusData={'0':'编辑中','1':'审核中','2':'审核退回','3':'已审核'};
+//定时器执行状态
+ var timerrunstateData={'0':'待执行','1':'执行中','2':'执行成功','3':'执行失败','4':'超时失败'};
+//生效状态
+ var effectivestateData={'1':'已生效','0':'未生效'};
+//点位性质
+ var positionpropertyData={'org':'政府/村委','cbd':'写字楼','factory':'工厂','afc':'交通枢纽','parking':'停车场','drugstore':'药店','hospital':'医院'};
+//入库状态
+ var imsinstatusData={'0':'未提交','1':'已完成','2':'审核中','4':'审核退回'};
+//功能字段类型
+ var formcolumntypeData={'text':'文本控件','number':'数值控件','combobox':'下拉控件','comboboxmult':'多选下拉控件','editcombobox':'可编辑下拉控件','selectwindow':'选择窗口','checkbox':'复选框','date':'日期控件','datetime':'日期时间控件','time':'仅时间控件','timeminute':'仅时分控件','year':'年份控件','yearmonth':'月份控件','image':'图片上传控件','editor':'editor文本编辑器控件'};
+//模版类型
+ var cmsTeamplateTypeData={'content':'内容模版','column':'栏目模版','program':'节目模版'};
+//发布状态
+ var publicstateData={'0':'编辑中','1':'已发布','9':'已失效'};
+//设备类型
+ var devicekindData={'vending':'售卖机','medicine':'售药机','treatment':'问诊室','other':'其他'};
+//出库状态
+ var imsoutstatusData={'0':'未提交','1':'已完成','2':'审核中','4':'审核退回'};
+//移库状态
+ var imsmovestatusData={'0':'未提交','1':'已完成','2':'审核中','4':'审核退回'};
+//Portal类型
+ var portaltypeData={'fun':'功能','home':'首页','big':'大屏界面'};
+//素材分类
+ var cmsFileTypeData={'teamplate':'模版素材','office':'office文档','img':'图片素材','file':'文件素材','video':'视频素材','audio':'音频素材','flash':'flash素材','other':'其他素材'};
+//数据源类型
+ var dbsourcetypeData={'system':'系统','bi':'BI','ai':'AI建模'};
+//开启状态
+ var openorcloseData={'0':'关闭','1':'开启'};
+//盘点状态
+ var imscheckstatusData={'0':'待盘点','1':'已完成','2':'审核中'};
+//excel导入列号
+ var excelcolnoData={'0':'A','1':'B','2':'C','3':'D','4':'E','5':'F','6':'G','7':'H','8':'I','9':'J','10':'K','11':'L','12':'M','13':'N','14':'O','15':'P','16':'Q','17':'R','18':'S','19':'T','20':'U'};
+//excel导入转换方式
+ var exceletltypeData={'no':'不转换','dept':'部门name转id','user':'用户name转id','data':'下拉值name转value'};
+//excel导入取值方式
+ var excelvaluetypeData={'excel':'取excel值','default':'取默认值'};
+//JDBC驱动类
+ var jdbcdriverData={'com.mysql.jdbc.Driver':'MySQL','oracle.jdbc.OracleDriver':'Oracle','com.microsoft.jdbc.sqlserver.SQLServerDriver':'SQLServer','com.ibm.db2.jdbc.app.DB2Driver ':'DB2','org.h2.Driver':'H2'};
+//分辨率
+ var cmsScreenRatioData={'1024*768':'1024*768','1280*720':'1280*720','1280*1024':'1280*1024','1440*900':'1440*900','1920*1080':'1920*1080'};
+//首页风格
+ var indexlayoutData={'main':'默认布局','maintabs':'Tabs布局'};
+//温控模式
+ var temperaturetypeData={'no':'无','cool':'制冷','hot':'制热'};
+//计量单位
+ var imsuintData={'bao':'包','dai':'袋','jian':'件','xiang':'箱','tai':'台','ge':'个','gen':'根','he':'盒','g':'克G','kg':'千克KG','t':'吨','cm':'厘米','m':'米'};
+//布局页面
+ var layoutpageData={'/layout/layout-common-grid':'一般布局页面','/layout/layout-common-tree':'树型布局页面','/layout/layout-common-tree-tabsubgrid':'树型tab布局页面','/layout/layout-common-tabgrid':'表格tab布局页面','/layout/layout-common-iframe':'iframe布局页面','/layout/layout-common-grid-tabsubgrid':'左右grid布局页面'};
+//图表类型
+ var charttypeData={'line':'折线','bar':'柱状图','pie':'饼图','gauge':'仪表盘'};
+//图表数据来源
+ var chartsourceData={'sql':'SQL语句','fun':'功能','url':'url服务'};
+//售卖状态
+ var sellststusData={'0':'暂停营业','1':'营业中','2':'维护中'};
+//内容类型
+ var cmsContentTypeData={'img':'图片内容','video':'视频内容','file':'文件内容','mix':'图文内容','audio':'音频内容','flash':'flash内容'};
+//x轴数据来源
+ var chartxdataData={'fix':'指定值','column':'字段值'};
+//y轴数据来源
+ var chartydataData={'auto':'自动值','fix':'指定值'};
+//在线状态
+ var deviceonlinestatusData={'0':'在线','1':'离线'};
+//图标模板
+ var charttemplateData={'default':'柱、线图','pie':'饼图','gauge':'仪表盘'};
+//货道状态
+ var cargostatusData={'0':'未知','1':'正常','2':'故障'};
+//出货状态
+ var chuhuostatusData={'0':'出货失败','1':'出货成功'};
+//售后状态
+ var shouhoustatusData={'0':'7天无理由中','1':'已过售后','2':'已申请售后'};
+//portal组件类型
+ var poratlunittypeData={'chart':'EChart图表','grid':'表格','form':'表单','number':'色块数字条','scroll':'滚动消息','advert':'广告','url':'url链接','backgroup':'背景图片'};
+//合同状态
+ var contractstatusData={'0':'待签订','1':'已签订','2':'已过期'};
+//商品发布状态
+ var goodsstatusData={'0':'未审核','1':'可售卖','3':'已下架'};
+//入库类型
+ var instoretypeData={'1':'补货入库','2':'退货入库','3':'盘盈入库','4':'冲红入库'};
+//盘点结果
+ var checkresultData={'normal':'正常','loss':'盘亏','profit':'盘盈'};
+//优惠券类型
+ var coupontypeData={'join':'入会优惠券','free':'赠品优惠券','gift':'福利优惠券','member':'会员优惠券'};
+//优惠券叠加方式
+ var couponusetypeData={'0':'平台券不可叠加','1':'平台券可叠加','2':'商家券不可叠加','3':'商家券可叠加','4':'赠送券'};
+//优惠券使用状态
+ var couponusestatusData={'-1':'待激活','0':'未使用','1':'已使用','2':'已过期','3':'已转赠','9':'已回收'};
+//审批记录状态
+ var checkauditingData={'0':'未审批','1':'已审批','2':'审批中','3':'已完成','4':'已取消','9':'退回编辑'};
+//审批意见
+ var checkagreeData={'0':'不同意','1':'同意'};
+//审批状态
+ var checkstatusData={'0':'待办理','1':'已办理','3':'已委托','4':'已挂起'};
+//订单状态
+ var orderstatusData={'0':'待支付','1':'待发货','2':'取消申请中','3':'取消通过','4':'已取消','9':'已完成'};
+//出货状态
+ var outstatusData={'0':'出货中','1':'出货成功','3':'出货失败'};
+//支付状态
+ var paystatusData={'0':'待支付','1':'已支付','2':'已取消','3':'退款中','4':'退款审批中','5':'退款完成'};
+//售后状态
+ var outservicestatusData={'0':'7天无理由保障中','1':'已完成','3':'已退货'};
+//退款状态
+ var backpaystatusData={'0':'无退款','1':'退款中','2':'已退款'};
+//订单付款方式
+ var orderpaytypeData={'1':'微信支付','2':'支付宝支付','3':'云闪付支付','4':'医保卡支付','5':'货到付款','6':'会员余额支付'};
+//指令类型
+ var controlordertypeData={'201':'软件升级','202':'广告升级','101':'开始营业','102':'暂停营业','105':'关闭机器','106':'重启机器','110':'提取文件','120':'截屏','130':'获取参数','140':'修改参数'};
+//指令状态
+ var controlorderstatusData={'0':'未审批','1':'已审批待下发','2':'已下发待执行','3':'执行成功','4':'执行失败','5':'已取消'};
+//出库类型
+ var outstoretypeData={'1':'加货出库','2':'退货出库','3':'盘亏出库','4':'冲红出库'};
+//会员激活状态
+ var memberstatusData={'0':'待激活','1':'正常','2':'锁定','3':'已注销'};
+//报表类型
+ var reporttypeData={'grid':'表格报表','form':'表单报表','total':'统计报表','label':'套打标签'};
+//会员级别
+ var memberlevelData={'1':'普通会员','2':'星级会员','3':'银牌会员','4':'金牌会员','5':'钻石会员'};
+//报表区域类型
+ var reportareatypeData={'main':'主数据区域','sub':'从表数据区域','total':'统计数据区域','head':'表头表尾区域'};
+//积分变动类型
+ var pointvarytypeData={'1':'增加积分','2':'减少积分','3':'锁定积分'};
+//积分变动来源
+ var pointvarysourceData={'11':'入会积分','12':'获赠积分','13':'签到积分','21':'兑换积分','22':'赠送积分'};
+//广告位类型
+ var adplacetypeData={'1':'纯文字','2':'图片','3':'视频','4':'图文介绍'};
+//内容发布状态
+ var contentstatusData={'0':'编辑中','1':'待审核','2':'已审核','3':'已撤销'};
+//内容分类
+ var contenttypeData={'1':'图片广告','2':'视频广告','3':'文字广告','4':'软文广告'};
+//留言状态
+ var messagestatusData={'0':'待跟进','1':'已回复','2':'已撤销','3':'超时未回复','4':'超时已回复'};
+//留言来源
+ var messagesourceData={'1':'留言功能','2':'商品介绍','3':'订单'};
+//值班方式
+ var classtypeData={'1':'白班','2':'夜班','3':'全天'};
+//星期
+ var weekdaysData={'0':'星期日','1':'星期一','2':'星期二','3':'星期三','4':'星期四','5':'星期五','6':'星期六'};
+//可接待客户数
+ var allownumsData={'-1':'不接诊','1':'接1人','2':'接2人','3':'接3人','4':'接4人','5':'接5人'};
+//预约资源状态
+ var resourcestatusData={'0':'可预约','1':'已预约','2':'不可用'};
+//预约时间段
+ var reservetimeData={'1':'8:00~8:30','2':'8:30~9:00','3':'9:00~9:30','4':'9:30~10:00','5':'10:00~10:30','6':'10:30~11:00','7':'11:00~11:30','8':'11:30~12:00','9':'13:30~14:00','10':'14:00~14:30','11':'14:30~15:00','12':'15:00~15:30','13':'15:30~16:00','14':'16:00~16:30','15':'16:30~17:00','16':'17:00~17:30','17':'17:30~18:00'};
+//子系统前缀
+ var duosystemData={'duo':'开发平台','ims':'仓库系统','health':'大健康系统','cms':'内容控制系统'};
+//API状态
+ var apistatusData={'0':'未启用','1':'已启用','-1':'历史版本'};
+//消息通知方式
+ var messagetypeData={'sms':'短信','email':'邮件','system':'系统内','app':'app推送'};
+//API类型
+ var apitypeData={'auth':'认证API','onerow':'查单条结果API','list':'查多条结果API','addone':'新增单条数据API','addlist':'新增多条数据API','modifyone':'修改单条数据API','modifylist':'修改多条数据API','deleteone':'删除单条数据API','deletelist':'删除多条数据API'};
+//API项目
+ var apiprojectData={'duo':'平台接口','little':'小程序接口','wx':'公众号接口','app':'APP接口'};
+//API参数字段类型
+ var apicolumntypeData={'string':'文本','date':'日期','number':'数值','list':'List数组','map':'Map对象'};
+//API值转换方式
+ var apichangetypeData={'no':'不转换','dataid':'数字字典转换(text->value)','datatext':'数字字典转换(value->text)','deptid':'部门转换(name->id)','deptname':'部门转换(id->name)','userid':'部门转换(name->id)','username':'部门转换(id->name)'};
+//API样式转换方式
+ var apichangestyleData={'no':'不转换','date':'转日期格式','datetime':'转日期时间格式','regex':'正则表达式'};
+//API参数字段来源
+ var apicolumnsourceData={'param':'参数传入','tocken':'tocken获得','default':'默认值'};
+//医院等级
+ var hospitallevelData={'0':'卫生站','1':'社区医院','2':'二甲医院','3':'三甲医院','4':'私立医院'};
+//医院类别
+ var hospitaltypeData={'1':'全科医院','2':'牙科医院','3':'妇科医院','4':'男科医院'};
+//常见疾病
+ var commondiseasesData={'1':'感冒','2':'发烧','3':'流鼻涕','4':'咳嗽'};
+//常用服用药品方式
+ var commonuseData={'1':'一天1次','2':'一天2次','3':'一天3次','4':'每2小时一次','5':'每4小时一次'};
+//专家类型
+ var doctortypeData={'1':'医生','2':'药剂师'};
+//诊疗状态
+ var treatmentrecordtypeData={'1':'等待接诊','2':'等待支付','3':'视频问诊中','4':'药品审核中','5':'完成问诊','6':'取消问诊'};
+//排号状态
+ var reservenumstypeData={'0':'等待叫号','1':'正在叫号','2':'超时过号','3':'正在问诊','4':'问诊结束'};
+//system系统
+ var systemData={'1001':'DUO大数据开发平台','1002':'5G大健康运营后台系统','1003':'5G大健康商家后台系统','1004':'5G大健康远程诊断后台系统','1005':'IMS仓库管理系统','1006':'CMS展厅内容控制系统'};
+
+
+
+//选择窗口——部门选择窗口
+ var deptSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'system_dept'};
+//选择窗口——功能选择窗口
+ var funSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'tool_function'};
+//选择窗口——功能模块选择窗口
+ var moduleSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'tool_module'};
+//选择窗口——地理区域选择窗口
+ var fieldSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'base_field'};
+//选择窗口——用户选择窗口
+ var userSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'system_user'};
+//选择窗口——商户选择窗口
+ var companySelect ={'layout_url':'/layout/layout-common-tree','fun_id':'	provider_shop'};
+//选择窗口——点位选择窗口
+ var positionSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'base_position'};
+//选择窗口——商品分类选择窗口
+ var goodsTypeSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'goods_type'};
+//选择窗口——设备机型选择窗口
+ var deviceTypeSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'device_type'};
+//选择窗口——数据源选择窗口
+ var dbSourceSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'tool_dbsource'};
+//选择窗口——设备选择窗口
+ var deviceSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'device_info'};
+//选择窗口——health医院科室选择窗口
+ var healthhospitalSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'hospital_info'};
+//选择窗口——升级包选择窗口
+ var softpackageSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'soft_package'};
+//选择窗口——广告包选择窗口
+ var advertpackageSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'advert_package'};
+//选择窗口——商品选择窗口
+ var goodsSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'goods_list'};
+//选择窗口——会员选择窗口
+ var memberSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'user_member'};
+//选择窗口——CMS素材选择窗口
+ var cmsattachmentSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'cms_system_attachment'};
+//选择窗口——医生选择窗口
+ var doctorSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'user_doctor'};
+//选择窗口——ims物品分类选择窗口
+ var imsgoodstypeSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'ims_store_goodstype'};
+//选择窗口——商品分类选择窗口
+ var goodsTypeSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'goods_type'};
+//选择窗口——ims仓库选择窗口
+ var imsstoreShopSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'ims_store_stock'};
+//选择窗口——ims仓库货位选择窗口
+ var imsstoreStockSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'ims_store_stock'};
+//选择窗口——health仓库货架选择窗口
+ var stockSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'store_manage'};
+//选择窗口——用户组选择窗口
+ var usergroupSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'system_user_group'};
+//选择窗口——API选择窗口
+ var toolapiSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'api_manage'};
+//选择窗口——health医院科室选择窗口
+ var healthRoomSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'health_hospital_room'};
+//选择窗口——CMS部门选择窗口
+ var cmsdeptSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'cms_system_dept'};
+//选择窗口——CMS区域选择窗口
+ var cmsfieldSelect ={'layout_url':'/layout/layout-common-tree','fun_id':'cms_base_field'};
+//选择窗口——CMS内容选择窗口
+ var cmscontentSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'cms_content'};
+//选择窗口——CMS模版选择窗口
+ var cmsteamplateSelect ={'layout_url':'/layout/layout-common-grid','fun_id':'cms_teamplate'};
+</script>

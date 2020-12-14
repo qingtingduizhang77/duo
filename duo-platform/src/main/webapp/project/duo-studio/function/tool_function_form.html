@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" data-toggle="validator">
+		<fieldset>
+			<legend style="font-size:16px;">功能基本信息</legend>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">funId*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control"  name="fun_id" type="text" required />
+				</div>
+				<label class="col-sm-2 control-label">功能图标ico：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="ico_img" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">功能类型*：</label>
+				<div class="col-sm-3_5">
+					<select  class="form-control"  name="fun_type"    required  >
+						<script type="text/javascript">
+							var optionJson= funtypeData;
+							for(var key in optionJson)  $('select[name="fun_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>");
+						</script>
+					</select>
+				</div>
+				<label class="col-sm-2 control-label thBlue">功能名称*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="fun_name" type="text" required/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">所属模块*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control"  name="module_id" type="text" required/>
+				</div>
+				<label class="col-sm-2 control-label">排序：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="order_index" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">是否显示：</label>
+				<div class="col-sm-3_5">
+					<input  name="is_show" type="checkbox" />
+				</div>
+				<label class="col-sm-2 control-label">子功能：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="sub_funs" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">布局页面路径*：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="layout_url" type="text"  style='width:88%;float:left; '/>
+					<div class="dropdown"  style='width:10%;float:left; '>
+						<button class="btn btn-default"  data-toggle="dropdown" >
+							预设布局
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-grid')">一般表格布局</a></li>
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-tree')">一般树形布局</a></li>
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-tabgrid')">tab表格布局</a></li>
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-tree-tabsubgrid')">tab树形布局</a></li>
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-grid-tabsubgrid')">grid-grid布局</a></li>
+							<li><a href="#" onclick="$('input[name=layout_url]').val('/layout/layout-common-iframe')">iFrame布局</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">Grid页面路径*：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="grid_html"      style='width:77%;float:left; '  type="text"/>
+					<button type='button'  name="btn_grid_html"   class='btn btn-default' style='width:20%;float:left; ' onclick='codeEditorWindow(this,$("input[name=grid_html]").val())'    >编辑文件</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Form页面路径：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="form_html"   style='width:77%;float:left; '  type="text"/>
+					<button type='button'  name="btn_form_html"   class='btn btn-default' style='width:20%;float:left; ' onclick='codeEditorWindow(this,$("input[name=form_html]").val())'    >编辑文件</button>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">获取数据方法*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="query_function" type="text"/>
+				</div>
+				<label class="col-sm-2 control-label thBlue">数据源*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="db_source" type="text" list="options"/>
+					<datalist id="options">
+						<option value="default">default</option>
+						<option value="platform">platform</option>
+						<option value="health">health</option>
+						<option value="cms">cms</option>
+						<option value="eam">eam</option>
+						<option value="ims">ims</option>
+						<option value="oa">oa</option>
+						<option value="test">test</option>
+					</datalist>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">数据表*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="table_name" type="text"/>
+				</div>
+				<label class="col-sm-2 control-label thBlue">主键列*：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="key_column" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">外键列：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="foreign_column" type="text"/>
+				</div>
+				<label class="col-sm-2 control-label thBlue"></label>
+				<div class="col-sm-3_5">
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label thBlue">From语句*：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="from_sql" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Where语句：</label>
+				<div class="col-sm-9">
+					<textarea class="form-control" name="where_sql" type="text"  rows="3"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">Order By语句：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="orderby_sql" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">复核字段：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="audit_column" type="text"/>
+				</div>
+				<label class="col-sm-2 control-label">是否自动归档：</label>
+				<div class="col-sm-3_5">
+					<input   name="is_audit" type="checkbox"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">自定义Modal页面路径：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="define_modal" style='width:77%;float:left; '  type="text"/>
+					<button type='button'  name="btn_define_modal"   class='btn btn-default' style='width:20%;float:left; ' onclick='codeEditorWindow(this,$("input[name=define_modal]").val())'    >编辑文件</button>
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">自定义js页面路径：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="define_js" style='width:77%;float:left; '  type="text"/>
+					<button type='button'  name="btn_define_js"   class='btn btn-default' style='width:20%;float:left; ' onclick='codeEditorWindow(this,$("input[name=define_js]").val())'    >编辑文件</button>
+
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">其他自定义参数：</label>
+				<div class="col-sm-9">
+                  <textarea class="form-control" name="fun_parames" type="text"   style='width:85%;float:left; ' rows="3"></textarea>
+					<div class="dropdown"  style='width:10%;float:left; '>
+						<button class="btn btn-default"  data-toggle="dropdown" >
+							插入
+							<span class="caret"></span>
+						</button>
+						<ul class="dropdown-menu">
+							<li><a href="#" onclick="$('textarea[name=fun_parames]').val('{queryDatas:\'数据字典控件Data\',dataWhereCol:\'比较字段\'}')">tab查询条</a></li>
+							<li><a href="#"  onclick="$('textarea[name=fun_parames]').val('{isSingleSelect:true}')">单选</a></li>
+							<li><a href="#"  onclick="$('textarea[name=fun_parames]').val('{OpenTreeLevel:0}')">默认打开树层级</a></li>
+							<li role="separator" class="divider"></li>
+							<li><a href="#"  onclick="$('textarea[name=fun_parames]').val('{tabfun:[{url:\'地址\',name:\'名称\'}]}')">tab工具条</a></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">功能详细描述：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="fun_descript" type="text"/>
+				</div>
+			</div>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">备注：</label>
+				<div class="col-sm-9">
+					<textarea class="form-control" name="memo" type="text"  rows="3"></textarea>
+				</div>
+			</div>
+		</fieldset>
+		<fieldset>
+			<legend style="font-size:16px;">树属性信息</legend>
+
+			<div class="form-group">
+				<label class="col-sm-2 control-label">树名字：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="tree_name" type="text"/>
+				</div>
+				<label class="col-sm-2 control-label">顶级id：</label>
+				<div class="col-sm-3_5">
+					<input class="form-control" name="tree_topid" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">树数据获取方法：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="tree_function" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">过滤语句：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="tree_wheresql" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">OrderBy语句：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="tree_orderbysql" type="text"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="col-sm-2 control-label">点击树触发刷新条件：</label>
+				<div class="col-sm-9">
+					<input class="form-control" name="tree_forwordwhere" type="text"/>
+				</div>
+			</div>
+		</fieldset>
+		<input class="form-control" name="form_datakeyid" type="hidden"/>
+	</form>
+</div>  

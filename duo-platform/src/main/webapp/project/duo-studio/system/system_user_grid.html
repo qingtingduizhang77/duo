@@ -1,0 +1,57 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'is_valid', title: '是否生效', width:74,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'user_code', title: '登录号*', width:125,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '用户名称*', width:170,visible:true, halign: 'center' }, 
+	 {field: 'user_sex', title: '性别', width:80,visible:true, halign: 'center',formatter:sextypeFormatter }, 
+	 {field: 'dept_name', title: '部门名称*', width:169,visible:true, halign: 'center' }, 
+	 {field: 'user_level', title: '用户级别', width:124,visible:true, halign: 'center',formatter:systemuserlvFormatter }, 
+	 {field: 'manage_level', title: '管理级别', width:113,visible:true, halign: 'center',formatter:systemmangelvFormatter }, 
+	 {field: 'login_ip', title: '限制登录ip', width:176,visible:true, halign: 'center' }, 
+	 {field: 'description', title: '个人描述', width:353,visible:true, halign: 'center' }, 
+	 {field: 'user_img', title: '用户头像', width:109,visible:true, halign: 'center' }, 
+	 {field: 'create_date', title: '创建时间', width:138,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:218,visible:true, halign: 'center' }, 
+	 {field: 'dept_id', title: '部门id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: 'project_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'role_ids', title: '所属角色', width:146,visible:false, halign: 'center' }, 
+	 {field: 'user_salt', title: '密码salt', width:146,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标记', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_code', title: '部门编号', width:83,visible:false, halign: 'center' }, 
+	 {field: 'login_time', title: '最近登录时间', width:145,visible:false, halign: 'center',formatter:dateTimeFormatter } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  is_valid:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'system_user.is_valid',control_name:'effectivestateData',max_length:10,formatter:'effectivestateFormatter'}, 
+	  user_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_user.user_code',max_length:20}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_user.user_name',max_length:60}, 
+	  user_sex:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'system_user.user_sex',control_name:'sextypeData',max_length:10,formatter:'sextypeFormatter'}, 
+	  dept_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'system_user.dept_name',control_name:'deptSelect',source_cols:'dept_id;dept_code;dept_name',target_cols:'dept_id;dept_code;dept_name',max_length:60}, 
+	  user_level:{addedit:true,edit:true,type:'combobox',required:false,default:'3',orgfield:'system_user.user_level',control_name:'systemuserlvData',max_length:20,formatter:'systemuserlvFormatter'}, 
+	  manage_level:{addedit:true,edit:true,type:'combobox',required:false,default:'3',orgfield:'system_user.manage_level',control_name:'systemmangelvData',max_length:20,formatter:'systemmangelvFormatter'}, 
+	  login_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.login_ip',max_length:100}, 
+	  description:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.description',max_length:800}, 
+	  user_img:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.user_img',max_length:200}, 
+	  create_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'system_user.create_date',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.memo',max_length:200}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.dept_id',max_length:32}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.user_id',max_length:32}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTSYSTEMID}',orgfield:'system_user.project_id',max_length:200}, 
+	  role_ids:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.role_ids',max_length:400}, 
+	  user_salt:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.user_salt',max_length:40}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.record_flag',max_length:10}, 
+	  dept_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_user.dept_code',max_length:20}, 
+	  login_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'system_user.login_time',formatter:'dateTimeFormatter'} 
+	 }; 
+</script>  

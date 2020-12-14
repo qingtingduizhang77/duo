@@ -1,0 +1,33 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'column_code', title: '栏目编号', width:190,visible:true, halign: 'center' }, 
+	 {field: 'column_name', title: '栏目名称', width:310,visible:true, halign: 'center' }, 
+	 {field: 'column_version', title: '版本号', width:261,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:602,visible:true, halign: 'center' }, 
+	 {field: 'column_id', title: 'column_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'program_id', title: 'program_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  column_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.column_code',max_length:40}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.column_name',max_length:80}, 
+	  column_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.column_version',max_length:40}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_program_column.memo',max_length:200}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_program_column.column_id',max_length:32}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_program_column.det_id',max_length:32}, 
+	  program_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_program_column.program_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_program_column.record_flag',max_length:10} 
+	 }; 
+</script>  

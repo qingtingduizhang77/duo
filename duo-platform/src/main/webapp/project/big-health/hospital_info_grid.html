@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'field_name', title: '所属区域', width:124,visible:true, halign: 'center' }, 
+	 {field: 'hospital_name', title: '医院名称*', width:200,visible:true, halign: 'center' }, 
+	 {field: 'hospital_level', title: '医院等级', width:111,visible:true, halign: 'center',formatter:hospitallevelFormatter }, 
+	 {field: 'hospital_category', title: '医院类别', width:103,visible:true, halign: 'center',formatter:hospitaltypeFormatter }, 
+	 {field: 'hospital_address', title: '医院地址', width:443,visible:true, halign: 'center' }, 
+	 {field: 'hospital_profile', title: '医院简介', width:515,visible:true, halign: 'center' }, 
+	 {field: 'hospital_introduce', title: '医院详细介绍', width:236,visible:false, halign: 'center' }, 
+	 {field: 'hospital_telephone', title: '医院电话', width:200,visible:true, halign: 'center' }, 
+	 {field: 'hospital_wesite', title: '医院官网', width:275,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:445,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'field_id', title: '所属区域id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'hospital_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'field_code', title: '所属区域编码', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  field_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'{tree}',orgfield:'hospital_info.field_name',control_name:'fieldSelect',source_cols:'field_id;field_code;field_name',target_cols:'field_id;field_code;field_name',max_length:40}, 
+	  hospital_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'hospital_info.hospital_name',max_length:32}, 
+	  hospital_level:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'hospital_info.hospital_level',control_name:'hospitallevelData',max_length:20,formatter:'hospitallevelFormatter'}, 
+	  hospital_category:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'hospital_info.hospital_category',control_name:'hospitaltypeData',max_length:20,formatter:'hospitaltypeFormatter'}, 
+	  hospital_address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_address',max_length:200}, 
+	  hospital_profile:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_profile',max_length:255}, 
+	  hospital_introduce:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_introduce',max_length:32}, 
+	  hospital_telephone:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_telephone',max_length:40}, 
+	  hospital_wesite:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_wesite',max_length:100}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.record_flag',max_length:10}, 
+	  field_id:{addedit:true,edit:true,type:'text',required:false,default:'{tree}',orgfield:'hospital_info.field_id',max_length:32}, 
+	  hospital_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'hospital_info.hospital_id',max_length:32}, 
+	  field_code:{addedit:true,edit:true,type:'text',required:false,default:'{tree}',orgfield:'hospital_info.field_code',max_length:20} 
+	 }; 
+</script>  

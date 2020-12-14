@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >单号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="in_no" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >入库类型*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="in_type"      >
+					 <script type="text/javascript"> 
+						  var optionJson= instoretypeData;
+						 for(var key in optionJson)  $('select[name="in_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue" >入库日期*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="in_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >入库仓库*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="stock_name"       style='width:80%;float:left; '  onclick='formSelectWindow("stockSelect","stock_name;stock_id;edit_user;edit_userid","null","null")'/>
+					<button type='button'  name="btn_stock_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("stockSelect","stock_name;stock_id;edit_user;edit_userid","null","null")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label "  >入库人：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="user_nane"       style='width:80%;float:left; '  onclick='formSelectWindow("userSelect","user_name;user_id","null","null")'/>
+					<button type='button'  name="btn_user_nane"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("userSelect","user_name;user_id","null","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >入库数量：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="in_num" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+				<label class="col-sm-2 control-label "  >入库金额(元)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="in_money" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >商户名称*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="company_name"       style='width:80%;float:left; '  onclick='formSelectWindow("companySelect","company_name;company_id","company_name;company_id","null")'/>
+					<button type='button'  name="btn_company_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("companySelect","company_name;company_id","company_name;company_id","null")'    >...</button>
+				</div>
+				<label class="col-sm-12 control-label " style="height:40px"   >：</label>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:83px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:78px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>入库仓库id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="stock_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>商户id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="company_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>入库人id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="in_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

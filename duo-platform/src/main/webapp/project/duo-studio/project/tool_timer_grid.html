@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:74,visible:true, halign: 'center',formatter:timerstatusFormatter }, 
+	 {field: 'order_index', title: '排序', width:86,visible:true, halign: 'center' }, 
+	 {field: 'timer_no', title: '定时器编号', width:103,visible:true, halign: 'center' }, 
+	 {field: 'timer_name', title: '定时器名称', width:203,visible:true, halign: 'center' }, 
+	 {field: 'timer_period', title: '周期类型', width:119,visible:true, halign: 'center',formatter:timerperiodtypeFormatter }, 
+	 {field: 'period_num', title: '周期数', width:77,visible:true, halign: 'center' }, 
+	 {field: 'timer_schedule', title: '定时策略', width:181,visible:true, halign: 'center' }, 
+	 {field: 'last_time', title: '上次执行时间', width:162,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'record_flag', title: '数据标识', width:181,visible:false, halign: 'center' }, 
+	 {field: 'timeout_num', title: '超时时间(分钟)', width:181,visible:true, halign: 'center' }, 
+	 {field: 'server_first', title: '首选执行服务器ip', width:182,visible:true, halign: 'center' }, 
+	 {field: 'server_ips', title: '备选执行服务器ip', width:182,visible:true, halign: 'center' }, 
+	 {field: 'run_time', title: '下次执行时间', width:181,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:181,visible:true, halign: 'center' }, 
+	 {field: 'timer_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',control_name:'timerstatusData',formatter:'timerstatusFormatter'}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'10'}, 
+	  timer_no:{addedit:true,edit:true,type:'text',required:true,default:''}, 
+	  timer_name:{addedit:true,edit:true,type:'text',required:true,default:''}, 
+	  timer_period:{addedit:true,edit:true,type:'combobox',required:true,default:'day',control_name:'timerperiodtypeData',formatter:'timerperiodtypeFormatter'}, 
+	  period_num:{addedit:true,edit:true,type:'number',required:false,default:''}, 
+	  timer_schedule:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  last_time:{addedit:true,edit:true,type:'datetime',required:true,default:'',formatter:'dateTimeFormatter'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  timeout_num:{addedit:true,edit:true,type:'number',required:true,default:'30'}, 
+	  server_first:{addedit:true,edit:true,type:'text',required:true,default:''}, 
+	  server_ips:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  run_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  timer_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

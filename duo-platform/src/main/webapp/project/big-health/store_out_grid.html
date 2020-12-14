@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:69,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'out_no', title: '单号', width:104,visible:true, halign: 'center' }, 
+	 {field: 'out_type', title: '出库类型*', width:81,visible:true, halign: 'center',formatter:outstoretypeFormatter }, 
+	 {field: 'out_date', title: '出库日期*', width:140,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'stock_name', title: '出库仓库*', width:113,visible:true, halign: 'center' }, 
+	 {field: 'user_nane', title: '出库人', width:82,visible:true, halign: 'center' }, 
+	 {field: 'out_num', title: '出库数量', width:101,visible:true, halign: 'center' }, 
+	 {field: 'out_money', title: '出库金额(元)', width:121,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称*', width:149,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:351,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'out_id', title: '主键', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: '入库仓库id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '入库人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'store_out.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  out_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.out_no'}, 
+	  out_type:{addedit:true,edit:true,type:'combobox',required:true,default:'1',orgfield:'store_out.out_type',control_name:'outstoretypeData',formatter:'outstoretypeFormatter'}, 
+	  out_date:{addedit:true,edit:true,type:'datetime',required:true,default:'{CURRENTTIME}',orgfield:'store_out.out_date',formatter:'dateTimeFormatter'}, 
+	  stock_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'store_out.stock_name',control_name:'stockSelect',source_cols:'stock_name;stock_id;edit_user;edit_userid'}, 
+	  user_nane:{addedit:true,edit:true,type:'selectwindow',required:false,default:'{CURRENTUSERNAME}',orgfield:'store_out.user_nane',control_name:'userSelect',source_cols:'user_name;user_id'}, 
+	  out_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'store_out.out_num'}, 
+	  out_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'store_out.out_money'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'store_out.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.memo'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.company_id'}, 
+	  out_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.out_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.project_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.stock_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'store_out.user_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_out.record_flag'} 
+	 }; 
+</script>  

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="text"   />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >任务类型*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="task_type" type="text"   >
+					 <script type="text/javascript"> 
+						  var optionJson= timertasktypeData;
+						 for(var key in optionJson)  $('select[name="task_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >任务名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="task_name" type="text"   />
+				</div>
+				<label class="col-sm-2 control-label "  >事务控制?：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="is_transaction" type="text"   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >模型服务名称：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="service_name" type="text"   />
+				</div>
+				<label class="col-sm-2 control-label "  >传入参数：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="request_parames" type="text"   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:85px;"   >执行SQL：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:80px" name="exec_sql"  ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >执行Class：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="exec_class" type="text"   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:92px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:87px" name="memo"  ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >timer_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="timer_id" type="text"   />
+				</div>
+				<label class="col-sm-2 control-label "  >模型服务id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="service_id" type="text"   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="task_id" type="text"   />
+				</div>
+		</div>
+	</form>
+</div>  

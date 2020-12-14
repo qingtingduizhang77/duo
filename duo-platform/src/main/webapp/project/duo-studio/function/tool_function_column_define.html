@@ -1,0 +1,11 @@
+<script  th:fragment="gridScript">
+  
+
+
+    //导入字段
+    function importcolumn(that) {
+
+        ajaxSumit('/tool/importcolumn?foreignKeyId='+foreignKeyId,{},callback);
+    }
+
+</script>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="duo-bi" />
+        <module name="duo-bean" />
+        <module name="duo-platform" />
+        <module name="uid-generator" />
+        <module name="duo-core-controller-feign" />
+        <module name="duo-netty-server" />
+        <module name="duo-netty-client" />
+        <module name="duo-core-controller" />
+        <module name="duo-rest-api" />
+        <module name="duo-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="duo-bean" target="1.8" />
+      <module name="duo-bi" target="1.8" />
+      <module name="duo-core" target="1.8" />
+      <module name="duo-core-controller" target="1.8" />
+      <module name="duo-core-controller-feign" target="1.8" />
+      <module name="duo-netty-client" target="1.8" />
+      <module name="duo-netty-server" target="1.8" />
+      <module name="duo-platform" target="1.8" />
+      <module name="duo-rest-api" target="1.5" />
+      <module name="uid-generator" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="duo-bean" options="-parameters" />
+      <module name="duo-bi" options="-parameters" />
+      <module name="duo-core" options="-parameters" />
+      <module name="duo-core-controller" options="-parameters" />
+      <module name="duo-core-controller-feign" options="-parameters" />
+      <module name="duo-netty-client" options="-parameters" />
+      <module name="duo-netty-server" options="-parameters" />
+      <module name="duo-platform" options="-parameters" />
+    </option>
+  </component>
+</project>

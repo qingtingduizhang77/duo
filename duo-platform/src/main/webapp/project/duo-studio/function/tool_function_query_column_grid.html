@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:82,visible:true, halign: 'center' }, 
+	 {field: 'is_show', title: '页面显示', width:81,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'column_code', title: '字段代号', width:147,visible:true, halign: 'center' }, 
+	 {field: 'column_name', title: '字段名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'column_type', title: '字段类型', width:112,visible:true, halign: 'center',formatter:formcolumntypeFormatter }, 
+	 {field: 'place_holder', title: '提示信息', width:180,visible:true, halign: 'center' }, 
+	 {field: 'column_default', title: '默认值', width:200,visible:true, halign: 'center' }, 
+	 {field: 'control_name', title: '控件名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'control_source', title: '控件参数-源', width:304,visible:true, halign: 'center' }, 
+	 {field: 'control_target', title: '控件参数-目标', width:353,visible:true, halign: 'center' }, 
+	 {field: 'control_where', title: '控件参数-where', width:579,visible:true, halign: 'center' }, 
+	 {field: 'column_id', title: 'column_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'query_id', title: 'query_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'control_parames', title: '控件参数', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'10',orgfield:'tool_function_query_column.order_index'}, 
+	  is_show:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_function_query_column.is_show',max_length:10,formatter:'chekboxFormatter'}, 
+	  column_code:{addedit:true,edit:true,type:'text',required:false,default:'query__',orgfield:'tool_function_query_column.column_code',max_length:60}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.column_name',max_length:80}, 
+	  column_type:{addedit:true,edit:true,type:'combobox',required:false,default:'text',orgfield:'tool_function_query_column.column_type',control_name:'formcolumntypeData',max_length:20,formatter:'formcolumntypeFormatter'}, 
+	  place_holder:{addedit:true,edit:true,type:'text',required:false,default:'请输入',orgfield:'tool_function_query_column.place_holder',max_length:100}, 
+	  column_default:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.column_default',max_length:80}, 
+	  control_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.control_name',max_length:80}, 
+	  control_source:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.control_source',max_length:500}, 
+	  control_target:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.control_target',max_length:500}, 
+	  control_where:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.control_where',max_length:500}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.column_id',max_length:32}, 
+	  query_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.query_id',max_length:32}, 
+	  control_parames:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.control_parames',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_query_column.record_flag',max_length:10} 
+	 }; 
+</script>  

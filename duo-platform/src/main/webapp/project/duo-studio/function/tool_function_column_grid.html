@@ -1,0 +1,77 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'group_name', title: '分组', width:90,visible:true, halign: 'center' }, 
+	 {field: 'order_index', title: '排序', width:100,visible:true, halign: 'center',sortable:true }, 
+	 {field: 'column_name', title: '字段编号', width:134,visible:true, halign: 'center',sortable:true }, 
+	 {field: 'column_comment', title: '字段名称*', width:160,visible:true, halign: 'center',sortable:true }, 
+	 {field: 'column_statement', title: '字段语句', width:232,visible:true, halign: 'center',sortable:true }, 
+	 {field: 'column_type', title: '字段类型*', width:111,visible:true, halign: 'center',formatter:formcolumntypeFormatter }, 
+	 {field: 'default_value', title: '默认值', width:154,visible:true, halign: 'center' }, 
+	 {field: 'is_addedit', title: '新增可编辑?', width:112,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'is_modifyedit', title: '修改可编辑?', width:110,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'is_null', title: '必填?', width:64,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'is_unique', title: '唯一?', width:64,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'is_total', title: '统计汇总?', width:94,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'display_style', title: '显示格式', width:190,visible:true, halign: 'center' }, 
+	 {field: 'control_name', title: '控件名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'control_source', title: '控件参数-源', width:340,visible:true, halign: 'center' }, 
+	 {field: 'control_target', title: '控件参数-目标', width:315,visible:true, halign: 'center' }, 
+	 {field: 'control_where', title: '控件参数-where', width:470,visible:true, halign: 'center' }, 
+	 {field: 'blur_js', title: '鼠标离开触发blur', width:264,visible:true, halign: 'center' }, 
+	 {field: 'max_length', title: '最大字符长度', width:116,visible:true, halign: 'center' }, 
+	 {field: 'auto_code', title: '自动编码方式', width:142,visible:true, halign: 'center',formatter:autocodetypeFormatter }, 
+	 {field: 'pre_code', title: '编码前缀', width:112,visible:true, halign: 'center' }, 
+	 {field: 'code_length', title: '编码长度', width:93,visible:true, halign: 'center' }, 
+	 {field: 'compute_sql', title: '编码计算规则', width:436,visible:true, halign: 'center' }, 
+	 {field: 'unique_where', title: '唯一判断条件', width:606,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '可排序?', width:81,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'is_show', title: '是否Grid显示', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_id', title: 'column_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_width', title: '字段宽度', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  group_name:{addedit:true,edit:true,type:'text',required:false,default:'sql',orgfield:'tool_function_column.group_name'}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'10',orgfield:'tool_function_column.order_index'}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.column_name'}, 
+	  column_comment:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_function_column.column_comment'}, 
+	  column_statement:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.column_statement'}, 
+	  column_type:{addedit:true,edit:true,type:'combobox',required:true,default:'text',orgfield:'tool_function_column.column_type',control_name:'formcolumntypeData',formatter:'formcolumntypeFormatter'}, 
+	  default_value:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.default_value'}, 
+	  is_addedit:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_function_column.is_addedit',formatter:'chekboxFormatter'}, 
+	  is_modifyedit:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_function_column.is_modifyedit',formatter:'chekboxFormatter'}, 
+	  is_null:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'tool_function_column.is_null',formatter:'chekboxFormatter'}, 
+	  is_unique:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'tool_function_column.is_unique',formatter:'chekboxFormatter'}, 
+	  is_total:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'tool_function_column.is_total',formatter:'chekboxFormatter'}, 
+	  display_style:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.display_style'}, 
+	  control_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.control_name'}, 
+	  control_source:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.control_source'}, 
+	  control_target:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.control_target'}, 
+	  control_where:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.control_where'}, 
+	  blur_js:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.blur_js'}, 
+	  max_length:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_function_column.max_length'}, 
+	  auto_code:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'tool_function_column.auto_code',control_name:'autocodetypeData',formatter:'autocodetypeFormatter'}, 
+	  pre_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.pre_code'}, 
+	  code_length:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_function_column.code_length'}, 
+	  compute_sql:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.compute_sql'}, 
+	  unique_where:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.unique_where'}, 
+	  record_flag:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'tool_function_column.record_flag',formatter:'chekboxFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.memo'}, 
+	  is_show:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.is_show'}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.column_id'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_column.fun_id'}, 
+	  column_width:{addedit:true,edit:true,type:'number',required:false,default:'200',orgfield:'tool_function_column.column_width'} 
+	 }; 
+</script>  

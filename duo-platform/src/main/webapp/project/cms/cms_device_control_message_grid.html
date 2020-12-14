@@ -1,0 +1,43 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '执行状态', width:130,visible:true, halign: 'center',formatter:cmsOrderStatusFormatter }, 
+	 {field: 'plan_time', title: '计划执行时间*', width:208,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'message_type', title: '指令类型', width:146,visible:true, halign: 'center',formatter:cmsOrderTypeFormatter }, 
+	 {field: 'connect_message', title: '指令信息', width:843,visible:true, halign: 'center' }, 
+	 {field: 'file_name', title: '升级包版本', width:200,visible:true, halign: 'center' }, 
+	 {field: 'call_backmessage', title: '反馈信息', width:949,visible:true, halign: 'center' }, 
+	 {field: 'is_success', title: '是否执行成功', width:200,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:508,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'control_id', title: 'control_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'file_id', title: 'file_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'message_id', title: '主键id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_control_message.auditing',control_name:'cmsOrderStatusData',max_length:20,formatter:'cmsOrderStatusFormatter'}, 
+	  plan_time:{addedit:true,edit:true,type:'datetime',required:true,default:'{CURRENTDATETIME}',orgfield:'device_control_message.plan_time',formatter:'dateTimeFormatter'}, 
+	  message_type:{addedit:true,edit:true,type:'combobox',required:false,default:'120',orgfield:'device_control_message.message_type',control_name:'cmsOrderTypeData',max_length:20,formatter:'cmsOrderTypeFormatter'}, 
+	  connect_message:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.connect_message'}, 
+	  file_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.file_name',max_length:80}, 
+	  call_backmessage:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.call_backmessage'}, 
+	  is_success:{addedit:false,edit:false,type:'checkbox',required:false,default:'0',orgfield:'device_control_message.is_success',max_length:80}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.record_flag',max_length:10}, 
+	  control_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.control_id',max_length:32}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.device_id',max_length:32}, 
+	  file_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.file_id',max_length:32}, 
+	  message_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.message_id',max_length:32} 
+	 }; 
+</script>  

@@ -1,0 +1,795 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="context-path" th:content="@{/}"/>
+        <title>表单详细</title>
+        <!-- favicon icon -->
+        <link rel="icon" type="image/png" th:href="@{/static/img/favicon.ico}">
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+         <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+        <!-- x-editable-->
+        <link rel="stylesheet" th:href="@{/static/libs/x-editable/bootstrap3-editable/css/bootstrap-editable.css}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+        <!-- Select -->
+        <link rel="stylesheet" th:href="@{/static/libs/select/bootstrap-select.min.css}">
+        <!-- Select2 -->
+        <link rel="stylesheet" th:href="@{/static/css/select2.min.css}">
+        <!-- Theme style -->
+        <link rel="stylesheet" th:href="@{/static/css/AdminLTE.min.css}">
+        <!-- Pace style -->
+        <link rel="stylesheet" th:href="@{/static/css/pace.min.css}">
+        <!-- zTree style -->
+        <link rel="stylesheet" th:href="@{/static/css/ztree/metroStyle/metroStyle.css}">
+        <!-- Bootstrap-table -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-table.min.css}">
+        <!-- Bootstrap-table -->
+        <!--<link rel="stylesheet" th:href="@{/static/libs/bootstrap-table/bootstrap-table.css}">-->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.css}">
+        <!-- Animate -->
+        <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+        <!-- daterange picker -->
+        <link rel="stylesheet" th:href="@{/static/css/daterangepicker.css}">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-datepicker.min.css}">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-colorpicker.min.css}">
+        <!-- Bootstrap time Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-timepicker.min.css}">
+        <!-- iCheck -->
+        <link rel="stylesheet" th:href="@{/static/css/iCheck/square/blue.css}">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" th:href="@{/static/css/skins/_all-skins.min.css}">
+
+        <!-- bootstrap3-dialog  -->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap3-dialog/css/bootstrap-dialog.min.css}">
+        <!-- sweetalert  -->
+        <link rel="stylesheet" th:href="@{/static/css/sweetalert.css}">
+        <link rel="stylesheet"th:href="@{/static/libs/jquery-editable-select/jquery.editable-select.min.css}">
+        <link rel="stylesheet" th:href="@{/static/libs/jqFullCalendar/css/fullcalendar.min.css}">
+        <!-- 自定义样式 -->
+        <link rel="stylesheet" th:href="@{/static/css/admin.css?v=1.0.1}">
+
+        <style>
+
+            .sidebar-menu >div> li > a {
+                padding: 5px 5px 5px 15px;
+                display: block;
+            }
+
+            .sidebar-menu >div> li > a > .fa,
+            .sidebar-menu >div> li > a > .glyphicon,
+            .sidebar-menu >div> li > a > .ion {
+                width: 20px;
+            }
+            html,body{
+                height: 100%;
+            }
+            table thead tr th{
+                text-align:center;
+                font-weight: 600;
+                font-size: 14px;
+            }
+            table td{
+                padding-left: 5px;
+            }
+            /**
+            设置整个form不可编辑
+             */
+            .disabledform {
+                pointer-events: none;
+            }
+        </style>
+
+        <!-- jQuery 2 -->
+        <script th:src="@{/static/libs/jquery/jquery-2.2.4.min.js}"></script>
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/html5shiv.min.js}"></script>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/respond.min.js}"></script>
+        <![endif]-->
+        <script th:inline="javascript">
+            var CONTEXT_PATH = [[${#request.getContextPath()}]];
+        </script>
+        <!-- Google Font -->
+        <!--<link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+        <!--Fortmatter方法 -->
+        <script th:replace="~{../project/common/common-data-formatter :: formatterScript}"></script>
+    </head>
+    <body>
+
+    <section class="content-header" style="">
+        <h1 ><small> 流程号： </small><span th:utext="${WfData.data_no}">123456</span>
+            <small style="margin-left: 40px;"> 申请人： </small><span th:utext="${WfData.user_name}">xxxxxx</span>
+            <small style="margin-left: 40px;"> 流程标题： </small><span th:utext="${WfData.data_title}">xxxxxx</span>
+        </h1>
+        <ol class="breadcrumb" style="">
+            <li><i class="fa fa-sitemap"></i>  第<span  th:utext="${WfDataUser.step_no}">1</span>步</li>
+            <li  th:utext="${WfDataUser.node_name}"> 1</li>
+            [<span class="active"  th:utext="${WfDataUser.node_no}">1</span>]
+        </ol>
+    </section>
+                 <div  id="content-wrapper"  style="overflow-y:auto;overflow-x:hidden;margin-left:20px;margin-right:20px;" >
+                         <div style="border: 2px solid #000;margin:10px;padding: 5px;">
+                             <!--Form页面-->
+                             <div th:if="${#strings.isEmpty(formUrl)} ne true ">
+                                 <div th:replace="${formUrl} :: formPage"></div>
+                             </div>
+                         </div>
+
+                         <h4 >公共附件：</h4>
+                         <div style="border: 2px solid #000;margin:10px;padding: 5px;min-height: 100px;">
+                             <table border="1px;" width="100%">
+                                 <thead style="background: #f0f0f0;">
+                                 <tr>
+                                     <th width="7%">序号</th>
+                                     <th width="50%">附件名称</th>
+                                     <th width="8%">文件大小</th>
+                                     <th width="15%">上传时间</th>
+                                     <th width="10%">上传人</th>
+                                     <th width="15%">操作</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody th:utext="${checkfileList}" >
+                             </table>
+                         </div>
+
+                         <h4 >审批记录：</h4>
+                         <div style="border: 2px solid #000;margin:10px;padding: 5px;min-height: 100px;">
+                             <table border="1px;" width="100%">
+                                 <thead style="background: #f0f0f0;">
+                                 <tr>
+                                     <th width="7%">步骤</th>
+                                     <th width="10%">步骤名称</th>
+                                     <th width="8%">审批人</th>
+                                     <th width="7%">流程状态</th>
+                                     <th width="40%">审批意见</th>
+                                     <th width="10%">开始时间</th>
+                                     <th width="10%">结束时间</th>
+                                     <th width="8%">耗时</th>
+                                 </tr>
+                                 </thead>
+                                 <tbody th:utext="${checkhistoryList}" >
+                             </table>
+                         </div>
+                    <div id="checkAdviseDiv">
+                         <h4 >审批意见：</h4>
+                         <div style="border: 2px solid #000;margin:10px;padding: 5px;min-height: 100px;">
+                             <form class="form-horizontal" role="form" >
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label thBlue"  >是否同意*：</label>
+                                     <div class=col-sm-3_5>
+                                         <input type="radio" name="agreeRadio" value="1" checked/>
+                                         <label>同意</label>
+                                         <input type="radio" name="agreeRadio" value="0" style="margin-left:20px;" />
+                                         <label style="color:red;">不同意</label>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label thBlue"  >审批意见*：</label>
+                                     <div class=col-sm-9>
+                                         <textarea class="form-control" style="height:150px" name="checkAdvise"      ></textarea>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label "  >上传附件：</label>
+                                     <div class=col-sm-9>
+                                         <input type="file"  name="file"   multiple  />
+                                     </div>
+                                 </div>
+                             </form>
+                         </div>
+                    </div>
+
+                     <div id="checkNextDiv">
+                         <h4 >流程转交：</h4>
+                         <div style="border: 2px solid #000;margin:10px;padding: 5px;height: 180px;">
+                             <form class="form-horizontal" >
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label thBlue"  >下一节点：</label>
+                                     <div class=col-sm-7 id="nextNodeRodio">
+                                         <input type="radio" name="nextRadio" value="1" checked/>
+                                         <label style="color:red;">结束</label>
+                                         <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                         <label>人力资源部审批</label>
+                                         <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                         <label>研发中心审批</label>
+                                         <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                         <label>总经理审批</label>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label thBlue"  >主办人*：</label>
+                                     <div class=col-sm-9>
+                                         <input type="hidden" class="form-control input-sm" readonly    name="sponsor_user_id"       style='width:80%;float:left; '  />
+                                         <input type="text" class="form-control input-sm" readonly    name="sponsor_user_name"       style='width:80%;float:left; '  />
+                                         <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","sponsor_user_name;sponsor_user_id","null")'    >选择</button>
+                                         <button type='button'    class='btn btn-default' onclick="valclear('sponsor');">清除</button>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label"  >经办人：</label>
+                                     <div class=col-sm-9>
+                                         <input type="hidden" class="form-control input-sm" readonly    name="operator_user_id"       style='width:80%;float:left; '  />
+                                         <input type="text" class="form-control input-sm" readonly    name="operator_user_name"       style='width:80%;float:left; '   />
+                                         <button type='button'  name="btn_file_name"   class='btn btn-primary' onclick='userSelectWindow("userSelect","user_name;user_id","operator_user_name;operator_user_id","null")'    >选择</button>
+                                         <button type='button'    class='btn btn-default' onclick="valclear('operator');">清除</button>
+                                     </div>
+                                 </div>
+                                 <div class="form-group">
+                                     <label class="col-sm-2 control-label"  >抄送人：</label>
+                                     <div class=col-sm-9>
+                                         <input type="hidden" class="form-control input-sm" readonly    name="copy_user_id"       style='width:80%;float:left; '  />
+                                         <input type="text" class="form-control input-sm" readonly    name="copy_user_name"       style='width:80%;float:left; '  />
+                                         <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","copy_user_name;copy_user_id","null")'    >选择</button>
+                                         <button type='button'    class='btn btn-default' onclick="valclear('copy');">清除</button>
+                                     </div>
+                                 </div>
+                             </form>
+                         </div>
+                    </div>
+                 </div>
+                 <!--Content Wrapper. Contains page content-->
+                 <div class="btn-group btn-group-sm" style="padding-right: 100px;background:#f0f0f0;width: 100%;height: 35px;padding-top: 5px;">
+                     <button type="button"  id="viewBtn" class="btn btn-default"  onclick="viewFlowWindow()" style="margin-right: 10px;float: right;">查看流程图</button>
+                     <button type="button"  id="pauseBtn"  class="btn btn-warning"  onclick="pauseData()" style="margin-right: 10px;float: right;">挂起</button>
+                     <button type="button"  id="entrustBtn"  class="btn btn-primary"  onclick="entrustWindow()" style="margin-right: 10px;float: right;">委托</button>
+                     <button type="button"  id="saveBtn"  class="btn btn-primary"  onclick="savaData()" style="margin-right: 10px;float: right;">保存</button>
+                     <button type="button"  id="nextBtn"  class="btn btn-success"  onclick="putNextNode()" style="margin-right: 10px;float: right;">转交下一步</button>
+                     <button type="button"  id="backBtn"  class="btn btn-danger"  onclick="backWindow()" style="margin-right: 10px;float: right;">退回</button>
+                 </div>
+
+
+    <!-- selectWindow Modal -->
+    <div class="modal fade" id="selectWindowModal"  tabindex="-1"   style="z-index: 1300"  role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:800px;height:565px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">操作窗口</h4>
+                </div>
+                <div class="modal-body"  style="height:540px;padding:0px;margin:0px;">
+                    <iframe id="selectIframe" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+                    <form id="selectForm" style="display: none;">
+                        <input type="hidden" name="selectRow"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- backWindowModal Modal -->
+    <div class="modal fade" id="backWindowModal"   tabindex="-1" style="z-index: 1100" role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:650px;height:400px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">选择退回节点和人</h4>
+                </div>
+                <div class="modal-body"  style="height:555px;padding-top: 40px;margin:0px;">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >退回节点：</label>
+                            <div class=col-sm-9 id="backNodeRodio">
+                                <input type="radio" name="nextRadio" value="1" checked/>
+                                <label style="color:red;">结束</label>
+                                <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                <label>人力资源部审批</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >主办人*：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_sponsor_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_sponsor_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","back_sponsor_user_name;back_sponsor_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_sponsor');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >经办人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_operator_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_operator_user_name"       style='width:70%;float:left; '   />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary' onclick='userSelectWindow("userSelect","user_name;user_id","back_operator_user_name;back_operator_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_operator');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >抄送人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_copy_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_copy_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","back_copy_user_name;back_copy_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_copy');">清除</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer" style="height:25px;text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button"  class="btn btn-primary"  onclick="putBackNode()">退回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- entrustWindowModal Modal -->
+    <div class="modal fade" id="entrustWindowModal"   tabindex="-1"  style="z-index: 1100" role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:650px;height:400px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">选择委托人</h4>
+                </div>
+                <div class="modal-body"  style="height:555px;padding-top: 40px;margin:0px;">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >委托人*：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="entrust_sponsor_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="entrust_sponsor_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","entrust_sponsor_user_name;entrust_sponsor_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('entrust_sponsor');">清除</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer" style="height:25px;text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button"  class="btn btn-primary"  onclick="entrustData()">委托</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+    <!-- easyui-->
+    <script th:src="@{/static/libs/easyui1.8.3/jquery.easyui.min.js}"></script>
+    <!-- Bootstrap-table -->
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/bootstrap-table.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/locale/bootstrap-table-zh-CN.min.js}"></script>
+
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/export/bootstrap-table-export.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/export/tableExport.js}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-v3.3.7.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/fixed-columns/js/bootstrap-table-fixed-columns.js}"></script>
+
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/static/libs/fastclick.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/static/libs/adminlte/adminlte.min.js}"></script>
+    <!-- Select -->
+    <script th:src="@{/static/libs/select/bootstrap-select.min.js}"></script>
+    <!-- Select2 -->
+    <script th:src="@{/static/libs/select2/select2.full.min.js}"></script>
+    <!-- InputMask -->
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.date.extensions.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.extensions.js}"></script>
+    <!-- date-range-picker -->
+    <script th:src="@{/static/libs/moment.min.js}"></script>
+    <script th:src="@{/static/libs/daterangepicker.js}"></script>
+    <!-- My97DatePicker -->
+    <script th:src="@{/static/libs/datepicker/WdatePicker.js}"></script>
+
+    <!-- bootstrap3-dialog  -->
+    <script th:src="@{/static/libs/bootstrap3-dialog/js/bootstrap-dialog.min.js}"></script>
+    <!-- bootstrap datepicker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-datepicker.min.js}"></script>
+    <!-- bootstrap color picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-colorpicker.min.js}"></script>
+    <!-- bootstrap time picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-timepicker.min.js}"></script>
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- PACE -->
+    <script th:src="@{/static/libs/pace.min.js}"></script>
+    <!-- zTree script -->
+    <script th:src="@{/static/libs/jquery-ztree/jquery.ztree.all.min.js}"></script>
+    <!-- Bootstrap-notify-3.1.3 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-notify.min.js}"></script>
+    <!-- Bootstrap-validator-0.11.9 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-validator.min.js}"></script>
+    <!-- bootstrap-switch-v3.3.5-->
+    <script th:src="@{/static/libs/bootstrap-switch-v3.3.5/js/bootstrap-switch.min.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/static/libs/iCheck/icheck.min.js}"></script>
+    <!-- ckedit -->
+    <script th:src="@{/static/libs/ckeditor/ckeditor.js}"></script>
+    <!-- AdminLTE for menu purposes -->
+    <script th:src="@{/static/js/right-menu-color.js?v=1.0.1}"></script>
+    <!-- jquery.base64 -->
+    <script th:src="@{/static/libs/jquery-base64/jquery.base64.js?v=1.0.2}"></script>
+
+    <script th:src="@{/static/js/admin.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/static/js/common/utils.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/static/libs/jquery-editable-select/jquery.editable-select.min.js}"></script>
+    <script th:src="@{/static/libs/jquery-uploadifive/jquery.uploadifive.js}"></script>
+
+    <script th:src="@{/project/common/common-editable.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-formatter.js?v=1.0.1}" th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-function.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-chart.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/static/libs/jqFullCalendar/js/moment.min.js}"></script>
+    <script th:src="@{/static/libs/jqFullCalendar/js/fullcalendar.min.js}"></script>
+    <script th:src="@{/static/libs/jqFullCalendar/js/calendar.js}"></script>
+    <script th:src="@{/static/libs/echart4.7.0/echarts.common.min.js}"></script>
+    <script th:src="@{/static/libs/echart4.7.0/echarts.min.js}"></script>
+    <script th:src="@{/static/libs/jquery-liMarquee/js/jquery.liMarquee.js}"></script>
+    <script th:inline="javascript">
+        // funId = [[${funId}]];//功能id
+       var wfID = [[${wfID}]];//wfid
+        var wfUserid  = [[${wfUserid}]];
+       var rowJson = [[${rowJson}]];
+       var historynodes= [[${historynodes}]];
+        var nextNode= [[${nextNode}]];
+        var nextNodeUsers= [[${nextNodeUsers}]];
+
+
+        var CURRENTUSERID = [[${CURRENTUSERID}]];
+        var CURRENTUSERNAME = [[${CURRENTUSERNAME}]];
+        var CURRENTDEPTID = [[${CURRENTDEPTID}]];
+        var CURRENTDEPTNAME = [[${CURRENTDEPTNAME}]];
+        var CURRENTCOMPANYID = [[${CURRENTCOMPANYID}]];
+        var CURRENTSYSTEMID = [[${CURRENTSYSTEMID}]];
+        var CURRENTONEDEPTID = [[${CURRENTONEDEPTID}]];
+        var CURRENTTWODEPTID = [[${CURRENTTWODEPTID}]];
+
+        $(function () {
+
+            historynodes= unEscapeHTML(historynodes);
+            // alert(historynodes);
+            if(historynodes.indexOf("{")>-1||historynodes.indexOf("[")>-1) eval("historynodes="+historynodes);
+           // nextNode= unEscapeHTML(nextNode);
+            // alert(nextNode);
+            //if(nextNode.indexOf("{")>-1) eval("nextNode="+nextNode);
+            var is_agree= [[${WfDataUser.is_agree}]] ;
+            var sign_advise= [[${WfDataUser.sign_advise}]] ;
+            if(is_agree!=null&&is_agree!="")$("input[name='agreeRadio']").eq(is_agree=="1"?0:1).attr("checked",'checked');;
+            if(sign_advise!=null&&sign_advise!="")$("textarea[name='checkAdvise']").val(sign_advise);
+            if(nextNode!=null){
+                $("#nextNodeRodio").empty();
+                for(var i=0;i<nextNode.length;i++){
+                    // alert(JSON.stringify(nextNode[i]));
+                    var radio=" <input type=\"radio\" name=\"nextRadio\" value=\""+nextNode[i]["node_id"]+"\" style=\"margin-left:20px;\" "+(i==0?"checked":"")+"/> <label "+(nextNode[i]["node_name"]=="结束"?"style=\"color:red;\"":"")+">" + nextNode[i]["node_name"]+"</label>";
+                    $("#nextNodeRodio").append(radio);
+                    if(i==0){
+                        var users=nextNodeUsers[nextNode[i]["node_id"]];
+                        // alert(JSON.stringify(users));
+                        for(var i=0;i<users.length;i++){
+                            if(users[i]["user_type"]=="sponsor"){
+                                $("input[name='sponsor_user_id']").val(users[i]["user_id"]);
+                                $("input[name='sponsor_user_name']").val(users[i]["user_name"]);
+                            }else  if(users[i]["user_type"]=="operator") {
+                                $("input[name='operator_user_id']").val(  $("input[name='operator_user_id']").val()==""? users[i]["user_id"]:$("input[name='operator_user_id']").val()+";"+users[i]["user_id"]);
+                                $("input[name='operator_user_name']").val($("input[name='operator_user_name']").val()==""?users[i]["user_name"]:$("input[name='operator_user_name']").val()+";"+users[i]["user_name"]);
+                            }
+                        }
+                    }
+                }
+                $('input[type=radio][name=nextRadio]').change(function() {//绑定radio改变事件
+                    var users=nextNodeUsers[this.value];
+                    // alert(JSON.stringify(users));
+                    for(var i=0;i<users.length;i++){
+                        if(users[i]["user_type"]=="sponsor"){
+                            $("input[name='sponsor_user_id']").val(users[i]["user_id"]);
+                            $("input[name='sponsor_user_name']").val(users[i]["user_name"]);
+                        }else  if(users[i]["user_type"]=="operator") {
+                            $("input[name='operator_user_id']").val(  $("input[name='operator_user_id']").val()==""? users[i]["user_id"]:$("input[name='operator_user_id']").val()+";"+users[i]["user_id"]);
+                            $("input[name='operator_user_name']").val($("input[name='operator_user_name']").val()==""?users[i]["user_name"]:$("input[name='operator_user_name']").val()+";"+users[i]["user_name"]);
+                        }
+                    }
+                });
+            }
+            if(historynodes!=null){
+                $("#backNodeRodio").html("");
+                for(var i=0;i<historynodes.length;i++){
+                    var radio=" <input type=\"radio\" name=\"nextRadio\" value=\""+historynodes[i]["node_id"]+"\" style=\"margin-left:20px;\" "+(i==0?"checked":"")+"/> <label> " + historynodes[i]["node_name"]+"</label>";
+                    $("#backNodeRodio").append(radio);
+                }
+            }else{
+                $("#backBtn").hide();
+            }
+            var height=document.body.clientHeight-80;
+            $('#content-wrapper').height(height);
+
+            $("#infoform").fillForm(rowJson);
+            $("#infoform").addClass("disabledform");
+            if([[${WfDataUser.is_sponsor}]]=="0"){//经办人和抄送人  不能选下一个节点
+              //  $("#checkAdviseDiv").hide();
+                $("#checkNextDiv").hide();
+                $("#backBtn").hide();
+                $("#nextBtn").text("办理完成");
+            }
+
+
+            if([[${isView}]]=="1"||[[${WfDataUser.data_status}]]!="0"){//查询模式或已处理
+                $("#checkAdviseDiv").hide();
+                $("#checkNextDiv").hide();
+                $("#backBtn").hide();
+                $("#nextBtn").hide();
+                $("#saveBtn").hide();
+                $("#entrustBtn").hide();
+                $("#pauseBtn").hide();
+            }
+
+        });
+
+        /**
+         * 查看流程图
+         */
+        function viewFlowWindow(){
+            var frameSrc = CONTEXT_PATH +"/iframe/open-window?foreignColumn=&foreignKeyId="+wfID+"&openurl=/workflow/page-tool-auditflowdesign";
+            alert(frameSrc);
+            $("#selectIframe").attr("src", frameSrc);
+            $('#selectWindowModal .modal-title').text("子功能");
+            //居中
+            $('#selectWindowModal').on('show.bs.modal', function (e) {
+                // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                $(this).css('display', 'block');
+                var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-200;
+                $(this).find('.modal-dialog').css({
+                    'margin-top': modalHeight,
+                    'margin-left': modalWidth
+                });
+            });
+            $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+        }
+        function rereload(){
+            location.reload();
+        }
+
+        /**
+         * 保存意见
+         */
+        function savaData(){
+
+            var agreeRadio=$("input[name='agreeRadio']:checked").val();
+            var checkAdvise=$("textarea[name='checkAdvise']").val();
+             ajaxSumit( CONTEXT_PATH +"/workflow/saveData?wf_id="+wfID,{wfUserid:wfUserid ,agreeRadio:agreeRadio,checkAdvise:checkAdvise},null);
+        }
+
+        /**
+         * 委托
+         */
+        function entrustData(){
+            if($("input[name='entrust_sponsor_user_id']").val()==""){
+                alert("请先选择委托人！");
+                return;
+            }
+
+            ajaxSumit( CONTEXT_PATH +"/workflow/entrustData?wf_id="+wfID,{wfUserid:wfUserid, entrustUserid:$("input[name='entrust_sponsor_user_id']").val(),
+                entrustUsername:$("input[name='entrust_sponsor_user_name']").val()},rereload);
+        }
+
+        /**
+         * 挂起流程
+         */
+        function pauseData(){
+            ajaxSumit( CONTEXT_PATH +"/workflow/pauseData?wf_id="+wfID,{wfUserid:wfUserid },null);
+        }
+
+        /**
+         * 转下一步
+         */
+        function putNextNode(){
+            if([[${WfDataUser.is_sponsor}]]=="0") {//经办人和抄送人  不能选下一个节点
+
+                var agreeRadio=$("input[name='agreeRadio']:checked").val();
+                var checkAdvise=$("textarea[name='checkAdvise']").val();
+                ajaxSumit( CONTEXT_PATH +"/workflow/saveData?wf_id="+wfID,{wfUserid:wfUserid ,agreeRadio:agreeRadio,checkAdvise:checkAdvise,isDeal:"1"},rereload);
+
+                return ;
+            }
+
+            var agreeRadio=$("input[name='agreeRadio']:checked").val();
+            if(agreeRadio=="0"){
+                alert("不同意只能选择退回，不能提交给下一节点！")
+                return;
+            }
+            var nextRadio=$("input[name='nextRadio']:checked").val();
+            var checkAdvise=$("textarea[name='checkAdvise']").val();
+
+
+            var sponsor_user_id=$("input[name='sponsor_user_id']").val();
+            var sponsor_user_name=$("input[name='sponsor_user_name']").val();
+
+            var isEnd=false;//是否结束
+            // alert(nextRadio)
+            for(var i=0;i<nextNode.length;i++){
+                if(nextRadio==nextNode[i]["node_id"]){
+                    // alert(nextNode[i]["node_type"])
+                    if(nextNode[i]["node_type"]=="end round red") isEnd=true;
+                }
+            }
+            if(!isEnd){
+                if(sponsor_user_id==null||sponsor_user_id==""){
+                    alert("主办人不能为空！");
+                    return;
+                }
+            }
+            var operator_user_id=$("input[name='operator_user_id']").val();
+            var operator_user_name=$("input[name='operator_user_name']").val();
+            var copy_user_id=$("input[name='copy_user_id']").val();
+            var copy_user_name=$("input[name='copy_user_name']").val();
+
+            var auditColumn=[[${WfData.post_name}]];
+            var jsonData={
+                wfId:wfID,
+                nodeId:nextRadio,
+               // auditColumn:auditColumn,
+                agreeRadio:agreeRadio,
+                checkAdvise:checkAdvise,
+                keyId: [[${WfData.record_id}]],
+                stepNo:[[${WfDataUser.step_no}]],
+                dataId:[[${WfData.data_id}]],
+                wfUserid:[[${WfDataUser.wf_userid}]],
+                sponsor_user_id:sponsor_user_id,
+                sponsor_user_name:sponsor_user_name,
+                operator_user_id:operator_user_id,
+                operator_user_name:operator_user_name,
+                operator_user_id:operator_user_id,
+                copy_user_id:copy_user_id,
+                copy_user_name:copy_user_name};
+            if(isEnd&&auditColumn!=null) jsonData[auditColumn] ="3";//状态改为3，审批完成
+
+            ajaxSumit( CONTEXT_PATH +"/workflow/putNext?wf_id="+wfID,jsonData,rereload);
+        }
+        /**
+         * 退回
+         */
+        function putBackNode(){
+
+            var agreeRadio=$("input[name='agreeRadio']:checked").val();
+            var nextRadio=$("input[name='nextRadio']:checked").val();
+            var checkAdvise=$("textarea[name='checkAdvise']").val();
+
+
+            var sponsor_user_id=$("input[name='back_sponsor_user_id']").val();
+            var sponsor_user_name=$("input[name='back_sponsor_user_name']").val();
+            var isStart=false;//是否开始节点
+            for(var i=0;i<nextNode.length;i++){
+                if(nextRadio==nextNode[i]["node_id"]){
+                    if(nextNode[i]["node_type"]=="start round mix") isStart=true;
+                }
+            }
+            if(!isStart){
+                if(sponsor_user_id==null||sponsor_user_id==""){
+                    alert("主办人不能为空！");
+                    return;
+                }
+            }
+            var operator_user_id=$("input[name='back_operator_user_id']").val();
+            var operator_user_name=$("input[name='back_operator_user_name']").val();
+            var copy_user_id=$("input[name='back_copy_user_id']").val();
+            var copy_user_name=$("input[name='back_copy_user_name']").val();
+
+            var auditColumn=[[${WfData.post_name}]];
+            var jsonData={
+                isBack:"1",
+                wfId:wfID,
+                nodeId:nextRadio,
+                agreeRadio:agreeRadio,
+                checkAdvise:checkAdvise,
+                // auditColumn:auditColumn,
+                keyId: [[${WfData.record_id}]],
+                stepNo:[[${WfDataUser.step_no}]],
+                dataId:[[${WfData.data_id}]],
+                wfUserid:[[${WfDataUser.wf_userid}]],
+                sponsor_user_id:sponsor_user_id,
+                sponsor_user_name:sponsor_user_name,
+                operator_user_id:operator_user_id,
+                operator_user_name:operator_user_name,
+                operator_user_id:operator_user_id,
+                copy_user_id:copy_user_id,
+                copy_user_name:copy_user_name};
+            if(isStart&&auditColumn!=null) jsonData[auditColumn] ="4";//状态改为4，退回编辑人
+
+            ajaxSumit( CONTEXT_PATH +"/workflow/putNext?wf_id="+wfID,jsonData,rereload);
+        }
+
+        var sourceCols;
+        var  targetCols;
+        //所有人员的选择窗口
+        function userSelectWindow(control_name,vsourceCols,vtargetCols,vwhereSQL){
+
+             sourceCols=vsourceCols;
+             targetCols=vtargetCols;
+            if(control_name==null||control_name==""||sourceCols==null||sourceCols==""||targetCols==null||targetCols==""){
+                alert("未定义选择窗口控件值或字段对应关系，ERROR！");
+                return;
+            }
+            try{
+                var select=eval(control_name);
+                var url = CONTEXT_PATH + "/iframe/select-window?url="+select["layout_url"]+"?funId="+select["fun_id"]+(vwhereSQL==null||vwhereSQL==""||vwhereSQL=="null"?"":"&orgSQL="+vwhereSQL);
+                $("#selectIframe").attr("src", url);
+                $('#selectWindowModal .modal-title').text("人员选择");
+                //居中
+                $('#selectWindowModal').on('show.bs.modal', function (e) {
+                    // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                    $(this).css('display', 'block');
+                    var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                    var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+                    $(this).find('.modal-dialog').css({
+                        'margin-top': modalHeight,
+                        'margin-left': modalWidth
+                    });
+                });
+                $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+            }catch(e){}
+        }
+        //选择返回
+        function selectMultCallBack(rows){
+           var cols= targetCols.split(";");
+           var scols= sourceCols.split(";");
+           for(var n=0;n< rows.length;n++) {
+               var row=rows[n];
+               for (var i = 0; i < cols.length; i++) {
+                   if ((";"+$("input[name='" + cols[i] + "']").val()+";").indexOf(";"+row[scols[i]] + ";") > -1) break;
+                  if(cols[i].indexOf("sponsor")<0) $("input[name='" + cols[i] + "']").val($("input[name='" + cols[i] + "']").val() + ($("input[name='" + cols[i] + "']").val() == "" ? "" : ";") + row[scols[i]]);
+                  else $("input[name='" + cols[i] + "']").val( row[scols[i]]);
+               }
+           }
+        }
+        function valclear(prename){
+            $("input[name='" + prename+ "_user_id']").val("");
+            $("input[name='" + prename+ "_user_name']").val("")
+        }
+        //退回节点
+        function backWindow(){
+
+            try{
+                //居中
+                $('#backWindowModal').on('show.bs.modal', function (e) {
+                    // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                    $(this).css('display', 'block');
+                    var modalHeight=$(window).height() / 2 - $('#backWindowModal .modal-dialog').height() / 2;
+                    var modalWidth=$(window).width() / 2 - $('#backWindowModal .modal-dialog').width() / 2-100;
+                    $(this).find('.modal-dialog').css({
+                        'margin-top': modalHeight,
+                        'margin-left': modalWidth
+                    });
+                });
+                $('#backWindowModal').modal({ show: true, backdrop: 'static' });
+            }catch(e){}
+        }
+        //委托
+        function entrustWindow(){
+
+            try{
+                //居中
+                $('#entrustWindowModal').on('show.bs.modal', function (e) {
+                    // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                    $(this).css('display', 'block');
+                    var modalHeight=$(window).height() / 2 - $('#entrustWindowModal .modal-dialog').height() / 2;
+                    var modalWidth=$(window).width() / 2 - $('#entrustWindowModal .modal-dialog').width() / 2-100;
+                    $(this).find('.modal-dialog').css({
+                        'margin-top': modalHeight,
+                        'margin-left': modalWidth
+                    });
+                });
+                $('#entrustWindowModal').modal({ show: true, backdrop: 'static' });
+            }catch(e){}
+        }
+    </script>
+
+</html>

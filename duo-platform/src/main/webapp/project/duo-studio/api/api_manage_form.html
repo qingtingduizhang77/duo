@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="api_status"     disabled  >
+					 <script type="text/javascript"> 
+						  var optionJson= apistatusData;
+						 for(var key in optionJson)  $('select[name="api_status"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="number"   onkeyup="value=value.replace(/[^\d.]/g,'')"        />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >项目名称*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="project_name"      required=true >
+					 <script type="text/javascript"> 
+						  var optionJson= apiprojectData;
+						 for(var key in optionJson)  $('select[name="project_name"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >api类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="api_type"       >
+					 <script type="text/javascript"> 
+						  var optionJson= apitypeData;
+						 for(var key in optionJson)  $('select[name="api_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >接口名称*：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="api_name" type="text"      maxlength="80"     required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >访问地址*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="api_url" type="text"      maxlength="80"     required=true />
+				</div>
+				<label class="col-sm-2 control-label "  >版本号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="api_version" type="text"      maxlength="40"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >允许访问时间范围：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="allow_time" type="text"      maxlength="400"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >数据源*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dbsource_name" type="text"      maxlength="40"     required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >操作entity：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="data_entity" type="text"      maxlength="80"      />
+				</div>
+				<label class="col-sm-2 control-label "  >记录日志?：</label>
+				<div class=col-sm-3_5>
+					<input   name="is_log" type="checkbox"        />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:96px;"   >操作SQL/Class：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:91px" name="data_sql"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:92px;"   >执行前判断SQL：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:87px" name="pre_sql"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >执行前判断SQL异常反馈：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="pre_sql_error" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:101px;"   >执行后更新SQL1：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:96px" name="post_sql1"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:90px;"   >执行后更新SQL2：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:85px" name="post_sql2"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:87px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:82px" name="memo"       maxlength="200"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>api_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="api_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   maxlength="10"      />
+				</div>
+		</div>
+	</form>
+</div>  

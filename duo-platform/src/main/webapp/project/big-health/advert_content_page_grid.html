@@ -1,0 +1,51 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'content_id', title: '内容id', width:182,visible:true, halign: 'center' }, 
+	 {field: 'auditing', title: '发布状态', width:76,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'publish_time', title: '发表时间', width:133,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'content_title', title: '标题', width:150,visible:true, halign: 'center' }, 
+	 {field: 'content_type', title: '内容分类', width:83,visible:true, halign: 'center' }, 
+	 {field: 'summary', title: '摘要', width:388,visible:true, halign: 'center' }, 
+	 {field: 'suit_place', title: '适用广告位', width:263,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '广告主', width:124,visible:true, halign: 'center' }, 
+	 {field: 'edit_username', title: '编辑人', width:110,visible:true, halign: 'center' }, 
+	 {field: 'check_username', title: '审批人', width:120,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:333,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '广告主id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'check_userid', title: '审批人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'edit_userid', title: '编辑人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'content_body', title: '广告内容', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  content_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.content_id'}, 
+	  auditing:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.auditing',formatter:'recordsatusFormatter'}, 
+	  publish_time:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'advert_content.publish_time',formatter:'dateTimeFormatter'}, 
+	  content_title:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.content_title'}, 
+	  content_type:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.content_type'}, 
+	  summary:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.summary'}, 
+	  suit_place:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.suit_place'}, 
+	  company_name:{addedit:false,edit:false,type:'selectwindow',required:false,default:'',orgfield:'advert_content.company_name',control_name:'companySelect',source_cols:'company_id;company_name',target_cols:'company_id;company_name'}, 
+	  edit_username:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.edit_username'}, 
+	  check_username:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.check_username'}, 
+	  memo:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.memo'}, 
+	  record_flag:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.record_flag'}, 
+	  company_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.company_id'}, 
+	  project_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.project_id'}, 
+	  check_userid:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.check_userid'}, 
+	  edit_userid:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.edit_userid'}, 
+	  content_body:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'advert_content.content_body'} 
+	 }; 
+</script>  

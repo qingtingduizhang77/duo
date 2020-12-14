@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${ProjectSystemName}]]</title>
+</head>
+<body>
+<footer class="main-footer" th:fragment="main-footer" >
+    <div class="pull-right hidden-xs"  >
+     <!--   <p th:text="${#dates.format(new java.util.Date().getTime(), 'yyyy年MM月dd日')}"></p> &nbsp;<span id="timetxt"></span>-->
+        如遇任何问题请咨询，QQ群：<a href="#">59912209</a>
+
+    </div>
+    <strong>Copyright &copy; 2018-2022 <a href="#">DUO</a></strong>
+</footer>
+</body>
+<script type="text/javascript">
+    function startTime() {
+        var today = new Date()
+        var h = today.getHours()
+        var m = today.getMinutes()
+        var s = today.getSeconds()
+        // add a zero in front of numbers<10
+        m = checkTime(m)
+        s = checkTime(s)
+        document.getElementById('timetxt').innerHTML = h + ":" + m + ":" + s
+        t = setTimeout('startTime()', 1000)
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        }
+        return i
+    }
+</script>
+
+</html>

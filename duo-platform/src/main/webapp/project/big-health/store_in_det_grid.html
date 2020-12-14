@@ -1,0 +1,53 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'bar_code', title: '商品条码号', width:108,visible:true, halign: 'center' }, 
+	 {field: 'type_name', title: '商品分类', width:129,visible:true, halign: 'center' }, 
+	 {field: 'goods_name', title: '商品名称', width:170,visible:true, halign: 'center' }, 
+	 {field: 'goods_size', title: '规格', width:156,visible:true, halign: 'center' }, 
+	 {field: 'factory', title: '生产厂家', width:136,visible:true, halign: 'center' }, 
+	 {field: 'in_num', title: '数量', width:95,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '单位', width:44,visible:true, halign: 'center' }, 
+	 {field: 'in_price', title: '采购单价(元)', width:121,visible:true, halign: 'center' }, 
+	 {field: 'batch_no', title: '批次号', width:172,visible:true, halign: 'center' }, 
+	 {field: 'create_date', title: '生产日期', width:110,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'expiry_date', title: '有效期至', width:109,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'memo', title: '备注', width:204,visible:true, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: 'goods_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'in_id', title: 'in_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: 'stock_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '商品分类id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'useable_num', title: '剩余数量', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  bar_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.bar_code'}, 
+	  type_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.type_name'}, 
+	  goods_name:{addedit:false,edit:false,type:'text',required:true,default:'',orgfield:'goods_list.goods_name'}, 
+	  goods_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.goods_size'}, 
+	  factory:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.factory'}, 
+	  in_num:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'store_in_det.in_num'}, 
+	  unit:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.unit'}, 
+	  in_price:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'store_in_det.in_price'}, 
+	  batch_no:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'store_in_det.batch_no'}, 
+	  create_date:{addedit:true,edit:true,type:'date',required:true,default:'',orgfield:'store_in_det.create_date',formatter:'dateFormatter'}, 
+	  expiry_date:{addedit:true,edit:true,type:'date',required:true,default:'',orgfield:'store_in_det.expiry_date',formatter:'dateFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in_det.memo'}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in_det.det_id'}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in_det.goods_id'}, 
+	  in_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in_det.in_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in_det.stock_id'}, 
+	  type_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.type_id'}, 
+	  useable_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'store_in_det.useable_num'} 
+	 }; 
+</script>  

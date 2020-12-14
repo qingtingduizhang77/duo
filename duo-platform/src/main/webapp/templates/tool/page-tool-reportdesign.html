@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+
+    table thead tr td{
+        text-align:center;
+        background: #a4d0c8;
+    }
+    .bartd{
+        text-align:center;
+        background:#ccc;
+        width:40px ;
+    }
+    table td{
+        border:solid #c2c2c2 1px;
+    }
+    .select{
+       background:#C28257;
+    }
+
+</style>
+
+<section class="content-header" style="">
+    <h1><span>报表设计器</span>
+        <small> 用于实现固定格式报表打印开发</small>
+    </h1>
+</section>
+
+<section class="content" style="padding:0px;">
+
+    <div id="toolbar">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" onclick="javaScript: uploadXlsTeamplate();">
+                <i class="glyphicon glyphicon-tasks"></i> 上传/更新模版
+            </button>
+            <button type="button" class="btn btn-default" onclick="javaScript:reLoadXlsTeamplate();">
+                <i class="glyphicon glyphicon-tasks"></i> 重新载入模版
+            </button>
+            <button type="button" class="btn btn-default" onclick="javaScript:definePrintArea();">
+                <i class="glyphicon glyphicon-plus"></i> 定义打印区域
+            </button>
+        </div>
+    </div>
+
+    <div id="formContext" class="col-xs-12"  style=" padding-top: 5px; overflow-y: scroll;">
+        <div th:utext="${templateHTML}" style=""></div>
+        <div style="height: 20px;">
+        </div>
+    </div>
+
+    <div class="modal fade" id="reportAreaModal"    style="width:780px;height:400px;top :130px;left:100px; padding-left: 0px;border:1px solid #cccccc;" tabindex="-1" >
+        <div class="modal-content" style="width:780px;height:400px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >打印区域定义</h4>
+            </div>
+            <div>
+                <div class="btn-group btn-group-sm">
+                    <button type="button"  class="btn btn-default" onclick="addArea();"><i class="glyphicon glyphicon-plus"></i>新增
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="saveArea();"><i class="glyphicon glyphicon-save"></i> 保存
+                    </button>
+                    <button type="button"  class="btn btn-default" onclick="deleteArea();"><i class="glyphicon glyphicon-remove">删除</i>
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="setParams();"><i class="glyphicon glyphicon-check"></i> 页面参数设置
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="setColumns();"><i class="glyphicon glyphicon-open"></i> 打印字段明细
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body"  style=" border: 0px;padding: 0px;height:325px;overflow:auto"    id="table-content">
+                <table class="table table-bordered table-hover text-nowrap content-table"  style="width: 2500px;">
+                    <thead >
+                    <tr >
+                        <td style="width:60px;">排序</td>
+                        <td style="width:250px;">区域名称*</td>
+                        <td style="width:100px">区域类型</td>
+                        <td style="width:80px">是否主区域</td>
+                        <td style="width:120px">打印范围</td>
+                        <td style="width:80px">行数</td>
+                        <td style="width:80px;">数据源*</td>
+                        <td style="width:1000px">SQL或Class*</td>
+                    </tr>
+                    </thead>
+                    <tbody > <tr style="display:none;">
+                        <td><input class="form-control" type="number" name="order_index" value="100"/></td>
+                        <td><input class="form-control" type="text" name="area_name" required/></td>
+                        <td><select  class="form-control"  name="area_type">
+                            <option value="main" >主数据区域 </option>
+                            <option value="title">表头表尾区域</option>
+                            <option value="sub">子数据区域</option>
+                        </select></td>
+                        <td><input type="checkbox"  name="is_main"/></td>
+                        <td><input class="form-control" type="text"  name="area_postion" value="B,2:F,20"/></td>
+                        <td><input class="form-control" type="number" name="page_size" value="1"/></td>
+                        <td><input class="form-control" type="text"  name="data_source" value="default" required/></td>
+                        <td><input class="form-control" type="text"  name="data_sql" required/></td>
+                        <td style="display:none;"><input   type="hidden" name="area_id" value=""/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="reportParamModal"    style="width:780px;height:400px;top :180px;left:150px; padding-left: 0px;border:1px solid #cccccc;" tabindex="-1" >
+        <div class="modal-content" style="width:780px;height:400px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >参数定义</h4>
+            </div>
+            <div>
+                <div class="btn-group btn-group-sm">
+                    <button type="button"  class="btn btn-default" onclick="addParam();"><i class="glyphicon glyphicon-plus"></i>新增
+                    </button>
+                    <button type="button"  class="btn btn-default" onclick="deleteParam();"><i class="glyphicon glyphicon-remove"></i> 删除
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="saveParam();"><i class="glyphicon glyphicon-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body"  style=" border: 0px;padding: 0px;height:325px;overflow:auto"    id="table-param-content">
+                <table class="table table-bordered table-hover text-nowrap content-table"  style="width: 1700px;">
+                    <thead >
+                    <tr >
+                        <td style="width:80px;">排序</td>
+                        <td style="width:150px;">参数代号*</td>
+                        <td style="width:250px;">参数名称*</td>
+                        <td style="width:100px">参数类型*</td>
+                        <td style="width:200px;">默认值</td>
+                        <td style="width:100px">控件名称</td>
+                        <td style="width:400px">源字段</td>
+                        <td style="width:400px">目标字段</td>
+                        <td style="width:80px;">显示？</td>
+                    </tr>
+                    </thead>
+                    <tbody > <tr style="display:none;">
+                        <td><input class="form-control" type="number" name="order_index" value="100"/></td>
+                        <td><input class="form-control" type="text" name="param_code" value="param__" required/></td>
+                        <td><input class="form-control" type="text" name="param_name" required/></td>
+                        <td><select  class="form-control"  name="param_type">
+                            <option value="text" >文本</option>
+                            <option value="number" >数值</option>
+                            <option value="select" >选择窗口</option>
+                            <option value="combo" >下拉窗口</option>
+                            <option value="checkbox" >复选框</option>
+                            <option value="yearmonth">年月</option>
+                            <option value="date">日期</option>
+                            <option value="datetime">日期时间</option>
+                        </select></td>
+                        <td><input class="form-control" type="text"  name="param_default" value=""/></td>
+                        <td><input class="form-control" type="text" name="control_code" value=""/></td>
+                        <td><input class="form-control" type="text"  name="control_sourcecols" value="" /></td>
+                        <td><input class="form-control" type="text"  name="control_targetcols" /></td>
+                        <td><input type="checkbox"  name="is_show" checked/></td>
+                        <td style="display:none;"><input   type="hidden" name="area_id" value=""/></td>
+                        <td style="display:none;"><input   type="hidden" name="param_id" value=""/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="modal fade" id="reportColumnModal"    style="width:780px;height:600px;top :30px;left:200px; padding-left: 0px;border:1px solid #cccccc;" tabindex="-1" >
+        <div class="modal-content" style="width:780px;height:600px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >打印字段定义</h4>
+            </div>
+            <div>
+                <div class="btn-group btn-group-sm">
+                    <button type="button"  class="btn btn-default" onclick="addColumn();"><i class="glyphicon glyphicon-plus"></i>新增
+                    </button>
+                    <button type="button"  class="btn btn-default" onclick="deleteColumn();"><i class="glyphicon glyphicon-remove"></i> 删除
+                    </button>
+                    <button type="button" class="btn btn-default" onclick="saveColumn();"><i class="glyphicon glyphicon-save"></i> 保存
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body"  style=" border: 0px;padding: 0px;height:525px;overflow:auto"    id="table-column-content">
+                <table class="table table-bordered table-hover text-nowrap content-table" id="area-table" style="width: 1500px;">
+                    <thead >
+                    <tr >
+                        <td style="width:80px;">排序</td>
+                        <td style="width:100px">字段代号*</td>
+                        <td style="width:250px;">字段名称*</td>
+                        <td style="width:120px">打印位置*</td>
+                        <td style="width:150px;">样式</td>
+                        <td style="width:120px;">下拉控件</td>
+                        <td style="width:80px">是否显示</td>
+                        <td style="width:100px">显示宽度</td>
+                        <td style="width:100px">底色</td>
+                        <td style="width:100px">字体颜色</td>
+                        <td style="width:100px">字体粗细</td>
+                        <td style="width:90px">是否斜体</td>
+                    </tr>
+                    </thead>
+                    <tbody > <tr style="display:none;">
+                        <td><input class="form-control" type="number" name="order_index" value="100"/></td>
+                        <td><input class="form-control" type="text" name="column_code" required/></td>
+                        <td><input class="form-control" type="text" name="column_name" required/></td>
+                        <td><input class="form-control" type="text"  name="print_postion" value="" required onclick="inputObj=this;"/></td>
+                        <td><input class="form-control" type="text"  name="print_fromat" value="" /></td>
+                        <td><input class="form-control" type="text" name="combo_code" value=""/></td>
+                        <td><input type="checkbox"  name="is_show" checked/></td>
+                        <td><input class="form-control" type="text"  name="column_width" value="150" /></td>
+                        <td><input class="form-control" type="text"  name="background_color" value="#ffffff"  /></td>
+                        <td><input class="form-control" type="text"  name="font_color" value="#000000" /></td>
+                        <td><input class="form-control" type="text"  name="font_weight" value="500"/></td>
+                        <td><input type="checkbox"  name="is_italic"/></td>
+                        <td style="display:none;"><input   type="hidden" name="area_id" value=""/></td>
+                        <td style="display:none;"><input   type="hidden" name="column_id" value=""/></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    var report_id='[[${report_id}]]';
+    var area_id=null;
+    var inputObj=null;
+
+    $(function () {
+        var height = 600;
+        if (document.body.clientHeight > 1) {
+            height = document.body.clientHeight;
+        }
+        $('#formContext').height(height - 20);
+        //表格点击高亮事件，影响宽度框输入
+        $(document).on('click', '#table-content .content-table > tbody > tr', function() {
+            if($(this).hasClass("showColor") == false){
+                $(this).addClass('showColor').css("background-color", "#cce7fc");
+                $(this).siblings().removeClass('showColor').css("background-color", "white");
+            }
+        });
+
+        $('#reportdesign_table tbody').on( 'click', 'td', function (e) {
+            var trSeq = $(this).parent().parent().find("tr").index($(this).parent()[0])+1; //行号
+            var tdSeq = $(this).parent().find("td").index($(this)[0]); //列号
+            if(tdSeq==0) return;
+
+            $('#reportdesign_table tbody td').removeClass("select");
+            $(this).addClass("select");
+            // alert(trSeq+":"+tdSeq);
+            // alert( $("#reportdesign_table tr:eq("+trSeq+") td:eq("+tdSeq+")").html());
+
+            if(inputObj!=null){
+                var  old=$(inputObj).val();
+                $(inputObj).val( $('#reportdesign_table thead tr td').eq(tdSeq).text()+","+trSeq);
+                $("#reportdesign_table tr:eq("+trSeq+") td:eq("+tdSeq+")").html("<span style='color:red;font-weight: 700;'><i>"+$(inputObj).parent().parent().find("td").eq(2).find("input").val()+"</i></span>");
+                inputObj=null;
+                if(old!=null&&old!=""&&old.split(",").length==2){//将旧的单元格值去掉
+                    var oldtdSeq=old.split(",")[0];
+                    var oldtrSeq=old.split(",")[1];
+                    var tds=$('#reportdesign_table thead tr td');
+                    for(var i=0;i<tds.length;i++){
+                        if($(tds[i]).text()==oldtdSeq) {
+                            oldtdSeq=i;
+                            break;
+                        }
+
+                    }
+                    // alert(oldtdSeq+" "+oldtrSeq);
+                    if(!isNaN(oldtdSeq)) $("#reportdesign_table tr:eq("+oldtrSeq+") td:eq("+oldtdSeq+")").html("");
+                }
+            }
+        });
+
+    });
+
+    function uploadXlsTeamplate(){
+
+    }
+
+    function reLoadXlsTeamplate(){
+        location.reload();
+    }
+
+    function callbackArea(result){
+        if(result.success){
+            var rows=result.data;
+            // alert(JSON.stringify(rows));
+            $("#table-content tbody").find("tr").each(function () {
+                if($(this).css("display") == 'none') return;
+                $(this).remove();
+            });
+            for(var i=0;i<rows.length;i++){
+                addArea(rows[i]);
+            }
+        }
+
+    }
+
+    function definePrintArea(){
+
+        ajaxSumit('/tool/getAreaList?report_id='+report_id,  null, callbackArea);
+        //居中
+        $('#reportAreaModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            $(this).find('.modal-dialog').css({
+                'margin-top': 50,
+                'margin-left':50
+            });
+            $(this).draggable({
+                handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        $('#reportAreaModal').modal({ show: true, backdrop: false  });
+
+    }
+
+    //新增区域
+    function addArea(row){
+         // alert(JSON.stringify(row));
+        var len=$("#table-content tbody").find("tr").length;
+        var tr=$("#table-content tbody").find("tr:hidden").clone();
+        tr.show();
+        if(row==null){
+            tr.find("td").eq(0).find("input").val(100*len);
+        }else{
+            tr.find("td").eq(0).find("input").val(row["order_index"]);
+            tr.find("td").eq(1).find("input").val(row["area_name"]);
+            tr.find("td").eq(2).find("select").val(row["area_type"]);
+            tr.find("td").eq(3).find("input").attr("checked",(row["is_main"]=="1")?"checked":"");
+            tr.find("td").eq(4).find("input").val(row["area_postion"]);
+            tr.find("td").eq(5).find("input").val(row["page_size"]);
+            tr.find("td").eq(6).find("input").val(row["data_source"]);
+            tr.find("td").eq(7).find("input").val(unEscapeHTML(row["data_sql"]));
+            tr.find("td").eq(8).find("input").val(row["area_id"]);
+        }
+
+        $("#table-content tbody").append(tr);
+    }
+
+    //保存区域
+    function saveArea(){
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                alert("formArea");
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+    //删除区域
+    function deleteArea() {
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                var area_id=$(this).find("td").eq(8).find("input").val();
+                 if(area_id=="") $(this).remove();
+                 else{
+                     var that=this;
+                     BootstrapDialog.confirm({
+                         title : '确认',
+                         message : "确认要删除？",
+                         type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+                         // BootstrapDialog.TYPE_PRIMARY
+                         closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                         draggable : true, // <-- Default value is false，可拖拽
+                         btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                         btnOKLabel : '确定', // <-- Default value is 'OK',
+                         btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+                         size : BootstrapDialog.SIZE_SMALL,
+                         // 对话框关闭的时候执行方法
+                         onhide : function () {
+
+                         },
+                         callback : function(result) {
+                             // 点击确定按钮时，result为true
+                             if (result) {
+                                 //ajax 删除后台数据
+                                 // alert(area_id);
+                                 ajaxSumit('/tool/deleteArea?area_id='+area_id,  null, null);
+                                 $(that).remove();
+
+                             }
+                         }
+                     });
+                 }
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+
+    function callbackParam(result){
+        if(result.success) {
+            var rows = result.data;
+            // alert(JSON.stringify(rows));
+            $("#table-param-content tbody").find("tr").each(function () {
+                if ($(this).css("display") == 'none') return;
+                $(this).remove();
+            });
+            for (var i = 0; i < rows.length; i++) {
+                addParam(rows[i]);
+            }
+
+        }
+    }
+    //打开参数列表
+    function setParams(){
+        var flag = false;
+        var area_id="";
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+               area_id=$(this).find("td").eq(8).find("input").val();
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一个区域数据！');
+            return;
+        }
+        if(area_id == ""){
+            alert('请先保存新增的区域数据再操作！');
+            return;
+        }
+        ajaxSumit('/tool/getAreaParamList?area_id='+area_id,  null, callbackParam);
+
+        //居中
+        $('#reportParamModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            $(this).find('.modal-dialog').css({
+                'margin-top': 100,
+                'margin-left':100
+            });
+            $(this).draggable({
+                handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        $('#reportParamModal').modal({ show: true, backdrop: false  });
+    }
+
+
+    function callbackColumn(result){
+        if(result.success) {
+            var rows = result.data;
+            // alert(JSON.stringify(rows));
+            $("#table-column-content tbody").find("tr").each(function () {
+                if ($(this).css("display") == 'none') return;
+                $(this).remove();
+            });
+            for (var i = 0; i < rows.length; i++) {
+                addColumn(rows[i]);
+            }
+
+        }
+    }
+
+    //打开字段列表
+    function setColumns(){
+        var flag = false;
+        var area_id="";
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                area_id=$(this).find("td").eq(8).find("input").val();
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一个区域数据！');
+            return;
+        }
+        if(area_id == ""){
+            alert('请先保存新增的区域数据再操作！');
+            return;
+        }
+
+        ajaxSumit('/tool/getAreaColumnList?area_id='+area_id,  null, callbackColumn);
+        //居中
+        $('#reportColumnModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            $(this).find('.modal-dialog').css({
+                'margin-top': 150,
+                'margin-left':150
+            });
+            $(this).draggable({
+                handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        $('#reportColumnModal').modal({ show: true, backdrop: false  });
+    }
+
+
+    //新增参数
+    function addParam(row){
+        var len=$("#table-param-content tbody").find("tr").length;
+        var tr=$("#table-param-content tbody").find("tr:hidden").clone();
+        tr.show();
+        if(row==null){
+            tr.find("td").eq(0).find("input").val(100*len);
+        }else {
+            tr.find("td").eq(0).find("input").val(row["order_index"]);
+            tr.find("td").eq(1).find("input").val(row["param_code"]);
+            tr.find("td").eq(2).find("input").val(row["param_name"]);
+            tr.find("td").eq(3).find("select").val(row["param_type"]);
+            tr.find("td").eq(4).find("input").val(row["param_default"]);
+            tr.find("td").eq(5).find("input").val(row["control_code"]);
+            tr.find("td").eq(6).find("input").val(row["control_sourcecols"]);
+            tr.find("td").eq(7).find("input").val(row["control_targetcols"]);
+            tr.find("td").eq(8).find("input").attr("checked", (row["is_show"] == "1") ? "checked" : "");
+            tr.find("td").eq(9).find("input").val(row["area_id"]);
+            tr.find("td").eq(10).find("input").val(row["param_id"]);
+        }
+        $("#table-param-content tbody").append(tr);
+    }
+
+    //保存参数
+    function saveParam(){
+        var flag = false;
+        $('#table-param-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                alert("formArea");
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+    //删除参数
+    function deleteParam() {
+        var flag = false;
+        $('#table-param-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                var param_id=$(this).find("td").eq(10).find("input").val();
+                if(param_id=="") $(this).remove();
+                else{
+                    var that=this;
+
+                    BootstrapDialog.confirm({
+                        title : '确认',
+                        message : "确认要删除？",
+                        type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+                        // BootstrapDialog.TYPE_PRIMARY
+                        closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                        draggable : true, // <-- Default value is false，可拖拽
+                        btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                        btnOKLabel : '确定', // <-- Default value is 'OK',
+                        btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+                        size : BootstrapDialog.SIZE_SMALL,
+                        // 对话框关闭的时候执行方法
+                        onhide : function () {
+
+                        },
+                        callback : function(result) {
+                            // 点击确定按钮时，result为true
+                            if (result) {
+                                //ajax 删除后台数据
+                                // alert(param_id);
+                                ajaxSumit('/tool/deleteParam?param_id='+param_id,  null, null);
+                                $(that).remove();
+
+                            }
+                        }
+                    });
+                }
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+
+
+    //新增字段
+    function addColumn(row){
+        var len=$("#table-column-content tbody").find("tr").length;
+        var tr=$("#table-column-content tbody").find("tr:hidden").clone();
+        tr.show();
+        if(row==null){
+            tr.find("td").eq(0).find("input").val(100*len);
+        }else{
+            tr.find("td").eq(0).find("input").val(row["order_index"]);
+            tr.find("td").eq(1).find("input").val(row["column_code"]);
+            tr.find("td").eq(2).find("input").val(row["column_name"]);
+            tr.find("td").eq(3).find("input").val(row["print_postion"]);
+            tr.find("td").eq(4).find("input").val(row["print_fromat"]);
+            tr.find("td").eq(5).find("input").val(row["combo_code"]);
+            tr.find("td").eq(6).find("input").attr("checked",(row["is_show"]=="1")?"checked":"");
+            tr.find("td").eq(7).find("input").val(row["column_width"]);
+            tr.find("td").eq(8).find("input").val(row["background_color"]);
+            tr.find("td").eq(9).find("input").val(row["font_color"]);
+            tr.find("td").eq(10).find("input").val(row["font_weight"]);
+            tr.find("td").eq(11).find("input").attr("checked",(row["is_italic"]=="1")?"checked":"");
+            tr.find("td").eq(12).find("input").val(row["area_id"]);
+            tr.find("td").eq(13).find("input").val(row["column_id"]);
+        }
+
+        $("#table-column-content tbody").append(tr);
+    }
+
+    //保存字段
+    function saveColumn(){
+        var flag = false;
+        $('#table-column-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                alert("formArea");
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+    //删除字段
+    function deleteColumn() {
+        var flag = false;
+        $('#table-column-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                var column_id=$(this).find("td").eq(13).find("input").val();
+                if(column_id=="") $(this).remove();
+                else{
+                    var that=this;
+
+                    BootstrapDialog.confirm({
+                        title : '确认',
+                        message : "确认要删除？",
+                        type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+                        // BootstrapDialog.TYPE_PRIMARY
+                        closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                        draggable : true, // <-- Default value is false，可拖拽
+                        btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                        btnOKLabel : '确定', // <-- Default value is 'OK',
+                        btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+                        size : BootstrapDialog.SIZE_SMALL,
+                        // 对话框关闭的时候执行方法
+                        onhide : function () {
+
+                        },
+                        callback : function(result) {
+                            // 点击确定按钮时，result为true
+                            if (result) {
+                                //ajax 删除后台数据
+                                // alert(column_id);
+                                ajaxSumit('/tool/deleteColumn?column_id='+column_id,  null, null);
+                                $(that).remove();
+
+                            }
+                        }
+                    });
+                }
+                flag=true;
+                return;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+
+
+</script>
+
+</html>

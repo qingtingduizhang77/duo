@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'column_code', title: '字段代号', width:139,visible:true, halign: 'center' }, 
+	 {field: 'column_name', title: '字段名称', width:164,visible:true, halign: 'center' }, 
+	 {field: 'column_type', title: '字段类型', width:127,visible:true, halign: 'center',formatter:apicolumntypeFormatter }, 
+	 {field: 'column_default', title: 'null转默认值', width:144,visible:true, halign: 'center' }, 
+	 {field: 'change_type', title: '转换方式', width:126,visible:true, halign: 'center',formatter:apichangetypeFormatter }, 
+	 {field: 'data_control', title: '转换控件值', width:176,visible:true, halign: 'center' }, 
+	 {field: 'format_style', title: '样式转换', width:122,visible:true, halign: 'center',formatter:apichangestyleFormatter }, 
+	 {field: 'format_regex', title: '样式转换正则表达式', width:200,visible:true, halign: 'center' }, 
+	 {field: 'sub_api_id', title: '子接口api', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:307,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'api_id', title: 'api_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_source', title: '字段来源', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  column_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.column_code',max_length:80}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.column_name',max_length:80}, 
+	  column_type:{addedit:true,edit:true,type:'combobox',required:false,default:'string',orgfield:'tool_api_return.column_type',control_name:'apicolumntypeData',max_length:20,formatter:'apicolumntypeFormatter'}, 
+	  column_default:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.column_default',max_length:80}, 
+	  change_type:{addedit:true,edit:true,type:'combobox',required:false,default:'no',orgfield:'tool_api_return.change_type',control_name:'apichangetypeData',max_length:20,formatter:'apichangetypeFormatter'}, 
+	  data_control:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.data_control',max_length:40}, 
+	  format_style:{addedit:true,edit:true,type:'combobox',required:false,default:'no',orgfield:'tool_api_return.format_style',control_name:'apichangestyleData',max_length:20,formatter:'apichangestyleFormatter'}, 
+	  format_regex:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.format_regex',max_length:80}, 
+	  sub_api_id:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'tool_api_return.sub_api_id',control_name:'toolapiSelect',source_cols:'api_id',target_cols:'sub_api_id',max_length:32}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.record_flag',max_length:10}, 
+	  api_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.api_id',max_length:32}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.column_id',max_length:32}, 
+	  column_source:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_return.column_source',max_length:20} 
+	 }; 
+</script>  

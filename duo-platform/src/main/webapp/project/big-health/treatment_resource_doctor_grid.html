@@ -1,0 +1,67 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '发布状态', width:71,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'reserve_date', title: '预约日期', width:107,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'doctor_name', title: '医生名称', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_1', title: '8:00-8:30', width:65,visible:true, halign: 'center' }, 
+	 {field: 'time_2', title: '8:30-9:00', width:65,visible:true, halign: 'center' }, 
+	 {field: 'time_3', title: '9:00-9:30', width:61,visible:true, halign: 'center' }, 
+	 {field: 'time_4', title: '9:30-10:00', width:68,visible:true, halign: 'center' }, 
+	 {field: 'time_5', title: '10:00-10:30', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_6', title: '10:30-11:00', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_7', title: '11:00-11:30', width:77,visible:true, halign: 'center' }, 
+	 {field: 'time_8', title: '11:30-12:00', width:76,visible:true, halign: 'center' }, 
+	 {field: 'time_9', title: '13:30-14:00', width:77,visible:true, halign: 'center' }, 
+	 {field: 'time_10', title: '14:00-14:30', width:77,visible:true, halign: 'center' }, 
+	 {field: 'time_11', title: '14:30-15:00', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_12', title: '15:00-15:30', width:77,visible:true, halign: 'center' }, 
+	 {field: 'time_13', title: '15:30-16:00', width:77,visible:true, halign: 'center' }, 
+	 {field: 'time_14', title: '16:00-16:30', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_15', title: '16:30-17:00', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_16', title: '17:00-17:30', width:78,visible:true, halign: 'center' }, 
+	 {field: 'time_17', title: '17:30-18:00', width:80,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:203,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'doctor_id', title: '医生id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'resourcedoctor_id', title: '主键id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:183,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.auditing',formatter:'recordsatusFormatter'}, 
+	  reserve_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'treatment_resource_doctor.reserve_date',formatter:'dateTimeFormatter'}, 
+	  doctor_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.doctor_name'}, 
+	  time_1:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_1'}, 
+	  time_2:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_2'}, 
+	  time_3:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_3'}, 
+	  time_4:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_4'}, 
+	  time_5:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_5'}, 
+	  time_6:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_6'}, 
+	  time_7:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_7'}, 
+	  time_8:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_8'}, 
+	  time_9:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_9'}, 
+	  time_10:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_10'}, 
+	  time_11:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_11'}, 
+	  time_12:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_12'}, 
+	  time_13:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_13'}, 
+	  time_14:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_14'}, 
+	  time_15:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_15'}, 
+	  time_16:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_16'}, 
+	  time_17:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_resource_doctor.time_17'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.memo'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.project_id'}, 
+	  doctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.doctor_id'}, 
+	  resourcedoctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.resourcedoctor_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_resource_doctor.record_flag'} 
+	 }; 
+</script>  

@@ -1,0 +1,38 @@
+<script  th:fragment="gridScript">
+  
+
+    $(function () {
+
+//        var combo='<select  id="roleEventCombo" style="float: left; border-color: #d2d6de;height: 30px;width:100px;margin-left:10px;margin-right:10px;padding: 0px;" > <option value="is_access">访问权限</option>  <option value="event_edit">编辑权限</option> ' +
+//            '<option value="event_delete">删除权限</option> <option value="event_audit">复核权限</option>  <option value="event_print">打印权限</option></select>注：批量操作请先选权限列';
+        var combo=' &nbsp;&nbsp;<input type="checkbox" id="check_access" checked="checked" >访问</input> &nbsp;&nbsp;<input type="checkbox" id="check_edit" checked="checked" >编辑</input> &nbsp;&nbsp;<input type="checkbox" id="check_delete" checked="checked" >删除</input>' +
+            ' &nbsp;&nbsp;<input type="checkbox" id="check_sign" checked="checked" >复核</input> &nbsp;&nbsp;<input type="checkbox" id="check_audit" checked="checked" >审批</input> &nbsp;&nbsp;<input type="checkbox" id="check_print" checked="checked" >打印</input>';
+        $("#event_bar").append(combo);
+
+        if(foreignKeyId=="administrators"){
+            $("#event_bar").hide();
+        }
+
+    });
+
+    function chengRole(that,value){
+        var rows =$table.bootstrapTable('getSelections');
+      //  var selectColumn=$("#roleEventCombo").val()
+        for(var i=0;i<rows.length;i++){
+//            if(rows[i][selectColumn]!="-"){
+//                rows[i]["isUpdateData"] = "1";//标记记录被修改
+//               rows[i][selectColumn]=value;
+//            }
+              if($("#check_access").prop("checked")&&rows[i]["is_access"]!="-"){rows[i]["isUpdateData"] = "1";rows[i]["is_access"]=value; }
+              if($("#check_edit").prop("checked")&&rows[i]["event_edit"]!="-") {rows[i]["isUpdateData"] = "1";rows[i]["event_edit"]=value; }
+            if($("#check_delete").prop("checked")&&rows[i]["event_delete"]!="-"){rows[i]["isUpdateData"] = "1"; rows[i]["event_delete"]=value; }
+            if($("#check_audit").prop("checked")&&rows[i]["event_audit"]!="-"){rows[i]["isUpdateData"] = "1";rows[i]["event_audit"]=value; }
+            if($("#check_sign").prop("checked")&&rows[i]["event_sign"]!="-"){rows[i]["isUpdateData"] = "1"; rows[i]["event_sign"]=value; }
+            if($("#check_print").prop("checked")&&rows[i]["event_print"]!="-") {rows[i]["isUpdateData"] = "1";  rows[i]["event_print"]=value; }
+    }
+        gridsave(that);
+    }
+
+
+
+</script>

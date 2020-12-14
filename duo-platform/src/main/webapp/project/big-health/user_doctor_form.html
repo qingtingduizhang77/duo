@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >是否发布：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled  >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >专家名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="doctor_name" type="text"      maxlength="40"     required=true />
+				</div>
+				<label class="col-sm-2 control-label "  >性别：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="sex" type="text"      maxlength="20"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >所在医院*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="hospital_name"       style='width:80%;float:left; '  onclick='formSelectWindow("healthhospitalSelect","hospital_name","hospital_name","")'  required=true  />
+					<button type='button'  name="btn_hospital_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("healthhospitalSelect","hospital_name","hospital_name","")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label "  >专业领域：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="special_area" type="text"      maxlength="1000"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >系统帐号*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="user_code"       style='width:80%;float:left; '  onclick='formSelectWindow("userSelect","user_code;user_id","user_code;user_id","")'  required=true  />
+					<button type='button'  name="btn_user_code"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("userSelect","user_code;user_id","user_code;user_id","")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >值班方式*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="class_type"      required=true >
+					 <script type="text/javascript"> 
+						  var optionJson= classtypeData;
+						 for(var key in optionJson)  $('select[name="class_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:96px;"   >专家简介：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:91px" name="descript"           ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >照片url：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="img_url" type="text"      maxlength="400"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >从医起始日期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="from_date" type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"       />
+				</div>
+				<label class="col-sm-2 control-label "  >联系电话：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="mobile_no" type="text"      maxlength="40"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >专家类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="doctor_type"       >
+					 <script type="text/javascript"> 
+						  var optionJson= doctortypeData;
+						 for(var key in optionJson)  $('select[name="doctor_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >出诊科室：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="office_room"       style='width:80%;float:left; '  onclick='formSelectWindow("healthRoomSelect","room_name","office_room","")'    />
+					<button type='button'  name="btn_office_room"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("healthRoomSelect","room_name","office_room","")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >资质级别：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="qualify_level" type="text"      maxlength="20"      />
+				</div>
+				<label class="col-sm-2 control-label "  >资格证号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="qualify_no" type="text"      maxlength="40"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >普通问诊价格：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="normal_price" type="number"   onkeyup="value=value.replace(/[^\d.]/g,'')"        />
+				</div>
+				<label class="col-sm-2 control-label "  >专家问诊价格：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="special_price" type="number"   onkeyup="value=value.replace(/[^\d.]/g,'')"        />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >出生日期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="birth_date" type="text"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"       />
+				</div>
+				<label class="col-sm-2 control-label "  >身份证号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="id_card" type="text"      maxlength="40"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >联系地址：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="address" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:77px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:72px" name="memo"       maxlength="200"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   maxlength="10"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>系统帐号id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="doctor_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+	</form>
+</div>  

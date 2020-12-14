@@ -1,0 +1,61 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '激活状态', width:77,visible:true, halign: 'center',formatter:memberstatusFormatter }, 
+	 {field: 'e_mail', title: '邮箱', width:164,visible:false, halign: 'center' }, 
+	 {field: 'id_card', title: '身份证号', width:164,visible:false, halign: 'center' }, 
+	 {field: 'member_name', title: '会员姓名*', width:155,visible:true, halign: 'center' }, 
+	 {field: 'sex', title: '性别', width:85,visible:true, halign: 'center',formatter:sextypeFormatter }, 
+	 {field: 'mobile_no', title: '手机号', width:162,visible:true, halign: 'center' }, 
+	 {field: 'nick_name', title: '昵称*', width:162,visible:true, halign: 'center' }, 
+	 {field: 'member_level', title: '会员级别', width:81,visible:true, halign: 'center',formatter:memberlevelFormatter }, 
+	 {field: 'both_date', title: '出生日期', width:111,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'address', title: '住址', width:162,visible:true, halign: 'center' }, 
+	 {field: 'order_money', title: '累计金额', width:130,visible:true, halign: 'center' }, 
+	 {field: 'order_num', title: '累计订单数', width:84,visible:true, halign: 'center' }, 
+	 {field: 'social_card', title: '社保卡号', width:164,visible:false, halign: 'center' }, 
+	 {field: 'limit_date', title: '会员有效期', width:162,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'total_point', title: '总积分', width:164,visible:false, halign: 'center' }, 
+	 {field: 'usable_point', title: '可用积分', width:66,visible:true, halign: 'center' }, 
+	 {field: 'user_code', title: '登录帐号*', width:164,visible:false, halign: 'center' }, 
+	 {field: 'user_password', title: '登录密码*', width:164,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:163,visible:true, halign: 'center' }, 
+	 {field: 'member_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'user_member.auditing',control_name:'memberstatusData',formatter:'memberstatusFormatter'}, 
+	  e_mail:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.e_mail'}, 
+	  id_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.id_card'}, 
+	  member_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member.member_name'}, 
+	  sex:{addedit:true,edit:true,type:'combobox',required:false,default:'1',orgfield:'user_member.sex',control_name:'sextypeData',formatter:'sextypeFormatter'}, 
+	  mobile_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.mobile_no'}, 
+	  nick_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member.nick_name'}, 
+	  member_level:{addedit:true,edit:true,type:'combobox',required:false,default:'1',orgfield:'user_member.member_level',control_name:'memberlevelData',formatter:'memberlevelFormatter'}, 
+	  both_date:{addedit:true,edit:true,type:'date',required:false,default:'',orgfield:'user_member.both_date',formatter:'dateFormatter'}, 
+	  address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.address'}, 
+	  order_money:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'user_member.order_money'}, 
+	  order_num:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'user_member.order_num'}, 
+	  social_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.social_card'}, 
+	  limit_date:{addedit:true,edit:true,type:'date',required:false,default:'',orgfield:'user_member.limit_date',formatter:'dateFormatter'}, 
+	  total_point:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'user_member.total_point'}, 
+	  usable_point:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'user_member.usable_point'}, 
+	  user_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member.user_code'}, 
+	  user_password:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member.user_password'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.memo'}, 
+	  member_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.member_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.project_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member.record_flag'} 
+	 }; 
+</script>  

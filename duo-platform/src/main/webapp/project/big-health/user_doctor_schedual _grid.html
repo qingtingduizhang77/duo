@@ -1,0 +1,61 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'week_day', title: '星期', width:69,visible:true, halign: 'center',formatter:weekdaysFormatter }, 
+	 {field: 'time_1', title: '8:00-8:30', width:103,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_2', title: '8:30-9:00', width:99,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_3', title: '9:00-9:30', width:103,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_4', title: '9:30-10:00', width:100,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_5', title: '10:00-10:30', width:105,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_6', title: '10:30-11:00', width:105,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_7', title: '11:00-11:30', width:99,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_8', title: '11:30-12:00', width:105,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_9', title: '13:30-14:00', width:102,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_10', title: '14:00-14:30', width:101,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_11', title: '14:30-15:00', width:116,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_12', title: '15:00-15:30', width:110,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_13', title: '15:30-16:00', width:112,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_14', title: '16:00-16:30', width:107,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_15', title: '16:30-17:00', width:100,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_16', title: '17:00-17:30', width:101,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'time_17', title: '17:30-18:00', width:109,visible:true, halign: 'center',formatter:allownumsFormatter }, 
+	 {field: 'memo', title: '备注', width:107,visible:true, halign: 'center' }, 
+	 {field: 'doctor_id', title: 'doctor_id', width:147,visible:false, halign: 'center' }, 
+	 {field: 'schedual_id', title: '主键id', width:147,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:147,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  week_day:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'view_user_doctor_schedual.data_value',control_name:'weekdaysData',formatter:'weekdaysFormatter'}, 
+	  time_1:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_1',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_2:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_2',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_3:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_3',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_4:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_4',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_5:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_5',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_6:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_6',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_7:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_7',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_8:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_8',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_9:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_9',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_10:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_10',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_11:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_11',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_12:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_12',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_13:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_13',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_14:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_14',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_15:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual .time_15',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_16:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_16',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  time_17:{addedit:true,edit:true,type:'combobox',required:false,default:'-1',orgfield:'view_user_doctor_schedual.time_17',control_name:'allownumsData',formatter:'allownumsFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'view_user_doctor_schedual .memo'}, 
+	  doctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'view_user_doctor_schedual.doctor_id'}, 
+	  schedual_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'view_user_doctor_schedual.schedual_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'view_user_doctor_schedual .record_flag'} 
+	 }; 
+</script>  

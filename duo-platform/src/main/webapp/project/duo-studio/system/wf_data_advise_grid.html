@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'is_agree', title: '是否同意', width:123,visible:true, halign: 'center' }, 
+	 {field: 'sign_advise', title: '会签意见', width:483,visible:true, halign: 'center' }, 
+	 {field: 'sign_date', title: '会签时间', width:165,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'user_name', title: '审批人', width:119,visible:true, halign: 'center' }, 
+	 {field: 'advise_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'data_id', title: 'data_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: '功能id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'wf_id', title: 'wf_id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  is_agree:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.is_agree'}, 
+	  sign_advise:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.sign_advise'}, 
+	  sign_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'wf_data_advise.sign_date',formatter:'dateTimeFormatter'}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.user_name'}, 
+	  advise_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.advise_id'}, 
+	  data_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.data_id'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.fun_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.project_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.user_id'}, 
+	  wf_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_advise.wf_id'} 
+	 }; 
+</script>  

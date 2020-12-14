@@ -1,0 +1,33 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'log_time', title: '发生时间', width:82,visible:true, halign: 'center',formatter:timeFormatter }, 
+	 {field: 'log_level', title: '日志级别', width:60,visible:true, halign: 'center' }, 
+	 {field: 'log_content', title: '日志内容', width:447,visible:true, halign: 'center' }, 
+	 {field: 'detail_id', title: 'detail_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'log_id', title: 'log_id', width:141,visible:true, halign: 'center' }, 
+	 {field: 'fun_id', title: 'funId', width:106,visible:true, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:87,visible:true, halign: 'center' }, 
+	 {field: 'data_id', title: 'data_id', width:141,visible:true, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  log_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',formatter:'timeFormatter'}, 
+	  log_level:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  log_content:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  detail_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  log_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  data_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

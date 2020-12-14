@@ -1,0 +1,53 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'device_code', title: '设备编号', width:78,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称', width:123,visible:true, halign: 'center' }, 
+	 {field: 'position_code', title: '点位编号', width:117,visible:true, halign: 'center' }, 
+	 {field: 'auditing', title: '管理状态', width:136,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'device_kind', title: '设备类型', width:73,visible:true, halign: 'center' }, 
+	 {field: 'device_factory', title: '生产厂家', width:145,visible:true, halign: 'center' }, 
+	 {field: 'device_type', title: '设备型号', width:145,visible:true, halign: 'center' }, 
+	 {field: 'device_size', title: '设备规格', width:145,visible:true, halign: 'center' }, 
+	 {field: 'cargo_num', title: '货道容量', width:80,visible:true, halign: 'center' }, 
+	 {field: 'install_date', title: '安装日期', width:108,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'out_date', title: '出厂日期', width:110,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'use_age', title: '使用寿命', width:85,visible:true, halign: 'center' }, 
+	 {field: 'use_date', title: '启用日期', width:129,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'memo', title: '备注', width:313,visible:true, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'rent_id', title: 'rent_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'status', title: '状态', width:146,visible:false, halign: 'center',formatter:recordsatusFormatter } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  device_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_code'}, 
+	  device_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_name'}, 
+	  position_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.position_code'}, 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'device_info.auditing',formatter:'recordsatusFormatter'}, 
+	  device_kind:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_kind'}, 
+	  device_factory:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_factory'}, 
+	  device_type:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_type'}, 
+	  device_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_size'}, 
+	  cargo_num:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'device_info.cargo_num'}, 
+	  install_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'device_info.install_date',formatter:'dateFormatter'}, 
+	  out_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'device_info.out_date',formatter:'dateFormatter'}, 
+	  use_age:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'device_info.use_age'}, 
+	  use_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'device_info.use_date',formatter:'dateFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_det.memo'}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_det.det_id'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_det.device_id'}, 
+	  rent_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_det.rent_id'}, 
+	  status:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_rent_det.status',formatter:'recordsatusFormatter'} 
+	 }; 
+</script>  

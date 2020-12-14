@@ -1,0 +1,43 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'param_source', title: '参数来源*', width:122,visible:true, halign: 'center',formatter:apicolumnsourceFormatter }, 
+	 {field: 'param_code', title: '参数代号*', width:135,visible:true, halign: 'center' }, 
+	 {field: 'param_name', title: '参数名称*', width:154,visible:true, halign: 'center' }, 
+	 {field: 'param_type', title: '参数类型*', width:131,visible:true, halign: 'center',formatter:apicolumntypeFormatter }, 
+	 {field: 'is_null', title: '必填？*', width:79,visible:true, halign: 'center',formatter:checkboxFormatter }, 
+	 {field: 'check_regex', title: '格式校验正则表达式', width:200,visible:true, halign: 'center' }, 
+	 {field: 'change_type', title: '转换方式*', width:116,visible:true, halign: 'center',formatter:apichangetypeFormatter }, 
+	 {field: 'data_control', title: '转换控件值', width:158,visible:true, halign: 'center' }, 
+	 {field: 'param_default', title: '默认值', width:158,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:453,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'api_id', title: 'api_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'param_id', title: '主键id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  param_source:{addedit:true,edit:true,type:'combobox',required:true,default:'param',orgfield:'tool_api_param.param_source',control_name:'apicolumnsourceData',max_length:20,formatter:'apicolumnsourceFormatter'}, 
+	  param_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_api_param.param_code',max_length:80}, 
+	  param_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_api_param.param_name',max_length:80}, 
+	  param_type:{addedit:true,edit:true,type:'combobox',required:true,default:'string',orgfield:'tool_api_param.param_type',control_name:'apicolumntypeData',max_length:20,formatter:'apicolumntypeFormatter'}, 
+	  is_null:{addedit:true,edit:true,type:'checkbox',required:true,default:'0',orgfield:'tool_api_param.is_null',max_length:20,formatter:'checkboxFormatter'}, 
+	  check_regex:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.check_regex',max_length:80}, 
+	  change_type:{addedit:true,edit:true,type:'combobox',required:true,default:'no',orgfield:'tool_api_param.change_type',control_name:'apichangetypeData',max_length:20,formatter:'apichangetypeFormatter'}, 
+	  data_control:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.data_control',max_length:40}, 
+	  param_default:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.param_default',max_length:80}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.record_flag',max_length:10}, 
+	  api_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.api_id',max_length:32}, 
+	  param_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_param.param_id',max_length:32} 
+	 }; 
+</script>  

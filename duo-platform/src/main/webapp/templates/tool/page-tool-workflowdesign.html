@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css"  th:href="@{/static/libs/GooFlow/fonts/iconflow.css}"/>
+<link rel="stylesheet" type="text/css"  th:href="@{/static/libs/GooFlow/GooFlow.css}"/>
+<!-- Bootstrap 3.3.7 -->
+<link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+<style type="text/css">
+
+    .form_content{padding:4px;background:#fff;}
+    .form_content table{width:360px;border:0px}
+    .form_content table td{border:0px;line-height: 25px;padding:2px;}
+    .form_content table td input,.form_content table td textarea{width:195px;padding-left:5px;border-top:0px;border-left:0px;border-right:0px;color: #81a4f5; }
+    .form_content table .th{width:30%;text-align:right;font-weight:600;}
+    .form_btn_div{text-align:center;border-top:#ccc 1px solid;background:#f5f5f5;padding:4px;border-radius:0px 0px 3px 3px;}
+
+</style>
+
+<!-- jQuery 3 -->
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/GooFunc.js}"></script>
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/plugin/json2.js}"></script>
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/plugin/printThis.js}"></script>
+
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/GooFlow.js}"></script>
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/GooFlow.color.js}"></script>
+<script type="text/javascript" th:src="@{/static/libs/GooFlow/GooFlow.export.js}"></script>
+
+<script th:inline="javascript">
+    var CONTEXT_PATH = [[${#request.getContextPath()}]];
+</script>
+<section class="content-header" style="">
+    <h1><span>工作流设计器</span>
+        <small> 用于实现托拉拽可视化开发</small>
+    </h1>
+</section>
+
+<section class="content" style="padding:0px;">
+
+    <div id="toolbar">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" onclick="javaScript: flow.setEditable(true);allowedit();">
+                <i class="glyphicon glyphicon-tasks"></i> 编辑流程
+            </button>
+            <button type="button" class="btn btn-default" onclick="javaScript:flow.clearData();jsondata=$.parseJSON(jsondataOrg);flow.loadData(jsondata);">
+                <i class="glyphicon glyphicon-tasks"></i> 重新载入
+            </button>
+            <button type="button" class="btn btn-default" onclick="javaScript:flow.undo();">
+                <i class="glyphicon glyphicon-plus"></i> 回撤
+            </button>
+            <!--            <button type="button" class="btn btn-default" onclick="javaScript:flow.remove();">-->
+            <!--                <i class="glyphicon glyphicon-plus"></i> 删除-->
+            <!--            </button>-->
+            <button type="button" class="btn btn-default" onclick="javaScript:flow.redo();">
+                <i class="glyphicon glyphicon-plus"></i> 重做
+            </button>
+            <button type="button" class="btn btn-default" onclick="savaFlow();">
+                <i class="glyphicon glyphicon-th"></i> 保存
+            </button>
+            <button type="button" class="btn btn-default" onclick="showModal()">
+                <i class="glyphicon glyphicon-task"></i> 属性设置
+            </button>
+            <button type="button" class="btn btn-default" onclick="javaScript:flow.print(1);">
+                <i class="glyphicon glyphicon-task"></i> 打印
+            </button>
+        </div>
+    </div>
+    <!--表单的显示区域开始-->
+
+    <div class="modal fade" id="propertyFormModal"    style="width:360px;height:450px;top :130px;left:100px;border:1px solid #000000; "  >
+        <div class="modal-content" style="width:360px;height:450px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >属性设置</h4>
+            </div>
+            <div class="form_content" id="propertyForm">
+                <table>
+                    <tr><td class="th">id：</td><td><input type="text" id="ele_id" disabled/></td></tr>
+                    <tr><td class="th">分类：</td><td><input type="text" id="ele_model" disabled/></td></tr>
+                    <tr><td class="th">名字：</td><td> <input type="text" id="ele_name" disabled/><button type="button" id="selectButton" onclick='formSelectWindow("funSelect","fun_name;fun_id","ele_name;ele_id","null")' hidden>选择</button></td></tr>
+                    <tr><td class="th">funId：</td><td><input type="text" id="fun_id" disabled/></td></tr>
+                    <tr><td class="th">类型：</td><td><input type="text" id="ele_type" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">左坐标：</td><td><input type="text" id="ele_left" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">上坐标：</td><td><input type="text" id="ele_top" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">宽度：</td><td><input type="text" id="ele_width" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">高度：</td><td><input type="text" id="ele_height" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">从节点：</td><td><input type="text" id="ele_from" disabled/></td></tr>
+                    <tr style="display: none;"><td class="th">到节点：</td><td><input type="text" id="ele_to" disabled/></td></tr>
+                    <tr><td class="th">加亮：</td><td><input type="checkbox" id="ele_color" /> </td></tr>
+                    <tr id="trbutton" style="display: none;"><td colspan="2" style="text-align: center;padding-top:20px;"><button type="button" onclick="execSQLWindow()" style="margin-right: 8px;">设置工作流SQL</button>
+                    <tr id="numbutton" style="display: none;"><td colspan="2" style="text-align: center;padding-top:20px;"><button type="button" onclick="numberSQLWindow()" style="margin-right: 8px;">设置数量条件</button>
+                </table>
+            </div>
+            <div class="modal-footer" style="text-align: center;margin-top:20px;border:0px;">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="submit" class="btn btn-primary"  disabled onclick="update()">
+                    确定
+                </button>
+            </div>
+        </div>
+    </div>
+    <div id="flow"   ></div>
+
+    <!-- selectWindow Modal -->
+    <div class="modal fade" id="selectWindowModal"   tabindex="-1" role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:1000px;height:700px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">操作窗口</h4>
+                </div>
+                <div class="modal-body"  style="height:655px;padding:0px;margin:0px;">
+                    <iframe id="selectIframe" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+                    <form id="selectForm" style="display: none;">
+                        <input type="hidden" name="selectRow"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- numberSQLModal -->
+    <div class="modal fade" id="numberSQLModal"   tabindex="-1" role="dialog" >
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:900px;height:430px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title" >计算显示数量SQL语句</h4>
+                </div>
+                <button onclick="alert('待实现')">导入功能汇总sql</button> <button onclick="alert('待实现')">自选sql</button>
+                <div class="modal-body"  id="number_sql"  style="height:280px;padding:5px;margin:0px auto;overflow:auto;border: 1px dashed #000;" contenteditable="true" >
+
+                </div>
+                <div class="modal-footer" style="height:55px;text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button"  class="btn btn-primary" disabled  onclick="saveNumberSQL()">保存</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <!-- execSQLModal -->
+    <div class="modal fade" id="execSQLModal"   tabindex="-1" role="dialog" >
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:900px;height:600px;padding: 5px;">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title" >工作流定义</h4>
+                </div>
+                <select class="form-control"  onchange="eventChange(this.options[this.options.selectedIndex].value)"   id="eventCombo"  style="width: 200px;">
+                    <option value="import">导入事件</option>
+                    <option value="insert">新增事件</option>
+                    <option value="update">修改事件</option>
+                    <option value="delete">删除事件</option>
+                </select>
+                <label>源功能:</label><input type="text" id="source_funid" disabled/>
+                <div class="modal-body"  id="source_sql"  style="height:200px;padding:5px;margin:0px auto;overflow:auto;border:1px solid #000;" contenteditable="true" >
+
+                </div>
+
+                <label>目标功能:</label><input type="text" id="target_funid" disabled/>
+                <div class="modal-body"  id="target_sql"  style="height:200px;padding:5px;margin:0px auto;overflow:auto;border:1px solid #000;" contenteditable="true" >
+
+                </div>
+                <div class="modal-footer" style="height:55px;text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button"  class="btn btn-primary"  disabled onclick="saveWorkFlow()">保存</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    var flow;
+    var currentID;
+    var jsondataOrg= [[${jsondata}]];
+    var jsondata ;
+    var nodeFunOrg= [[${nodeFun}]];
+    var nodeFun={} ;
+    var  wf_id = [[${wf_id}]];//wf_id
+    var myForm=$("#propertyForm");
+    var property={
+        width:document.body.clientWidth,
+        height:document.body.clientHeight-65<625?625:document.body.clientHeight-65,
+        toolBtns:[ "task"],
+        haveHead:false,
+        headLabel:true,
+        headBtns:["save","undo","redo"],//如果haveHead=true，则定义HEAD区的按钮
+        haveTool:true,//只有具有工具栏时可编辑
+        haveDashed:true,
+        haveGroup:true,
+        useOperStack:true
+    };
+    var remark={
+        cursor:"选择指针",
+        direct:"连线",
+        dashed:"关联虚线",
+        task:"任务节点",
+    };
+    $(function () {
+        jsondata= $.parseJSON(jsondataOrg);
+      if(nodeFunOrg!=null&&nodeFunOrg!="")  nodeFun= $.parseJSON(nodeFunOrg);
+        $(document).on("show.bs.modal", ".modal", function () {
+            $(this).draggable({
+            handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+        $.fn.modal.Constructor.prototype.enforceFocus = function() {
+            $("#propertyForm").focus();
+        };
+        //showModal();
+
+        flow=$.createGooFlow($("#flow"),property);
+        flow.setNodeRemarks(remark);
+        flow.loadData(jsondata);
+        flow.setEditable(false);
+        flow.onItemRightClick=function(id,type){
+            console.log("onItemRightClick: "+id+","+type);
+            return false;//返回false可以阻止原组件自带的双击直接编辑事件
+        }
+        flow.onItemDbClick=function(id,type){
+            console.log("onItemDbClick: "+id+","+type);
+            return true;
+            //return false;//返回false可以阻止浏览器默认的右键菜单事件
+        }
+
+        flow.onItemFocus=function(id,model){
+            currentID=id;
+            var obj;
+            $("#ele_model").val(model);
+            $("#ele_id").val(id);
+
+            if(model=="line"){
+                obj=this.$lineData[id];
+                $("#ele_type").val("");
+                $("#ele_left").val("");
+                $("#fun_id").val("");
+                $("#ele_top").val("");
+                $("#ele_width").val("");
+                $("#ele_height").val("");
+                $("#fun_id").parent().parent().hide();
+                $("#ele_type").parent().parent().hide();
+                $("#ele_from").parent().parent().show();
+                $("#ele_to").parent().parent().show();
+                $("#ele_from").val(obj.from);
+                $("#ele_to").val(obj.to);
+                $("#ele_color").attr("checked",obj.marked||false);
+              if(allowEdit){
+                  $('#selectButton').hide();
+                  $("#ele_name").attr("disabled",false);
+              }
+                $("#trbutton").show();
+                $("#numbutton").hide();
+            }else if(model=="node"){
+                obj=this.$nodeData[id];
+                $("#ele_type").val(obj.type);
+                $("#ele_left").val(parseInt(obj.left));
+                $("#ele_top").val(parseInt(obj.top));
+                $("#ele_width").val(parseInt(obj.width));
+                $("#ele_height").val(parseInt(obj.height));
+                $("#ele_color").attr("checked",obj.marked||false);
+                $("#fun_id").parent().parent().show();
+                $("#ele_type").parent().parent().show();
+                $("#ele_from").parent().parent().hide();
+                $("#ele_to").parent().parent().hide();
+                $("#ele_from").val("");
+                $("#ele_to").val("");
+                $("#fun_id").val(nodeFun[id]);
+                $("#trbutton").hide();
+                $("#numbutton").show();
+                if(allowEdit){
+                    $('#selectButton').show();
+                    $("#ele_name").attr("disabled",true);
+                }
+            }
+            $("#ele_name").val(obj.name);
+            return true;
+        };
+
+        flow.onItemBlur=function(id,model){
+            return true;
+        };
+
+        flow.onItemDbClick=function(id,model,event){
+            showModal();
+            if(model=="area"){
+                obj=this.$areaData[id];
+                $("#ele_model").val(model);
+                $("#ele_id").val(id);
+                $("#fun_id").val( nodeFun[id]);
+                $("#ele_type").val(obj.type);
+                $("#ele_left").val(parseInt(obj.left));
+                $("#ele_top").val(parseInt(obj.top));
+                $("#ele_width").val(parseInt(obj.width));
+                $("#ele_height").val(parseInt(obj.height));
+                $("#ele_color").attr("checked",obj.marked||false);
+                $("#ele_from").val("");
+                $("#ele_to").val("");
+                $("#ele_name").val(obj.name);
+
+                $("#trbutton").hide();
+            }
+            myForm.css("top", (event.clientY+10));
+            myForm.css("left", (event.clientX+10) );
+            myForm.show();
+        };
+
+    });
+    //选择返回
+    function selectCallBack(row){
+       $("#fun_id").val(row["fun_id"]);
+        $("#ele_name").val(row["fun_name"]);
+    }
+
+    function showModal(){
+
+        //居中
+        $('#propertyFormModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+
+            $(this).draggable({
+                handle: ".modal-header"   // 只能点击头部拖动
+            });
+        });
+        $('#propertyFormModal').modal({show: true, backdrop: false});
+    }
+
+    //修改图属性
+    function update(){
+        var obj;
+        if( $("#ele_model").val()=="line"){
+            flow.setName($("#ele_id").val(),$("#ele_name").val(),$("#ele_model").val());
+            flow.markItem($("#ele_id").val(),$("#ele_model").val(),$("#ele_color").val()=="true");
+        }else if( $("#ele_model").val()=="node"){
+            flow.moveNode($("#ele_id").val(),$("#ele_left").val(),$("#ele_top").val());
+           // flow.transNewId(currentID,$("#ele_id").val(),$("#ele_model").val());
+            flow.setName($("#ele_id").val(),$("#ele_name").val(),$("#ele_model").val());
+            flow.resizeNode($("#ele_id").val(),$("#ele_width").val(),$("#ele_height").val());
+            flow.markItem($("#ele_id").val(),$("#ele_model").val(),$("#ele_color").is(':checked'));
+        }else if( $("#ele_model").val()=="area"){
+            flow.setName($("#ele_id").val(),$("#ele_name").val(),$("#ele_model").val());
+        }
+        nodeFun[$("#ele_id").val()]=$("#fun_id").val();
+       $('#propertyFormModal').modal("hide");
+
+    }
+
+    function ResetScale(){
+        flow.resetScale( parseFloat(document.getElementById("scaleValue").value) );
+    }
+    function savaFlow(){
+
+        ajaxSumit( CONTEXT_PATH +"/workflow/wfupdate?wf_id="+wf_id,{data:JSON.stringify(flow.exportData()),nodeFun:JSON.stringify(nodeFun)},null);
+    }
+
+    function saveNumberSQL(){
+
+        ajaxSumit( CONTEXT_PATH +"/workflow/setWFSQL?wf_id="+wf_id,
+            {sqlType:"number",node_no:$("#ele_id").val(),number_sql:$("#number_sql").val()},null);
+    }
+
+
+    function saveWorkFlow(){
+
+        ajaxSumit( CONTEXT_PATH +"/workflow/setWFSQL?wf_id="+wf_id,
+            {sqlType:"workflow",node_no:$("#ele_id").val(),sourceFunId:$("#source_funid").val(),targetFunId:$("#target_funid").val(),
+                eventType:$("#eventCombo").val(),source_sql:$("#sorce_sql").val(),target_sql:$("#target_sql").val()},null);
+    }
+
+    //启动编辑状态
+    var allowEdit=false;
+    function allowedit(){
+        $(".btn-primary").attr("disabled",false);
+        allowEdit=true;
+        var model=  $("#ele_model").val()  ;
+        if(model==null||model=="") return;
+        if(model=="line"){
+            $('#selectButton').hide();
+            $("#ele_name").attr("disabled",false);
+        }else if(model=="node"){
+            $('#selectButton').show();
+            $("#ele_name").attr("disabled",true);
+        }
+    }
+
+    function numberCallBackFun(data){
+        // alert(JSON.stringify(data));
+        $("#number_sql").html(data==null||data["data"]==null?"":data["data"]);
+        $("#number_sql").focus();
+        try{
+            $('#numberSQLModal .modal-title').text("计数sql定义");
+            //居中
+            $('#numberSQLModal').on('show.bs.modal', function (e) {
+                // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                $(this).css('display', 'block');
+                var modalHeight=$(window).height() / 2 - $('#numberSQLModal .modal-dialog').height() / 2;
+                var modalWidth=$(window).width() / 2 - $('#numberSQLModal .modal-dialog').width() / 2-100;
+                $(this).find('.modal-dialog').css({
+                    'margin-top': modalHeight,
+                    'margin-left': modalWidth
+                });
+                $(this).draggable({
+                    handle: ".modal-header"   // 只能点击头部拖动
+                });
+            });
+            $('#numberSQLModal').modal({ show: true, backdrop: 'static' });
+        }catch(e){}
+    }
+
+    //定义计算数量窗口
+    function numberSQLWindow(){
+        if(wf_id==null||wf_id=="") {
+            alert("请先保存流程图再操作！");
+            return ;
+        }
+        ajaxSumit( CONTEXT_PATH +"/workflow/getWFSQL?sqlType=number&wf_id="+wf_id,{node_no:$("#ele_id").val()},numberCallBackFun);
+
+    }
+
+    var sqlJson={};
+    function execSQLCallBackFun(data) {
+       // alert(JSON.stringify(data));
+        sqlJson=data["data"];
+        for(var i=0;i<sqlJson.length;i++){
+            if(sqlJson[i]["event_type"]=="import"){
+                $("#source_sql").html(sqlJson[i]["source_sql"]);
+                $("#target_sql").html(sqlJson[i]["target_sql"]);
+            }
+        }
+        $("#source_funid").val(nodeFun[$("#ele_from").val()]);
+        $("#target_funid").val(nodeFun[$("#ele_to").val()]);
+
+        try{
+            $('#execSQLModal .modal-title').text("工作流定义");
+            //居中
+            $('#execSQLModal').on('show.bs.modal', function (e) {
+                // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                $(this).css('display', 'block');
+                var modalHeight=$(window).height() / 2 - $('#execSQLModal .modal-dialog').height() / 2;
+                var modalWidth=$(window).width() / 2 - $('#execSQLModal .modal-dialog').width() / 2-100;
+                $(this).find('.modal-dialog').css({
+                    'margin-top': modalHeight,
+                    'margin-left': modalWidth
+                });
+                $(this).draggable({
+                    handle: ".modal-header"   // 只能点击头部拖动
+                });
+            });
+            $('#execSQLModal').modal({ show: true, backdrop: 'static' });
+        }catch(e){}
+    }
+
+    //定义工作流窗口
+    function execSQLWindow(){
+        if(wf_id==null||wf_id=="") {
+            alert("请先保存流程图再操作！");
+            return ;
+        }
+        sqlJson={};
+        $("#source_sql").html("");
+        $("#target_sql").html("");
+        ajaxSumit( CONTEXT_PATH +"/workflow/getWFSQL?sqlType=workflow&wf_id="+wf_id,
+            {node_no:$("#ele_id").val(),sourceFunId:nodeFun[$("#ele_from").val()],targetFunId:nodeFun[$("#ele_to").val()]},execSQLCallBackFun);
+
+    }
+
+    //Form、查询条的选择窗口
+    function formSelectWindow(control_name,vsourceCols,vtargetCols,vwhereSQL){
+
+        var sourceCols=vsourceCols;
+        var  targetCols=vtargetCols;
+        if(control_name==null||control_name==""||sourceCols==null||sourceCols==""||targetCols==null||targetCols==""){
+            alert("未定义选择窗口控件值或字段对应关系，ERROR！");
+            return;
+        }
+        try{
+            var select=eval(control_name);
+            var url = CONTEXT_PATH + "/iframe/select-window?url="+select["layout_url"]+"?funId="+select["fun_id"]+(vwhereSQL==null||vwhereSQL==""||vwhereSQL=="null"?"":"&orgSQL="+vwhereSQL);
+            $("#selectIframe").attr("src", url);
+            $('#selectWindowModal .modal-title').text("选择窗口");
+            //居中
+            $('#selectWindowModal').on('show.bs.modal', function (e) {
+                // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                $(this).css('display', 'block');
+                var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+                $(this).find('.modal-dialog').css({
+                    'margin-top': modalHeight,
+                    'margin-left': modalWidth
+                });
+            });
+            $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+        }catch(e){}
+    }
+
+</script>
+
+</html>

@@ -1,0 +1,27 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'group_name', title: '分组名称', width:228,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:572,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'group_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  group_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_group.group_name'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_group.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_group.record_flag'}, 
+	  group_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_group.group_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_group.project_id'} 
+	 }; 
+</script>  

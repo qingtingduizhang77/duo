@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'wf_state', title: '状态', width:93,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'wf_type', title: '流程类型', width:95,visible:true, halign: 'center',formatter:wftypeFormatter }, 
+	 {field: 'wf_code', title: '流程编号', width:182,visible:true, halign: 'center' }, 
+	 {field: 'wf_name', title: '流程名称', width:273,visible:true, halign: 'center' }, 
+	 {field: 'module_name', title: '所属模块', width:182,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:515,visible:true, halign: 'center' }, 
+	 {field: 'wf_map', title: '流程图', width:182,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: '功能id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'module_id', title: '模块id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'wf_id', title: '主键id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  wf_state:{addedit:false,edit:false,type:'combobox',required:false,default:'0',control_name:'effectivestateData',formatter:'effectivestateFormatter'}, 
+	  wf_type:{addedit:false,edit:false,type:'combobox',required:false,default:'workflow',control_name:'wftypeData',formatter:'wftypeFormatter'}, 
+	  wf_code:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  wf_name:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  module_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',control_name:'moduleSelect',source_cols:'module_id;module_name',target_cols:'module_id;module_name'},
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  wf_map:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  fun_id:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  module_id:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  wf_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

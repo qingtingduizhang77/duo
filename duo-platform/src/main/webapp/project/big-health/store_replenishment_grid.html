@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:69,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'in_no', title: '单号', width:104,visible:true, halign: 'center' }, 
+	 {field: 'in_type', title: '入库类型', width:81,visible:true, halign: 'center',formatter:instoretypeFormatter }, 
+	 {field: 'in_date', title: '入库日期', width:140,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'stock_name', title: '入库仓库', width:113,visible:true, halign: 'center' }, 
+	 {field: 'user_nane', title: '入库人', width:82,visible:true, halign: 'center' }, 
+	 {field: 'in_num', title: '入库数量', width:101,visible:true, halign: 'center' }, 
+	 {field: 'in_money', title: '入库金额(元)', width:121,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:149,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:351,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'in_id', title: '主键', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: '入库仓库id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '入库人id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'store_in.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  in_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.in_no'}, 
+	  in_type:{addedit:true,edit:true,type:'combobox',required:true,default:'1',orgfield:'store_in.in_type',control_name:'instoretypeData',formatter:'instoretypeFormatter'}, 
+	  in_date:{addedit:true,edit:true,type:'datetime',required:true,default:'{CURRENTTIME}',orgfield:'store_in.in_date',formatter:'dateTimeFormatter'}, 
+	  stock_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'store_in.stock_name',control_name:'stockSelect',source_cols:'stock_name;stock_id;edit_user;edit_userid'}, 
+	  user_nane:{addedit:true,edit:true,type:'selectwindow',required:false,default:'{CURRENTUSERNAME}',orgfield:'store_in.user_nane',control_name:'userSelect',source_cols:'user_name;user_id'}, 
+	  in_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'store_in.in_num'}, 
+	  in_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'store_in.in_money'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'store_in.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.memo'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.company_id'}, 
+	  in_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.in_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.project_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_in.stock_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'store_in.user_id'} 
+	 }; 
+</script>  

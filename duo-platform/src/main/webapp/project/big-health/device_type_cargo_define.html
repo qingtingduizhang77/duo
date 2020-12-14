@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript">
+
+
+//批量生成货架
+function patchadd() {
+   // alert(foreignKeyId);
+    var groupnum = prompt("请输分组柜数量","1");
+    if(groupnum==null||groupnum==""||isNaN(groupnum)){
+        alert("输入值为空或不是数值！");
+        return;
+    }
+    var levels="";
+    var columns="";
+    for(var i=0;i<groupnum;i++){
+        var level = prompt("请输第"+(i+1)+"组柜的层数","1");
+        if(level==null||level==""||isNaN(level)){
+            alert("输入值为空或不是数值！");
+            return;
+        }
+        var column = prompt("请输第"+(i+1)+"组柜的列数","1");
+        if(column==null||column==""||isNaN(column)){
+            alert("输入值为空或不是数值！");
+            return;
+        }
+        levels=levels+level+";"
+        columns=columns+column+";"
+    }
+    if(levels==null||columns==null){
+        return;
+    }
+    levels=levels.substring(0,levels.length-1);
+    columns=columns.substring(0,columns.length-1);
+    alert("组："+groupnum+"  层："+levels+"  列："+columns);
+	 ajaxSumit(  '/health/makeCargo'  ,{device_id:foreignKeyId,groupNum:groupnum,levelNum:levels,columnNum:columns},  callback);
+}
+
+</script>

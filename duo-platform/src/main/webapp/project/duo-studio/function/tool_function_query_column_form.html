@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="number"   onkeyup="value=value.replace(/[^\d.]/g,'')"        />
+				</div>
+				<label class="col-sm-2 control-label "  >页面显示：</label>
+				<div class=col-sm-3_5>
+					<input   name="is_show" type="checkbox"        />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >字段代号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_code" type="text"      maxlength="60"      />
+				</div>
+				<label class="col-sm-2 control-label "  >字段名称：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_name" type="text"      maxlength="80"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >字段类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="column_type"       >
+					 <script type="text/javascript"> 
+						  var optionJson= formcolumntypeData;
+						 for(var key in optionJson)  $('select[name="column_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >提示信息：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="place_holder" type="text"      maxlength="100"      />
+				</div>
+				<label class="col-sm-2 control-label "  >默认值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_default" type="text"      maxlength="80"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >控件名称：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="control_name" type="text"      maxlength="80"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >控件参数-源：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="control_source" type="text"      maxlength="500"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >控件参数-目标：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="control_target" type="text"      maxlength="500"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >控件参数-where：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="control_where" type="text"      maxlength="500"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>query_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="query_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>column_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>控件参数：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="control_parames" type="text"   style='display:none;'   maxlength="200"      />
+				</div>
+		</div>
+	</form>
+</div>  

@@ -1,0 +1,51 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:131,visible:true, halign: 'center',formatter:cmsAuditStatusFormatter }, 
+	 {field: 'content_type', title: '内容分类*', width:148,visible:true, halign: 'center',formatter:cmsContentTypeFormatter }, 
+	 {field: 'content_title', title: '内容标题*', width:259,visible:true, halign: 'center' }, 
+	 {field: 'content_keyword', title: '关键字', width:295,visible:true, halign: 'center' }, 
+	 {field: 'teamplate_name', title: '内容模版*', width:207,visible:true, halign: 'center' }, 
+	 {field: 'teamplate_version', title: '模版版本号', width:139,visible:true, halign: 'center' }, 
+	 {field: 'upload_date', title: '提交时间', width:188,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'user_name', title: '提交人', width:132,visible:true, halign: 'center' }, 
+	 {field: 'audit_user', title: '审核人', width:121,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核时间', width:176,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:412,visible:true, halign: 'center' }, 
+	 {field: 'content_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'teamplate_id', title: '内容模版id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'html_url', title: 'html地址', width:200,visible:false, halign: 'center' }, 
+	 {field: 'expre_data', title: '扩展字段Json', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'content_design', title: '内容设计', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'cms_content.auditing',control_name:'cmsAuditStatusData',max_length:20,formatter:'cmsAuditStatusFormatter'}, 
+	  content_type:{addedit:true,edit:true,type:'combobox',required:true,default:'file',orgfield:'cms_content.content_type',control_name:'cmsContentTypeData',max_length:20,formatter:'cmsContentTypeFormatter'}, 
+	  content_title:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'cms_content.content_title',max_length:100}, 
+	  content_keyword:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.content_keyword',max_length:200}, 
+	  teamplate_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'cms_content.teamplate_name',control_name:'cmsteamplateSelect',source_cols:'teamplate_name;teamplate_version;teamplate_id',target_cols:'teamplate_name;teamplate_version;teamplate_id',control_where:'auditing=&#39;3&#39; and teamplate_type=&#39;content&#39; ',max_length:80}, 
+	  teamplate_version:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_content.teamplate_version',max_length:40}, 
+	  upload_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'cms_content.upload_date',formatter:'dateTimeFormatter'}, 
+	  user_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_content.user_name',max_length:40}, 
+	  audit_user:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_content.audit_user',max_length:40}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'cms_content.audit_date',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.memo',max_length:200}, 
+	  content_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.content_id',max_length:32}, 
+	  teamplate_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.teamplate_id',max_length:32}, 
+	  html_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.html_url',max_length:200}, 
+	  expre_data:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.expre_data'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.record_flag',max_length:10}, 
+	  content_design:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_content.content_design'} 
+	 }; 
+</script>  

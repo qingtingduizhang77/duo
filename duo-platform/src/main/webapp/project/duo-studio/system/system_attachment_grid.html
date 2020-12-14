@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'file_date', title: '创建时间', width:167,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'file_name', title: '文件名', width:244,visible:true, halign: 'center' }, 
+	 {field: 'file_type', title: '文件类型', width:138,visible:true, halign: 'center' }, 
+	 {field: 'file_path', title: '文件路径', width:341,visible:true, halign: 'center' }, 
+	 {field: 'file_size', title: '文件大小', width:106,visible:true, halign: 'center' }, 
+	 {field: 'file_md5', title: 'MD5', width:106,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门', width:159,visible:true, halign: 'center' }, 
+	 {field: 'upload_user', title: '上传人', width:136,visible:true, halign: 'center' }, 
+	 {field: 'upload_ip', title: '上传IP', width:181,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:583,visible:true, halign: 'center' }, 
+	 {field: 'data_id', title: '数据id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'file_id', title: '主键id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: 'dept_id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '附件分类', width:91,visible:false, halign: 'center',formatter:fileTypeFormatter }, 
+	 {field: 'table_name', title: '表名或标识', width:128,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  file_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'system_attachment.file_date',formatter:'dateTimeFormatter'}, 
+	  file_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_name',max_length:80}, 
+	  file_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_type',max_length:20}, 
+	  file_path:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_path',max_length:500}, 
+	  file_size:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_size',max_length:50}, 
+	  file_md5:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_md5',max_length:32}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.dept_name',max_length:80}, 
+	  upload_user:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.upload_user',max_length:50}, 
+	  upload_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.upload_ip',max_length:50}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.memo',max_length:200}, 
+	  data_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.data_id',max_length:32}, 
+	  file_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.file_id',max_length:32}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.dept_id',max_length:32}, 
+	  type_id:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'system_attachment.type_id',control_name:'fileTypeData',max_length:32,formatter:'fileTypeFormatter'}, 
+	  table_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.table_name',max_length:60} 
+	 }; 
+</script>  

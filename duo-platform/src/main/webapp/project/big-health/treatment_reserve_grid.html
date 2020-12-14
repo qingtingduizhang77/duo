@@ -1,0 +1,77 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '订单状态', width:88,visible:true, halign: 'center',formatter:reservenumstypeFormatter }, 
+	 {field: 'reserve_date', title: '预约日期', width:124,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'reserve_time', title: '预约时间段', width:118,visible:true, halign: 'center',formatter:reservetimeFormatter }, 
+	 {field: 'doctor_name', title: '医生名称', width:98,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称', width:148,visible:true, halign: 'center' }, 
+	 {field: 'member_name', title: '购买会员', width:108,visible:true, halign: 'center' }, 
+	 {field: 'id_card', title: '身份证号', width:173,visible:true, halign: 'center' }, 
+	 {field: 'mobile_no', title: '手机号', width:138,visible:true, halign: 'center' }, 
+	 {field: 'order_money', title: '订单金额', width:98,visible:true, halign: 'center' }, 
+	 {field: 'discount_money', title: '优惠金额', width:93,visible:true, halign: 'center' }, 
+	 {field: 'pay_money', title: '付款金额', width:98,visible:true, halign: 'center' }, 
+	 {field: 'pay_status', title: '支付状态', width:88,visible:true, halign: 'center' }, 
+	 {field: 'pay_type', title: '付款方式', width:96,visible:true, halign: 'center' }, 
+	 {field: 'pay_time', title: '付款时间', width:148,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'reserve_source', title: '订单来源', width:134,visible:true, halign: 'center' }, 
+	 {field: 'social_card', title: '社保卡号', width:178,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:148,visible:true, halign: 'center' }, 
+	 {field: 'back_status', title: '退款状态', width:89,visible:true, halign: 'center',formatter:backpaystatusFormatter }, 
+	 {field: 'back_time', title: '退款时间', width:132,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:182,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: '设备id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'doctor_id', title: '医生id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'member_id', title: '购买会员id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'pay_id', title: '收单方id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'reserve_id', title: '主键id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'resourcedevice_id', title: 'resourcedevice_id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'resourcedoctor_id', title: 'resourcedoctor_id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:183,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'treatment_reserve.auditing',control_name:'reservenumstypeData',max_length:20,formatter:'reservenumstypeFormatter'}, 
+	  reserve_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'treatment_reserve.reserve_date',formatter:'dateTimeFormatter'}, 
+	  reserve_time:{addedit:true,edit:true,type:'combobox',required:false,default:'1',orgfield:'treatment_reserve.reserve_time',control_name:'reservetimeData',max_length:20,formatter:'reservetimeFormatter'}, 
+	  doctor_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.doctor_name',max_length:40}, 
+	  device_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.device_name',max_length:80}, 
+	  member_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.member_name',max_length:40}, 
+	  id_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.id_card',max_length:40}, 
+	  mobile_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.mobile_no',max_length:40}, 
+	  order_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_reserve.order_money'}, 
+	  discount_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_reserve.discount_money'}, 
+	  pay_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_reserve.pay_money'}, 
+	  pay_status:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'treatment_reserve.pay_status',max_length:20}, 
+	  pay_type:{addedit:true,edit:true,type:'combobox',required:false,default:'alipay',orgfield:'treatment_reserve.pay_type',max_length:10}, 
+	  pay_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'treatment_reserve.pay_time',formatter:'dateTimeFormatter'}, 
+	  reserve_source:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.reserve_source',max_length:20}, 
+	  social_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.social_card',max_length:40}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.company_name',max_length:60}, 
+	  back_status:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'treatment_reserve.back_status',control_name:'backpaystatusData',max_length:20,formatter:'backpaystatusFormatter'}, 
+	  back_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'treatment_reserve.back_time',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.memo',max_length:200}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.company_id',max_length:32}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.device_id',max_length:32}, 
+	  doctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.doctor_id',max_length:32}, 
+	  member_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.member_id',max_length:32}, 
+	  pay_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.pay_id',max_length:40}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.project_id',max_length:32}, 
+	  reserve_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.reserve_id',max_length:32}, 
+	  resourcedevice_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.resourcedevice_id',max_length:32}, 
+	  resourcedoctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.resourcedoctor_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_reserve.record_flag',max_length:10} 
+	 }; 
+</script>  

@@ -1,0 +1,77 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'chart_id', title: '主键id', width:128,visible:true, halign: 'center' }, 
+	 {field: 'auditing', title: '状态', width:49,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'chart_title', title: '标题名称', width:161,visible:true, halign: 'center' }, 
+	 {field: 'chart_subtitle', title: '子标题名称', width:161,visible:true, halign: 'center' }, 
+	 {field: 'data_from', title: '数据来自？', width:69,visible:true, halign: 'center',formatter:chartsourceFormatter }, 
+	 {field: 'data_source', title: '数据源', width:70,visible:true, halign: 'center' }, 
+	 {field: 'has_legend', title: '是否显示legend过滤', width:164,visible:false, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'has_tool', title: '是否显示工具栏', width:164,visible:false, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'chart_type', title: '图表模版', width:182,visible:false, halign: 'center',formatter:charttemplateFormatter }, 
+	 {field: 'memo', title: '备注', width:164,visible:false, halign: 'center' }, 
+	 {field: 'sql_statement', title: 'sql语句', width:164,visible:false, halign: 'center' }, 
+	 {field: 'x_name', title: 'x轴-名称', width:162,visible:true, halign: 'center' }, 
+	 {field: 'fix_colors', title: '预设颜色', width:182,visible:false, halign: 'center' }, 
+	 {field: 'x_value', title: 'x轴-值参数', width:164,visible:false, halign: 'center' }, 
+	 {field: 'x_valuetype', title: 'x轴-取值方式', width:164,visible:false, halign: 'center',formatter:chartxdataFormatter }, 
+	 {field: 'y1_interval', title: 'y轴1-步长', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y1_max', title: 'y轴1-最大值', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y1_min', title: 'y轴1-最小值', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y1_name', title: 'y轴1-名称', width:162,visible:true, halign: 'center' }, 
+	 {field: 'y1_unit', title: 'y轴1-后缀单位', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y1_valuetype', title: 'y轴1-取值方式', width:164,visible:false, halign: 'center',formatter:chartydataFormatter }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'y2_interval', title: 'y轴2-步长', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y2_max', title: 'y轴2-最大值', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y2_min', title: 'y轴2-最小值', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y2_name', title: 'y轴2-名称', width:162,visible:true, halign: 'center' }, 
+	 {field: 'y2_unit', title: 'y轴2-后缀单位', width:164,visible:false, halign: 'center' }, 
+	 {field: 'y2_valuetype', title: 'y轴2-取值方式', width:164,visible:false, halign: 'center',formatter:chartydataFormatter }, 
+	 {field: 'fun_id', title: 'fun_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  chart_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.chart_id'}, 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'tool_chart.auditing',control_name:'effectivestateData',formatter:'effectivestateFormatter'}, 
+	  chart_title:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_chart.chart_title'}, 
+	  chart_subtitle:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.chart_subtitle'}, 
+	  data_from:{addedit:true,edit:true,type:'combobox',required:true,default:'fun',orgfield:'tool_chart.data_from',control_name:'chartsourceData',formatter:'chartsourceFormatter'}, 
+	  data_source:{addedit:true,edit:true,type:'text',required:false,default:'default',orgfield:'tool_chart.data_source'}, 
+	  has_legend:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_chart.has_legend',formatter:'chekboxFormatter'}, 
+	  has_tool:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_chart.has_tool',formatter:'chekboxFormatter'}, 
+	  chart_type:{addedit:true,edit:true,type:'combobox',required:false,default:'default',orgfield:'tool_chart.chart_type',control_name:'charttemplateData',formatter:'charttemplateFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.memo'}, 
+	  sql_statement:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.sql_statement'}, 
+	  x_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_chart.x_name'}, 
+	  fix_colors:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.fix_colors'}, 
+	  x_value:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.x_value'}, 
+	  x_valuetype:{addedit:true,edit:true,type:'combobox',required:true,default:'fix',orgfield:'tool_chart.x_valuetype',control_name:'chartxdataData',formatter:'chartxdataFormatter'}, 
+	  y1_interval:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y1_interval'}, 
+	  y1_max:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y1_max'}, 
+	  y1_min:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y1_min'}, 
+	  y1_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_chart.y1_name'}, 
+	  y1_unit:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.y1_unit'}, 
+	  y1_valuetype:{addedit:true,edit:true,type:'combobox',required:true,default:'fix',orgfield:'tool_chart.y1_valuetype',control_name:'chartydataData',formatter:'chartydataFormatter'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.record_flag'}, 
+	  y2_interval:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y2_interval'}, 
+	  y2_max:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y2_max'}, 
+	  y2_min:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_chart.y2_min'}, 
+	  y2_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.y2_name'}, 
+	  y2_unit:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.y2_unit'}, 
+	  y2_valuetype:{addedit:true,edit:true,type:'combobox',required:false,default:'fix',orgfield:'tool_chart.y2_valuetype',control_name:'chartydataData',formatter:'chartydataFormatter'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.fun_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_chart.project_id'} 
+	 }; 
+</script>  

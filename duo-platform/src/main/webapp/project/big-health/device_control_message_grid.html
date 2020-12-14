@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '执行状态', width:87,visible:true, halign: 'center',formatter:controlorderstatusFormatter }, 
+	 {field: 'soft_version', title: '软件版本', width:125,visible:true, halign: 'center' }, 
+	 {field: 'advert_version', title: '广告版本', width:141,visible:true, halign: 'center' }, 
+	 {field: 'position_code', title: '点位编号', width:142,visible:true, halign: 'center' }, 
+	 {field: 'device_code', title: '设备编号', width:141,visible:true, halign: 'center' }, 
+	 {field: 'device_kind', title: '设备类型', width:117,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称', width:156,visible:true, halign: 'center' }, 
+	 {field: 'online_ststue', title: '在线状态', width:112,visible:true, halign: 'center' }, 
+	 {field: 'is_success', title: '是否执行成功', width:94,visible:true, halign: 'center',formatter:yesnoFormatter }, 
+	 {field: 'company_name', title: '运营商户', width:343,visible:true, halign: 'center' }, 
+	 {field: 'control_id', title: 'control_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'message_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:182,visible:false, halign: 'center' }, 
+	 {field: 'device_size', title: '设备规格', width:182,visible:false, halign: 'center' }, 
+	 {field: 'device_type', title: '设备型号', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'device_control_message.auditing',formatter:'controlorderstatusFormatter'}, 
+	  soft_version:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.soft_version'}, 
+	  advert_version:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.advert_version'}, 
+	  position_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.position_code'}, 
+	  device_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_code'}, 
+	  device_kind:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_kind'}, 
+	  device_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_name'}, 
+	  online_ststue:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.online_ststue'}, 
+	  is_success:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_control_message.is_success',formatter:'yesnoFormatter'}, 
+	  company_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.company_name'}, 
+	  control_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.control_id'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.device_id'}, 
+	  message_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.message_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.memo'}, 
+	  device_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_size'}, 
+	  device_type:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_type'} 
+	 }; 
+</script>  

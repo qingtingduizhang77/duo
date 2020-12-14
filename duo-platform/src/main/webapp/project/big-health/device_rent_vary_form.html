@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"      >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusFormatter;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label " >变动日期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="vary_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >原设备编号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="org_device_code" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >原设备名称*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="org_device_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deviceSelect","device_id;device_code;device_name","org_device_id;org_device_code;org_device_name","null")'/>
+					<button type='button'  name="btn_org_device_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deviceSelect","device_id;device_code;device_name","org_device_id;org_device_code;org_device_name","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >新设备编号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_code" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >新设备名称*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="device_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deviceSelect","device_id;device_code;device_name","device_id;device_code;device_name","null")'/>
+					<button type='button'  name="btn_device_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deviceSelect","device_id;device_code;device_name","device_id;device_code;device_name","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >提交人：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="apply_username" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >审核人：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="check_username" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:81px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:76px" name="memo"      ></textarea>
+				</div>
+		</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>提交人id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="apply_userid" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>原设备id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="org_device_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>审核人id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="check_userid" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>rent_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="rent_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="vary_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>新设备id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

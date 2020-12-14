@@ -1,0 +1,59 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '生效状态', width:70,visible:true, halign: 'center' }, 
+	 {field: 'activities_name', title: '活动名称', width:170,visible:true, halign: 'center' }, 
+	 {field: 'coupon_name', title: '优惠券名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'coupon_type', title: '券类型', width:108,visible:true, halign: 'center',formatter:coupontypeFormatter }, 
+	 {field: 'coupon_price', title: '优惠金额', width:91,visible:true, halign: 'center' }, 
+	 {field: 'total_money', title: '最小可用金额', width:100,visible:true, halign: 'center' }, 
+	 {field: 'use_type', title: '叠加方式', width:97,visible:true, halign: 'center',formatter:couponusetypeFormatter }, 
+	 {field: 'future_days', title: '获得起几天', width:74,visible:true, halign: 'center' }, 
+	 {field: 'begin_time', title: '可用开始时间', width:132,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'end_time', title: '可用结束时间', width:134,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'coupon_num', title: '数量', width:75,visible:true, halign: 'center' }, 
+	 {field: 'img_url', title: '优惠券图片', width:181,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:181,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '审核人', width:125,visible:true, halign: 'center' }, 
+	 {field: 'apply_date', title: '审批日期', width:132,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:181,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'activities_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '审核人id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:false,type:'combobox',required:false,default:'0',orgfield:'coupon_activities.auditing'}, 
+	  activities_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'coupon_activities.activities_name'}, 
+	  coupon_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'coupon_activities.coupon_name'}, 
+	  coupon_type:{addedit:true,edit:true,type:'combobox',required:true,default:'',orgfield:'coupon_activities.coupon_type',control_name:'coupontypeData',formatter:'coupontypeFormatter'}, 
+	  coupon_price:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'coupon_activities.coupon_price'}, 
+	  total_money:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'coupon_activities.total_money'}, 
+	  use_type:{addedit:true,edit:true,type:'combobox',required:true,default:'',orgfield:'coupon_activities.use_type',control_name:'couponusetypeData',formatter:'couponusetypeFormatter'}, 
+	  future_days:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'coupon_activities.future_days'}, 
+	  begin_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'coupon_activities.begin_time',formatter:'dateTimeFormatter'}, 
+	  end_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'coupon_activities.end_time',formatter:'dateTimeFormatter'}, 
+	  coupon_num:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'coupon_activities.coupon_num'}, 
+	  img_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.img_url'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'coupon_activities.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id'}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.user_name'}, 
+	  apply_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'coupon_activities.apply_date',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.record_flag'}, 
+	  activities_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.activities_id'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.company_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.project_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'coupon_activities.user_id'} 
+	 }; 
+</script>  

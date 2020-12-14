@@ -1,0 +1,43 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'plan_time', title: '计划执行时间', width:148,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'message_type', title: '指令类型', width:118,visible:true, halign: 'center',formatter:controlordertypeFormatter }, 
+	 {field: 'call_backmessage', title: '反馈信息', width:333,visible:true, halign: 'center' }, 
+	 {field: 'connect_message', title: '指令信息', width:182,visible:false, halign: 'center' }, 
+	 {field: 'is_success', title: '是否执行成功', width:98,visible:true, halign: 'center',formatter:yesnoFormatter }, 
+	 {field: 'file_name', title: '文件名', width:275,visible:true, halign: 'center' }, 
+	 {field: 'control_id', title: 'control_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'message_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'file_id', title: 'file_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'auditing', title: '执行状态', width:108,visible:false, halign: 'center',formatter:controlorderstatusFormatter } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  plan_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'device_control_message.plan_time',formatter:'dateTimeFormatter'}, 
+	  message_type:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_control_message.message_type',formatter:'controlordertypeFormatter'}, 
+	  call_backmessage:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.call_backmessage'}, 
+	  connect_message:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.connect_message'}, 
+	  is_success:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_control_message.is_success',formatter:'yesnoFormatter'}, 
+	  file_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.file_name'}, 
+	  control_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.control_id'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.device_id'}, 
+	  message_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.message_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.record_flag'}, 
+	  file_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control_message.file_id'}, 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'device_control_message.auditing',formatter:'controlorderstatusFormatter'} 
+	 }; 
+</script>  

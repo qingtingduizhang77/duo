@@ -1,0 +1,59 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'det_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'results_id', title: '诊疗结果id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'results_name', title: '诊疗结果名称', width:200,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: '药品主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'bar_code', title: '商品条码号', width:100,visible:true, halign: 'center' }, 
+	 {field: 'type_name', title: '商品分类', width:100,visible:true, halign: 'center' }, 
+	 {field: 'goods_name', title: '商品名称', width:250,visible:true, halign: 'center' }, 
+	 {field: 'goods_size', title: '规格', width:100,visible:true, halign: 'center' }, 
+	 {field: 'machine_price', title: '设备价', width:100,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '单位', width:100,visible:true, halign: 'center' }, 
+	 {field: 'expiry_date', title: '有效期', width:200,visible:false, halign: 'center' }, 
+	 {field: 'img_url', title: '图片', width:100,visible:true, halign: 'center' }, 
+	 {field: 'is_free', title: '是否赠品', width:200,visible:false, halign: 'center' }, 
+	 {field: 'is_oct', title: '是否处方药', width:100,visible:true, halign: 'center' }, 
+	 {field: 'is_tcm', title: '是否中药成分', width:100,visible:true, halign: 'center' }, 
+	 {field: 'sick_label', title: '治疗疾病标签', width:200,visible:true, halign: 'center' }, 
+	 {field: 'goods_descript', title: '商品介绍', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '商品分类id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.det_id',max_length:32}, 
+	  results_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.results_id',max_length:32}, 
+	  results_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.results_name',max_length:32}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.goods_id',max_length:32}, 
+	  bar_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.bar_code',max_length:40}, 
+	  type_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.type_name',max_length:80}, 
+	  goods_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.goods_name',max_length:80}, 
+	  goods_size:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.goods_size',max_length:200}, 
+	  machine_price:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_results_goods.machine_price'}, 
+	  unit:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.unit',max_length:20}, 
+	  expiry_date:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.expiry_date',max_length:20}, 
+	  img_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.img_url',max_length:200}, 
+	  is_free:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.is_free',max_length:10}, 
+	  is_oct:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.is_oct',max_length:10}, 
+	  is_tcm:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.is_tcm',max_length:10}, 
+	  sick_label:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.sick_label',max_length:200}, 
+	  goods_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.goods_descript'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.record_flag',max_length:10}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.project_id',max_length:32}, 
+	  type_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results_goods.type_id',max_length:32} 
+	 }; 
+</script>  

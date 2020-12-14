@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:70,visible:true, halign: 'center' }, 
+	 {field: 'auditing', title: '状态', width:88,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'excel_template', title: 'excel模版', width:183,visible:true, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id', width:125,visible:true, halign: 'center' }, 
+	 {field: 'fun_name', title: '功能名称', width:207,visible:true, halign: 'center' }, 
+	 {field: 'head_index', title: '标题行号', width:96,visible:true, halign: 'center' }, 
+	 {field: 'post_sql1', title: '导入后执行sql1', width:126,visible:false, halign: 'center' }, 
+	 {field: 'post_sql2', title: '导入后执行sql2', width:126,visible:false, halign: 'center' }, 
+	 {field: 'post_detsql1', title: '逐条导入后执行sql1', width:200,visible:false, halign: 'center' }, 
+	 {field: 'post_detsql2', title: '逐条导入后执行sql2', width:200,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:438,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'import_id', title: 'import_id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'file_id', title: 'file_id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'5',orgfield:'tool_excel_import.order_index'}, 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'tool_excel_import.auditing',control_name:'effectivestateData',formatter:'effectivestateFormatter'}, 
+	  excel_template:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_excel_import.excel_template'}, 
+	  fun_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_excel_import.fun_id'}, 
+	  fun_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'tool_excel_import.fun_name',control_name:'funSelect',source_cols:'fun_id;fun_name',target_cols:'fun_id;fun_name'}, 
+	  head_index:{addedit:true,edit:true,type:'number',required:true,default:'1',orgfield:'tool_excel_import.head_index'}, 
+	  post_sql1:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.post_sql1'}, 
+	  post_sql2:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.post_sql2'}, 
+	  post_detsql1:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.post_detsql1'}, 
+	  post_detsql2:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.post_detsql2'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.memo'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.project_id'}, 
+	  import_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.import_id'}, 
+	  file_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.file_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import.record_flag'} 
+	 }; 
+</script>  

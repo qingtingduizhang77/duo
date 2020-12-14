@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '管理状态', width:66,visible:true, halign: 'center',formatter:recordsatusFormatter },
+	 {field: 'company_type', title: '商户类型*', width:95,visible:true, halign: 'center',formatter:companytypeFormatter }, 
+	 {field: 'company_code', title: '商户编号*', width:119,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称*', width:211,visible:true, halign: 'center' }, 
+	 {field: 'company_sortname', title: '商户简称', width:162,visible:true, halign: 'center' }, 
+	 {field: 'address', title: '商户地址', width:354,visible:true, halign: 'center' }, 
+	 {field: 'contract_user', title: '联系人', width:125,visible:true, halign: 'center' }, 
+	 {field: 'contract_phone', title: '联系人电话', width:148,visible:true, halign: 'center' }, 
+	 {field: 'field_name', title: '区域名称', width:133,visible:true, halign: 'center' }, 
+	 {field: 'lose_memo', title: '注销原因', width:287,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:343,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'field_id', title: 'field_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'company_info.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  company_type:{addedit:true,edit:true,type:'combobox',required:true,default:'drugstore',orgfield:'company_info.company_type',control_name:'companytypeData',formatter:'companytypeFormatter'}, 
+	  company_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'company_info.company_code'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'company_info.company_name'}, 
+	  company_sortname:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.company_sortname'}, 
+	  address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.address'}, 
+	  contract_user:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.contract_user'}, 
+	  contract_phone:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.contract_phone'}, 
+	  field_name:{addedit:true,edit:true,type:'text',required:false,default:'{tree}',orgfield:'company_info.field_name'}, 
+	  lose_memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.lose_memo'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.record_flag'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.company_id'}, 
+	  field_id:{addedit:true,edit:true,type:'text',required:false,default:'{tree}',orgfield:'company_info.field_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'company_info.project_id'} 
+	 }; 
+</script>  

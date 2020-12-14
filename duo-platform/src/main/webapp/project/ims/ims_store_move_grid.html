@@ -1,0 +1,67 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:96,visible:true, halign: 'center',formatter:imsmovestatusFormatter }, 
+	 {field: 'move_date', title: '移库时间', width:155,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'move_no', title: '移库单号', width:148,visible:true, halign: 'center' }, 
+	 {field: 'pre_house_code', title: '移出仓库号', width:117,visible:true, halign: 'center' }, 
+	 {field: 'pre_house_name', title: '移出仓库*', width:164,visible:true, halign: 'center' }, 
+	 {field: 'house_code', title: '移入仓库号', width:124,visible:true, halign: 'center' }, 
+	 {field: 'house_name', title: '移入仓库*', width:137,visible:true, halign: 'center' }, 
+	 {field: 'move_num', title: '移出库数量', width:107,visible:false, halign: 'center' }, 
+	 {field: 'move_money', title: '移出库金额', width:104,visible:false, halign: 'center' }, 
+	 {field: 'user_name', title: '移库人', width:106,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核时间', width:154,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'audit_user_nane', title: '审核人', width:142,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:409,visible:true, halign: 'center' }, 
+	 {field: 'user_id', title: '移库人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'pre_house_id', title: '移出库仓库id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'move_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'audit_user_id', title: '审核人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '公司id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '部门id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'house_id', title: '移入库仓库id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门名称', width:200,visible:false, halign: 'center' }, 
+	 {field: 'company_name', title: '公司名称', width:200,visible:false, halign: 'center' }, 
+	 {field: 'move_type', title: '移库类型', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'ims_store_move.auditing',control_name:'imsmovestatusData',formatter:'imsmovestatusFormatter'}, 
+	  move_date:{addedit:false,edit:false,type:'datetime',required:false,default:'{CURRENTTIME}',orgfield:'ims_store_move.move_date',formatter:'dateTimeFormatter'}, 
+	  move_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_move.move_no'}, 
+	  pre_house_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_move.pre_house_code'}, 
+	  pre_house_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'ims_store_move.pre_house_name',control_name:'imsstoreShopSelect',source_cols:'stock_id;stock_code;stock_name',target_cols:'pre_house_id;pre_house_code;pre_house_name',control_where:'stock_level=1'}, 
+	  house_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_move.house_code'}, 
+	  house_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'ims_store_move.house_name',control_name:'imsstoreShopSelect',source_cols:'stock_id;stock_code;stock_name',target_cols:'house_id;house_code;house_name',control_where:'stock_level=1'}, 
+	  move_num:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'ims_store_move.move_num'}, 
+	  move_money:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'ims_store_move.move_money'}, 
+	  user_name:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'ims_store_move.user_name'}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'ims_store_move.audit_date',formatter:'dateTimeFormatter'}, 
+	  audit_user_nane:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_move.audit_user_nane'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.memo'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'ims_store_move.user_id'}, 
+	  pre_house_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.pre_house_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.project_id'}, 
+	  move_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.move_id'}, 
+	  audit_user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.audit_user_id'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTCOMPANYID}',orgfield:'ims_store_move.company_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.dept_id'}, 
+	  house_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.house_id'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.dept_name'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.company_name'}, 
+	  move_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.move_type'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_move.record_flag'} 
+	 }; 
+</script>  

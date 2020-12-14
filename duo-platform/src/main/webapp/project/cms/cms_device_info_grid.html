@@ -1,0 +1,73 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '播放状态', width:99,visible:true, halign: 'center',formatter:cmsManageStatusFormatter }, 
+	 {field: 'device_code', title: '设备编号*', width:124,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称*', width:190,visible:true, halign: 'center' }, 
+	 {field: 'device_kind', title: '设备类型', width:113,visible:true, halign: 'center',formatter:cmsDeviceTypeFormatter }, 
+	 {field: 'online_ststue', title: '在线状态', width:116,visible:true, halign: 'center',formatter:cmsOnlineStatusFormatter }, 
+	 {field: 'dept_name', title: '管理部门*', width:145,visible:true, halign: 'center' }, 
+	 {field: 'position_code', title: '区域位置*', width:118,visible:true, halign: 'center' }, 
+	 {field: 'use_date', title: '启用日期*', width:101,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'system_version', title: '操作系统', width:200,visible:true, halign: 'center' }, 
+	 {field: 'mem_info', title: '内存', width:200,visible:true, halign: 'center' }, 
+	 {field: 'disk_info', title: '硬盘', width:200,visible:true, halign: 'center' }, 
+	 {field: 'soft_version', title: '软件版本', width:215,visible:true, halign: 'center' }, 
+	 {field: 'advert_version', title: '广告版本', width:196,visible:true, halign: 'center' }, 
+	 {field: 'screen_ratio', title: '分辨率', width:159,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:224,visible:true, halign: 'center' }, 
+	 {field: 'disk_use', title: '硬盘使用', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '管理部门id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: '主键id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'group_id', title: 'group_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'position_id', title: '点位_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: 'type_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'mem_use', title: '内存使用', width:200,visible:false, halign: 'center' }, 
+	 {field: 'pic_url', title: '图片', width:200,visible:false, halign: 'center' }, 
+	 {field: 'group_name', title: '设备分组', width:110,visible:false, halign: 'center' }, 
+	 {field: 'device_size', title: '设备规格', width:116,visible:false, halign: 'center' }, 
+	 {field: 'device_factory', title: '生产厂家*', width:144,visible:false, halign: 'center' }, 
+	 {field: 'device_type', title: '设备型号', width:151,visible:false, halign: 'center' }, 
+	 {field: 'fix_ip', title: '限制ip', width:139,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_info.auditing',control_name:'cmsManageStatusData',max_length:20,formatter:'cmsManageStatusFormatter'}, 
+	  device_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'device_info.device_code',max_length:40}, 
+	  device_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'device_info.device_name',max_length:80}, 
+	  device_kind:{addedit:true,edit:true,type:'combobox',required:false,default:'hub',orgfield:'device_info.device_kind',control_name:'cmsDeviceTypeData',max_length:60,formatter:'cmsDeviceTypeFormatter'}, 
+	  online_ststue:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_info.online_ststue',control_name:'cmsOnlineStatusData',max_length:20,formatter:'cmsOnlineStatusFormatter'}, 
+	  dept_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'device_info.dept_name',control_name:'deptSelect',source_cols:'dept_name;dept_id',target_cols:'dept_name;dept_id',max_length:60}, 
+	  position_code:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'device_info.position_code',control_name:'cmsfieldSelect',source_cols:'field_name;field_id',target_cols:'position_code;position_id',max_length:40}, 
+	  use_date:{addedit:true,edit:true,type:'date',required:true,default:'',orgfield:'device_info.use_date',formatter:'dateFormatter'}, 
+	  system_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.system_version',max_length:60}, 
+	  mem_info:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.mem_info',max_length:60}, 
+	  disk_info:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.disk_info',max_length:60}, 
+	  soft_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.soft_version',max_length:200}, 
+	  advert_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.advert_version',max_length:200}, 
+	  screen_ratio:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.screen_ratio',max_length:20}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.memo',max_length:200}, 
+	  disk_use:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.disk_use',max_length:60}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.dept_id',max_length:32}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.device_id',max_length:32}, 
+	  group_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.group_id',max_length:32}, 
+	  position_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.position_id',max_length:32}, 
+	  type_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.type_id',max_length:32}, 
+	  mem_use:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.mem_use',max_length:60}, 
+	  pic_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.pic_url',max_length:200}, 
+	  group_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.group_name',max_length:60}, 
+	  device_size:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.device_size',max_length:200}, 
+	  device_factory:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'device_info.device_factory',max_length:80}, 
+	  device_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.device_type',max_length:80}, 
+	  fix_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.fix_ip',max_length:40} 
+	 }; 
+</script>  

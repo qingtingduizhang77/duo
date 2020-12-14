@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:75,visible:true, halign: 'center' }, 
+	 {field: 'system_name', title: '系统名称', width:202,visible:true, halign: 'center' }, 
+	 {field: 'is_show', title: '是否默认', width:83,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'main_layout', title: '首页模版', width:208,visible:true, halign: 'center',formatter:indexlayoutFormatter }, 
+	 {field: 'main_home', title: 'Home页', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:517,visible:true, halign: 'center' }, 
+	 {field: 'system_id', title: 'system_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: 'project_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_systemid', title: 'project_systemid', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '是否删除', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_project_system.order_index'}, 
+	  system_name:{addedit:false,edit:false,type:'text',required:true,default:'',orgfield:'tool_project_system.system_name'}, 
+	  is_show:{addedit:true,edit:true,type:'checkbox',required:true,default:'1',orgfield:'tool_project_system.is_show',formatter:'chekboxFormatter'}, 
+	  main_layout:{addedit:true,edit:true,type:'combobox',required:true,default:'main',orgfield:'tool_project_system.main_layout',control_name:'indexlayoutData',formatter:'indexlayoutFormatter'}, 
+	  main_home:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.main_home'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.memo'}, 
+	  system_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.system_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.project_id'}, 
+	  project_systemid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.project_systemid'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project_system.record_flag'} 
+	 }; 
+</script>  

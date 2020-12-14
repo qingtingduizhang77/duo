@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="CommonWindowModal">
+
+    <!-- selectWindow Modal -->
+    <div class="modal fade" id="selectWindowModal"  tabindex="-1"   style="z-index: 1300"  role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:1000px;height:700px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">操作窗口</h4>
+                </div>
+                <div class="modal-body"  style="height:655px;padding:0px;margin:0px;">
+                    <iframe id="selectIframe" width="100%" height="100%" frameborder="0" scrolling="no"></iframe>
+                    <form id="selectForm" style="display: none;">
+                        <input type="hidden" name="selectRow"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- importcopyDataModal -->
+    <div class="modal fade" id="importcopyDataModal"  >
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:900px;height:600px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title" >Excel复制表结构</h4>
+                </div>
+                <div class="modal-body"  id="importcopyData"  style="height:450px;padding:5px;margin:0px auto;overflow:auto;" contenteditable="true" >
+
+                </div>
+                <div class="modal-footer" style="height:75px;text-align: center;">
+                    <div class="form-group" style="width:100%;float:left;">
+                        <label class="control-label" style="width:150px;float:left;text-align:right;padding-right: 5px;"><span class="asterisk">*</span>导入字段对应关系:</label>
+                        <input type="text" class="form-control" id="importcopyDataReration"  style="width:720px;float:left;" title="按顺序逗号(,)分隔" placeholder="导入字段对应关系" >
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button"  class="btn btn-primary"  onclick="copyimport()">插入数据</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- importcopyDataModal -->
+    <div class="modal fade" id="exportDataModal"  >
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:400px;height:300px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title" >请选择导出数据范围</h4>
+                </div>
+                <div class="modal-body"    style="margin-left:50px;height:150px;padding:5px;overflow:auto;"  >
+                    <ul style="list-style:none;">
+                        <li style="line-height: 30px;"><input type="radio" name="exportScala"   value="all" checked > 全部数据</input> </li>
+                        <li style="line-height: 30px;"><input type="radio" name="exportScala"   value="basic"  > 当前页数据</input></li>
+                        <li style="line-height: 30px;"><input type="radio" name="exportScala"   value="selected"  > 选中数据</input></li>
+                    </ul>
+                    <input type="hidden" name="exportType" value="excel" />
+                </div>
+                <div class="modal-footer" style="height:35px;text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button"  class="btn btn-primary"  onclick="exportFile()">导出数据</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- uploadFileModal -->
+    <div class="modal fade" id="uploadFileModal"  >
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:400px;height:300px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title" >请选择上传文件</h4>
+                </div>
+                <div class="modal-body"    style="margin-left:50px;height:180px;padding:5px;overflow:auto;"  >
+                    <div id="theFileList" class="uploader-list"></div>
+                    <div class="btns">
+                        <div id="pickerFile">选择文件</div>
+                    </div>
+                </div>
+                <div class="modal-footer" style="height:35px;text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" id="ctlBtn" class="btn btn-primary"  >开始上传</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 通用批量更新窗口 -->
+    <div class="modal fade" id="CommonUpdateModal"   role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"  style="background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">批量更新窗口</h4>
+                </div>
+                <div class="modal-body" style="height:300px;">
+                    <div>
+                        <div class="btn-group btn-group-sm" style="padding-left: 480px;">
+                            <button type="button" class="btn btn-default"  onclick="addColumnSet()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <form id="CommonUpdateForm" onsubmit="return false;" style="padding-top:10px; ">
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit"  class="btn btn-primary" onclick="batchupdate()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 通用高级查询窗口 -->
+    <div class="modal fade" id="CommonQueryModal"   role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content" style="width:800px;">
+                <div class="modal-header"  style="background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">高级查询界面</h4>
+                </div>
+                <div class="modal-body" style="height:300px;">
+                    <div>
+                        <div class="btn-group btn-group-sm" style="padding-left: 640px;">
+                            <button type="button" class="btn btn-default"  onclick="addQueryColumnSet()">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <form id="CommonQueryForm" onsubmit="return false;" style="padding-top:10px;text-align: center; ">
+                        <table class="col-sm-12" border="1px">
+                            <thead>
+                            <tr style="background: #c7e6f5">
+                                <td class="col-sm-1">与/或</td>
+                                <td class="col-sm-1">左括号</td>
+                                <td class="col-sm-4">字段名称</td>
+                                <td class="col-sm-1">运算符</td>
+                                <td class="col-sm-3">值</td>
+                                <td class="col-sm-1">右括号</td>
+                                <td class="col-sm-1">操作</td>
+                            </tr>
+                            </thead>
+                            <tbody>  <tr style="display:none;">
+                                <td><select><option value="and" selected>AND</option><option value="or">OR</option></select></td>
+                                <td><input class="form-control" type="text"/></td>
+                                <td><select><option value="">--请选择字段--</option></select></td>
+                                <td><select>
+                                    <option value="=" > = </option>
+                                    <option value=">"> > </option>
+                                    <option value="<"> < </option>
+                                    <option value="like" selected> like </option>
+                                    <option value="in"> in </option>
+                                    <option value=">="> >= </option>
+                                    <option value="<="> <= </option>
+                                </select></td>
+                                <td><input class="form-control" type="text"/></td>
+                                <td><input class="form-control" type="text"/></td>
+                                <td><i class="glyphicon glyphicon-remove" onclick="removeQueryColumnSet(this)"></i> </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit"  class="btn btn-primary" onclick="advancedQuery()">
+                       查询
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- changePwdModal -->
+    <div class="modal fade" id="systemChangePwdModal" tabindex="-1" role="dialog" aria-labelledby="changePwdModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"  style="background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title" id="changePwdModalLabel">修改密码</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="changePwdForm" onsubmit="return false;">
+                        <input type="hidden" name="userId" required/>
+                        <input type="hidden" name="userCode" required/>
+                        <div class="form-group">
+                            <label class="control-label">用户名:</label>
+                            <input type="text" class="form-control" name="userName" readonly />
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group" >
+                            <label class="control-label"><span class="asterisk">*</span>旧密码:</label>
+                            <input type="password" class="form-control" name="oldPassword" placeholder="请输入旧密码" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"><span class="asterisk">*</span>新密码:</label>
+                            <input type="password" class="form-control" name="newPassword" placeholder="请输入新密码" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label"><span class="asterisk">*</span>新密码确认:</label>
+                            <input type="password" class="form-control" name="newPassword2" placeholder="请再次输入新密码" >
+                            <div class="help-block with-errors"></div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit"  class="btn btn-primary" onclick="systemChangePassword()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- 提交审批 -->
+    <div class="modal fade" id="putCheckWindowModal" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header"  style="background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title"  >提交审批</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >下一节点：</label>
+                            <div class=col-sm-3_5 id="nextNodeRodio">
+                                <input type="radio" name="nextRadio" value="1" checked/>
+                                <label style="color:red;">结束</label>
+                                <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                <label>人力资源部审批</label>
+                                <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                <label>研发中心审批</label>
+                                <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                <label>总经理审批</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >主办人*：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden"   name="wf_id"      />
+                                <input type="hidden"   name="step_no"      />
+                                <input type="hidden" class="form-control input-sm" readonly    name="sponsor_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="sponsor_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","sponsor_user_name;sponsor_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('sponsor');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >经办人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="operator_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="operator_user_name"       style='width:70%;float:left; '   />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary' onclick='userSelectWindow("userSelect","user_name;user_id","operator_user_name;operator_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('operator');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >抄送人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="copy_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="copy_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","copy_user_name;copy_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('copy');">清除</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" style="text-align: center;">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="submit"  class="btn btn-primary" onclick="checkPut()">
+                        提交
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- backWindowModal Modal -->
+    <div class="modal fade" id="backCheckWindowModal"   tabindex="-1" style="z-index: 1100" role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:650px;height:400px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">选择退回节点和人</h4>
+                </div>
+                <div class="modal-body"  style="height:555px;padding-top: 40px;margin:0px;">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >退回节点：</label>
+                            <div class=col-sm-9 id="backNodeRodio">
+                                <input type="radio" name="nextRadio" value="1" checked/>
+                                <label style="color:red;">结束</label>
+                                <input type="radio" name="nextRadio" value="0" style="margin-left:20px;" />
+                                <label>人力资源部审批</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >主办人*：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_sponsor_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_sponsor_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","back_sponsor_user_name;back_sponsor_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_sponsor');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >经办人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_operator_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_operator_user_name"       style='width:70%;float:left; '   />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary' onclick='userSelectWindow("userSelect","user_name;user_id","back_operator_user_name;back_operator_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_operator');">清除</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"  >抄送人：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="back_copy_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="back_copy_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","back_copy_user_name;back_copy_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('back_copy');">清除</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer" style="height:25px;text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button"  class="btn btn-primary"  onclick="checkback()">退回</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- entrustWindowModal Modal -->
+    <div class="modal fade" id="entrustCheckWindowModal"   tabindex="-1"  style="z-index: 1100" role="dialog">
+        <div class="modal-dialog" >
+            <div class="modal-content" style="width:650px;height:400px">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">选择委托人</h4>
+                </div>
+                <div class="modal-body"  style="height:555px;padding-top: 40px;margin:0px;">
+                    <form class="form-horizontal" >
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label thBlue"  >委托人*：</label>
+                            <div class=col-sm-9>
+                                <input type="hidden" class="form-control input-sm" readonly    name="entrust_sponsor_user_id"       style='width:70%;float:left; '  />
+                                <input type="text" class="form-control input-sm" readonly    name="entrust_sponsor_user_name"       style='width:70%;float:left; '  />
+                                <button type='button'  name="btn_file_name"   class='btn btn-primary'  onclick='userSelectWindow("userSelect","user_name;user_id","entrust_sponsor_user_name;entrust_sponsor_user_id","null")'    >选择</button>
+                                <button type='button'    class='btn btn-default' onclick="valclear('entrust_sponsor');">清除</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="modal-footer" style="height:25px;text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button"  class="btn btn-primary"  onclick="checkentrust()">委托</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script language="JavaScript">
+
+        /*------------------------批量更新窗口用------------------------------------*/
+        //添加一行字段行
+        function addColumnSet(selectColumn){
+            var colHtml=' <div class="form-group" style="line-height:45px;"><div class="col-sm-4"><select class="form-control" onchange="columnSetChange(this)"><option value="">--请选择字段--</option>';
+            for(var i=0;i<_tableColumns.length;i++){
+                var column = _tableColumns[i];
+                if((column["visible"]!=null&&column["visible"]==false)||column["field"]=="state"||column["number"]=="") continue;
+                //是否设置可编辑
+                if( editData[column["field"]]==null||editData[column["field"]]["edit"]==null||editData[column["field"]]["edit"]==false) continue;
+                colHtml+='<option value="'+column["field"]+'"   >'+column["title"]+'</option>';
+            }
+            colHtml+=' </select></div><div class="col-sm-7"><input class="form-control"  type="text" readonly /></div> <span  class="col-sm-1" onclick="removeColumnSet(this)">&times;</span></div>';
+            colHtml=$(colHtml);
+            $("#CommonUpdateForm").append(colHtml);
+            if(selectColumn!=null){
+                colHtml.find("select").val(selectColumn);
+                columnSetChange(colHtml.find("select"));
+            }
+        }
+        //删除添加的字段
+        function removeColumnSet(that){
+            var len=$("#CommonUpdateForm").find("select").length;
+            if(len==1) {
+                alert("请至少保留一个字段！");
+                return;
+            }
+            $(that).parent().remove();
+        }
+
+        //更换字段，根据字段类型重组输入项
+        function columnSetChange(that){
+            var field=$(that).val();
+            var colJson=editData[field];
+            controlType=colJson["type"];
+            //是否同一字段被设置2次
+            var times=0;
+             $("#CommonUpdateForm").find("select").each(function(){
+                 if($(this).val()==field) times++;
+             })
+            var row;
+            var datas=$table.bootstrapTable('getSelections');
+            if(datas!=null&&datas.length==1){
+                row=datas[0];
+            }
+            if(times>1){
+                 alert("不能同时对一个字段出现两个修改项！");
+                $(that).val("");
+                $($(that).parent().parent().find(".col-sm-7")).html('<input class="form-control"  type="text" readonly />');
+                 return;
+            }
+            if (controlType=="text"||controlType=="number"||controlType=="selectwindow") {
+                var isRequired=editData[field]["required"];//是否必填
+                // field 为文本框
+                var input = $("<input type='text'  class='form-control'  title='"+(isRequired?"必填字段！":"")+"'  "+(isRequired?"required":"")+"/>");
+                if(controlType=="number") input=$("<input type='number'  class='form-control' title='"+(isRequired?"必填字段！":"")+"只能输入数字！'  "+(isRequired?"required":"")+" />")
+                //赋值
+                if(row!=null) input.val(row[field]);
+                $($(that).parent().parent().find(".col-sm-7")).html(input);
+
+            }else if (controlType=="combobox") {
+                // field 为选择框
+                var isRequired=editData[field]["required"];//是否必填
+                var control_name=editData[field]["control_name"];
+                if(control_name==""){
+                    alert("ERROR!No control_name!");
+                    return;
+                }
+                var options='';
+                eval(" var optionJson="+control_name+";");
+                var z=0;
+                for(var key in optionJson){//遍历设置options
+                    options+='<option value="'+key+'" '+(z++==0?"selected":"")+'>'+optionJson[key]+'</option> ';
+                }
+                var input = $(" <select class='form-control' >"+options+" </select>");//multiple
+                //赋值
+                if(row!=null) input.val(row[field]);
+                $($(that).parent().parent().find(".col-sm-7")).html(input);
+               // input.focus().val(value);
+
+            }else if (controlType=="selectwindow222") {
+                // field 为选择窗口
+                var isRequired=editData[field]["required"];//是否必填
+                //
+                var input = $("<input type='text'  class='form-control' readonly title='"+(isRequired?"必填字段！":"")+"'  style='width:80%;float:left; '  "+(isRequired?"required":"")+"/>");
+                var selbtn=$("<button type='button'  class='form-control' style='width:15%;float:left; '>...</button>");
+                $($(that).parent().parent().find(".col-sm-7")).html(input).append(selbtn);
+               // input.focus().val(value);
+
+                var openWindow=function () {
+                    var control_name=editData[field]["control_name"];
+                    sourceCols=editData[field]["source_cols"];
+                    targetCols=editData[field]["target_cols"];
+                    if(control_name==null||control_name==""||sourceCols==null||sourceCols==""||targetCols==null||targetCols==""){
+                        alert("未定义选择窗口控件值或字段对应关系，ERROR！");
+                        return;
+                    }
+                    try{
+                        var select=eval(control_name);
+                        var vwhereSQL=editData[field]["control_where"];
+                        var url = "/iframe/select-window?url="+select["layout_url"]+"?funId="+select["fun_id"]+(vwhereSQL==null||vwhereSQL==""||vwhereSQL=="null"?"":"&orgSQL="+vwhereSQL);
+                        $("#selectIframe").attr("src", url);
+                        //居中
+                        $('#selectWindowModal').on('show.bs.modal', function (e) {
+                            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                            $(this).css('display', 'block');
+                            var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                            var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+                            $(this).find('.modal-dialog').css({
+                                'margin-top': modalHeight,
+                                'margin-left': modalWidth
+                            });
+                        });
+                        $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+                    }catch(e){}
+                }
+                selbtn.click(openWindow);
+            }else if (controlType=="checkbox") {
+                // field 为复选框
+                var isRequired=editData[field]["required"];//是否必填
+                var checked= "";
+                //
+                var input = $("<input type='checkbox' "+checked+"  />");
+                //赋值
+                if(row!=null) input.attr('checked',row[field]=="1"?"checked":"");
+                $($(that).parent().parent().find(".col-sm-7")).html(input);
+
+            }else if (controlType=="date"||controlType=="datetime"||controlType=="time"||controlType=="timeminute"||controlType=="year"||controlType=="yearmonth") {
+                // field 为日期框
+                var isRequired=editData[field]["required"];//是否必填
+                if(isRequired) isEditing++;
+                //
+                var input = $("<input type='text'  class='form-control'' title='"+(isRequired?"必填字段！":"")+"'   "+(isRequired?"required":"")+"/>");
+                //My97Datepick
+                var dateFmt= 'yyyy-MM-dd HH:mm:ss';
+                if(controlType=="date") dateFmt="yyyy-MM-dd";
+                else if(controlType=="time") dateFmt="HH:mm:ss";
+                else if(controlType=="timeminute") dateFmt="HH:mm";
+                else if(controlType=="year") dateFmt="yyyy";
+                else if(controlType=="yearmonth") dateFmt="yyyy-MM";
+                input.bind('focus', function () { WdatePicker({ dateFmt:dateFmt, autoPickDate: true ,minDate:'',maxDate:'',onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true
+                    // ,onclearing: function(){if(!confirm('日期框的值为:'+this.value+', 确实要清空吗?')) return false;else input.val("");}
+                }); });
+                //赋值
+                if(row!=null) input.val(controlType=="date"?dateFormatter(row[field]):controlType=="datetime"?dateTimeFormatter(row[field]):row[field]);
+                $($(that).parent().parent().find(".col-sm-7")).html(input);
+                //input.focus().val(value);
+
+            }
+        }
+        //批量更新
+        function batchupdate(){
+            var times=0;
+            var times2=0;
+
+            var json={};
+            $("#CommonUpdateForm").find(".col-sm-4 select").each(function () {
+                var that=this;
+                var field=$(this).val();
+                //判断是否选择字段
+                if(field=="") {
+                    times++
+                    $(this).focus();
+                    return;
+                }
+              if($(this).parent().parent().find(".col-sm-7").find("select").length==1){
+                  var that=$(this).parent().parent().find(".col-sm-7").find("select");
+                    json[ field]=$($(this).parent().parent().find(".col-sm-7").find("select")).val();
+               }else if($(this).parent().parent().find(".col-sm-7").find("input[type='checkbox']").length==1){
+                  var that=$(this).parent().parent().find(".col-sm-7").find("input[type='checkbox']");
+                    json[field]=$($(this).parent().parent().find(".col-sm-7").find("input[type='checkbox']")).prop("checked")?"1":"0";
+                     }else{
+                  var that=$(this).parent().parent().find(".col-sm-7").find("input[type=text]");
+                    json[ field]=$($(this).parent().parent().find(".col-sm-7").find("input[type=text]")).val();
+                    }
+//                validateEl(that);//校验
+               //判断必填
+                var isRequired=editData[field]["required"];//是否必填
+                if(isRequired&&json[ field]==""){
+                    alert("字段【"+( $(this).find("option:selected").text())+"】不能为空！");
+                    times2++;
+                    return;
+                }
+            })
+            if(times>0){
+                alert("请选择需要更新的字段！");
+                return;
+            }
+            if(times2>0){//必填项不通过
+                return;
+            }
+            alert(JSON.stringify(json));
+            var datas=$table.bootstrapTable('getSelections');
+            var ids="";
+            for(var i=0;i<datas.length;i++){
+                let  keyId=datas[i][keyIDColumn];
+                if(keyId==null||keyId=="") {
+                    alert("请先保存，再选择要操作的记录！");
+                    return;
+                }
+                ids+= keyId+";";
+            }
+            ajaxSumit('/common/batchUpdate?funId='+funId+'&ids='+ids  ,  json, callback);
+            $(".modal").modal("hide");
+        }
+
+
+        /*------------------------通用查询窗口用------------------------------------*/
+        //添加一行字段行
+        function addQueryColumnSet(){
+            var tr=$("#CommonQueryForm tbody").find("tr:hidden").clone();
+            var span="<span>注：";
+            tr.show();
+            tr.find("td").eq(4).html('<input class="form-control"  type="text" readonly />');
+            var colHtml='<select class="form-control" onchange="queryColumnSetChange(this)"><option value="">--请选择字段--</option>';
+            for(var i=0;i<_tableColumns.length;i++){
+                var column = _tableColumns[i];
+                if((column["visible"]!=null&&column["visible"]==false)||column["field"]=="state"||column["number"]=="") continue;
+                var val=editData[column["field"]]==null||editData[column["field"]]["orgfield"]==null||editData[column["field"]]["orgfield"]=="" ? column["field"] : editData[column["field"]]["orgfield"];
+                if(val.indexOf(" ")>0) continue;//凡是 as 过的字段不能用于查询
+                colHtml+='<option value="'+val+'">'+column["title"]+'</option>';
+                if($("#CommonQueryForm").find("span").length<1) span+=column["title"]+"("+column["field"]+")    ";
+            }
+            colHtml+='<option value="ZZZzzz">--自定义--</option> </select>';
+            tr.find("td").eq(2).html(colHtml);
+            $("#CommonQueryForm tbody").append(tr);
+            span+="</span>";
+            if($("#CommonQueryForm").find("span").length<1)$("#CommonQueryForm").append(span);
+        }
+        //删除添加的字段
+        function removeQueryColumnSet(that){
+            var len=$("#CommonQueryForm").find("tbody tr").length;
+            if(len==2) {
+                alert("请至少保留一个字段！");
+                return;
+            }
+            $(that).parent().parent().remove();
+        }
+
+        //更换字段，根据字段类型重组输入项
+        function queryColumnSetChange(that){
+            var field=$(that).val();
+            if(field=="ZZZzzz"){
+                $($(that).parent().parent().find("td").eq(4)).html('<input class="form-control"  type="text"  />');
+                $($(that).parent().parent().find("td").eq(2)).html('<input class="form-control"  type="text"  />');
+                return;
+            }
+            if(field.indexOf(".")) field=field.split(".")[1];
+            var colJson=editData[field];
+            controlType=colJson["type"];
+
+
+            if (controlType=="text"||controlType=="number"||controlType=="selectwindow") {
+                $(that).parent().parent().find("td").eq(3).find("select").val("like");
+                var isRequired=editData[field]["required"];//是否必填
+                // field 为文本框
+                var input = $("<input type='text'  class='form-control'  title='"+(isRequired?"必填字段！":"")+"' />");
+                if(controlType=="number") input=$("<input type='number'  class='form-control' title='"+(isRequired?"必填字段！":"")+"只能输入数字！'  />")
+                $($(that).parent().parent().find("td").eq(4)).html(input);
+
+            }else if (controlType=="combobox") {
+                $(that).parent().parent().find("td").eq(3).find("select").val("=");
+                // field 为选择框
+                var isRequired=editData[field]["required"];//是否必填
+                var control_name=editData[field]["control_name"];
+                if(control_name==""){
+                    alert("ERROR!No control_name!");
+                    return;
+                }
+                var options='';
+                eval(" var optionJson="+control_name+";");
+                var z=0;
+                for(var key in optionJson){//遍历设置options
+                    options+='<option value="'+key+'" '+(z++==0?"selected":"")+'>'+optionJson[key]+'</option> ';
+                }
+                var input = $(" <select class='form-control' >"+options+" </select>");//multiple
+                $($(that).parent().parent().find("td").eq(4)).html(input);
+                // input.focus().val(value);
+
+            }else if (controlType=="selectwindow222") {
+                // field 为选择窗口
+                var isRequired=editData[field]["required"];//是否必填
+                //
+                var input = $("<input type='text'  class='form-control' readonly title='"+(isRequired?"必填字段！":"")+"'  style='width:80%;float:left; '/>");
+                var selbtn=$("<button type='button'  class='form-control' style='width:15%;float:left; '>...</button>");
+                $($(that).parent().parent().find("td").eq(4)).html(input).append(selbtn);
+                // input.focus().val(value);
+
+                var openWindow=function () {
+                    var control_name=editData[field]["control_name"];
+                    sourceCols=editData[field]["source_cols"];
+                    targetCols=editData[field]["target_cols"];
+                    if(control_name==null||control_name==""||sourceCols==null||sourceCols==""||targetCols==null||targetCols==""){
+                        alert("未定义选择窗口控件值或字段对应关系，ERROR！");
+                        return;
+                    }
+                    try{
+                        var select=eval(control_name);
+                        var vwhereSQL=editData[field]["control_where"];
+                        var url = "/iframe/select-window?url="+select["layout_url"]+"?funId="+select["fun_id"]+(vwhereSQL==null||vwhereSQL==""||vwhereSQL=="null"?"":"&orgSQL="+vwhereSQL);
+                        $("#selectIframe").attr("src", url);
+                        //居中
+                        $('#selectWindowModal').on('show.bs.modal', function (e) {
+                            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                            $(this).css('display', 'block');
+                            var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                            var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+                            $(this).find('.modal-dialog').css({
+                                'margin-top': modalHeight,
+                                'margin-left': modalWidth
+                            });
+                        });
+                        $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+                    }catch(e){}
+                }
+                selbtn.click(openWindow);
+            }else if (controlType=="checkbox") {
+                $(that).parent().parent().find("td").eq(3).find("select").val("=");
+                // field 为复选框
+                var isRequired=editData[field]["required"];//是否必填
+                var checked= "";
+                //
+                var input = $("<input type='checkbox' "+checked+"  />");
+                $($(that).parent().parent().find("td").eq(4)).html(input);
+
+            }else if (controlType=="date"||controlType=="datetime"||controlType=="time"||controlType=="timeminute"||controlType=="year"||controlType=="yearmonth") {
+                // field 为日期框
+                var isRequired=editData[field]["required"];//是否必填
+                if(isRequired) isEditing++;
+                //
+                var input = $("<input type='text'  class='form-control'' title='"+(isRequired?"必填字段！":"")+"'  />");
+                //My97Datepick
+                var dateFmt= 'yyyy-MM-dd HH:mm:ss';
+                if(controlType=="date") dateFmt="yyyy-MM-dd";
+                else if(controlType=="time") dateFmt="HH:mm:ss";
+                else if(controlType=="timeminute") dateFmt="HH:mm";
+                else if(controlType=="year") dateFmt="yyyy";
+                else if(controlType=="yearmonth") dateFmt="yyyy-MM";
+                input.bind('focus', function () { WdatePicker({ dateFmt:dateFmt, autoPickDate: true ,minDate:'',maxDate:'',onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true
+                    // ,onclearing: function(){if(!confirm('日期框的值为:'+this.value+', 确实要清空吗?')) return false;else input.val("");}
+                }); });
+                $($(that).parent().parent().find("td").eq(4)).html(input);
+                //input.focus().val(value);
+
+            }
+
+        }
+
+        //高级查询
+        function advancedQuery(){
+            var times=0;
+            var times2=0;
+            var whereSQL="";
+
+            var json={};
+            $("#CommonQueryForm").find("tbody tr").each(function () {
+                if($(this).css("display")=="none") return;
+                var that=this;
+                var andOr= $(this).find("td").eq(0).find("select").val();
+                var leftOps= $(this).find("td").eq(1).find("input[type=text]").val();
+                var columnSelectObj= $(this).find("td").eq(2);
+                var operator= $(this).find("td").eq(3).find("select").val();
+                var valueObj= $(this).find("td").eq(4);
+                var rightOps= $(this).find("td").eq(5).find("input[type=text]").val();
+                var value="";
+
+                var field=columnSelectObj.find("select").length>0?columnSelectObj.find("select").val():columnSelectObj.find("input[type=text]").val();
+                //判断是否选择字段
+                if(field=="") {
+                    times++
+                    $(this).focus();
+                    return;
+                }
+                if(valueObj.find("select").length==1){
+                    value=valueObj.find("select").val();
+                }else if($(this).parent().parent().find(".col-sm-7").find("input[type='checkbox']").length==1){
+                    value=valueObj.find("input[type='checkbox']").prop("checked")?"1":"0";
+                }else{
+                    value=valueObj.find("input").val();
+                }
+                if(whereSQL==""){
+                    andOr="";
+                }
+                if(operator=="like"){ //like加%
+                    value=(value==""?"%":"%"+value+"%");
+                }
+                if(operator!="in"&&isNaN(value)){//非数字，加''
+                    value="'"+value+"'";
+                }
+                if(value==""){
+                    value="''";
+                }
+
+                whereSQL=whereSQL+" "+andOr+" "+leftOps+field+" "+operator+" "+value+" "+rightOps+" ";
+
+            })
+            if(times>0){
+                alert("请选择需要查询的字段！");
+                return;
+            }
+           // alert(whereSQL.split("(").length+"  = "+whereSQL.split(")").length);
+            if(whereSQL.split("(").length!=whereSQL.split(")").length){//括号数不匹配
+                alert("左右括号不相等，缺少“"+(whereSQL.split("(").length<whereSQL.split(")").length?"(":")")+"”括号！");
+                return;
+            }
+            $("#searchForm input[name='baseSQL']").val(whereSQL);
+            $(".modal").modal("hide");
+            $('#table').bootstrapTable('refresh', {silent: false});
+        }
+
+        //所有人员的选择窗口
+        function userSelectWindow(control_name,vsourceCols,vtargetCols,vwhereSQL){
+
+            sourceCols=vsourceCols;
+            targetCols=vtargetCols;
+            if(control_name==null||control_name==""||sourceCols==null||sourceCols==""||targetCols==null||targetCols==""){
+                alert("未定义选择窗口控件值或字段对应关系，ERROR！");
+                return;
+            }
+            try{
+                var select=eval(control_name);
+                var url = CONTEXT_PATH + "/iframe/select-window?url="+select["layout_url"]+"?funId="+select["fun_id"]+(vwhereSQL==null||vwhereSQL==""||vwhereSQL=="null"?"":"&orgSQL="+vwhereSQL);
+                $("#selectIframe").attr("src", url);
+                $('#selectWindowModal .modal-title').text("人员选择");
+                //居中
+                $('#selectWindowModal').on('show.bs.modal', function (e) {
+                    // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+                    $(this).css('display', 'block');
+                    var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+                    var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+                    $(this).find('.modal-dialog').css({
+                        'margin-top': modalHeight,
+                        'margin-left': modalWidth
+                    });
+                });
+                $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+            }catch(e){}
+        }
+
+    </script>
+
+</div>

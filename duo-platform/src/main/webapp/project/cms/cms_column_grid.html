@@ -1,0 +1,55 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:117,visible:true, halign: 'center',formatter:cmsAuditStatusFormatter }, 
+	 {field: 'column_code', title: '栏目编号*', width:161,visible:true, halign: 'center' }, 
+	 {field: 'column_name', title: '栏目名称*', width:208,visible:true, halign: 'center' }, 
+	 {field: 'column_version', title: '版本号*', width:168,visible:true, halign: 'center' }, 
+	 {field: 'teamplate_name', title: '栏目模版*', width:215,visible:true, halign: 'center' }, 
+	 {field: 'teamplate_version', title: '模版版本号', width:135,visible:true, halign: 'center' }, 
+	 {field: 'upload_date', title: '提交时间', width:200,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'user_name', title: '提交人', width:130,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '提交部门', width:155,visible:true, halign: 'center' }, 
+	 {field: 'audit_user', title: '审核人', width:143,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核时间', width:191,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'html_url', title: 'html地址', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: 'dept_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'teamplate_id', title: '模板id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'expre_data', title: '扩展字段Json', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_level', title: '栏目级别', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'cms_column.auditing',control_name:'cmsAuditStatusData',max_length:20,formatter:'cmsAuditStatusFormatter'}, 
+	  column_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'cms_column.column_code',max_length:40}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'cms_column.column_name',max_length:80}, 
+	  column_version:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'cms_column.column_version',max_length:40}, 
+	  teamplate_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'cms_column.teamplate_name',control_name:'cmsteamplateSelect',source_cols:'teamplate_name;teamplate_version;teamplate_id',target_cols:'teamplate_name;teamplate_version;teamplate_id',control_where:'auditing=&#39;3&#39; and teamplate_type=&#39;content&#39; ',max_length:80}, 
+	  teamplate_version:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_column.teamplate_version',max_length:40}, 
+	  upload_date:{addedit:false,edit:false,type:'datetime',required:false,default:'{CURRENTTIME}',orgfield:'cms_column.upload_date',formatter:'dateTimeFormatter'}, 
+	  user_name:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'cms_column.user_name',max_length:40}, 
+	  dept_name:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTDEPTNAME}',orgfield:'cms_column.dept_name',max_length:80}, 
+	  audit_user:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_column.audit_user',max_length:40}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'cms_column.audit_date',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.memo',max_length:200}, 
+	  html_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.html_url',max_length:200}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.column_id',max_length:32}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTDEPTID}',orgfield:'cms_column.dept_id',max_length:32}, 
+	  teamplate_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.teamplate_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.record_flag',max_length:10}, 
+	  expre_data:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column.expre_data'}, 
+	  column_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'cms_column.column_level'} 
+	 }; 
+</script>  

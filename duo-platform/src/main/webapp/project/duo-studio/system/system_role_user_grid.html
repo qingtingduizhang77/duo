@@ -1,0 +1,29 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'dept_name', title: '部门名称', width:208,visible:true, halign: 'center' }, 
+	 {field: 'user_code', title: '用户编号', width:188,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '用户名称', width:285,visible:true, halign: 'center' }, 
+	 {field: 'det_id', title: '主键', width:164,visible:false, halign: 'center' }, 
+	 {field: 'role_id', title: '角色id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '用户id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  user_code:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  role_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

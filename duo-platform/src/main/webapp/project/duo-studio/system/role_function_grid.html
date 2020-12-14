@@ -1,0 +1,53 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'one_module', title: '一级模块', width:104,visible:true, halign: 'center' }, 
+	 {field: 'module_name', title: '模块', width:126,visible:true, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'fun_name', title: '功能名称', width:177,visible:true, halign: 'center' }, 
+	 {field: 'is_access', title: '访问权限', width:55,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'event_edit', title: '编辑权限', width:72,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'event_delete', title: '删除权限', width:71,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'event_sign', title: '复核权限', width:72,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'event_audit', title: '审批权限', width:78,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'event_print', title: '打印权限', width:74,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'dataright_sql', title: '数据权限SQL', width:440,visible:true, halign: 'center' }, 
+	 {field: 'order_index1', title: '排序1', width:164,visible:false, halign: 'center' }, 
+	 {field: 'order_index2', title: '排序2', width:164,visible:false, halign: 'center' }, 
+	 {field: 'order_index', title: '排序3', width:164,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键', width:164,visible:false, halign: 'center' }, 
+	 {field: 'one_moduleid', title: '一级module_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'role_id', title: 'role_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'module_id', title: 'module_id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  one_module:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  module_name:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  fun_id:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  fun_name:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  is_access:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  event_edit:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  event_delete:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  event_sign:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  event_audit:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  event_print:{addedit:true,edit:true,type:'checkbox',required:false,default:'',formatter:'chekboxFormatter'}, 
+	  dataright_sql:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  order_index1:{addedit:true,edit:true,type:'number',required:false,default:''}, 
+	  order_index2:{addedit:true,edit:true,type:'number',required:false,default:''}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:''}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  one_moduleid:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  role_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  module_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

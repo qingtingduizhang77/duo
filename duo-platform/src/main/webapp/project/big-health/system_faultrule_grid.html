@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '是否生效', width:85,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'fault_name', title: '告警名称*', width:184,visible:true, halign: 'center' }, 
+	 {field: 'device_type', title: '设备机型*', width:158,visible:true, halign: 'center' }, 
+	 {field: 'fault_descript', title: '描述', width:244,visible:true, halign: 'center' }, 
+	 {field: 'is_operation', title: '通知运营？', width:69,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'is_repair', title: '通知维护？', width:69,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'warning_type', title: '通知方式*', width:97,visible:true, halign: 'center',formatter:messagetypeFormatter }, 
+	 {field: 'memo', title: '备注', width:268,visible:true, halign: 'center' }, 
+	 {field: 'compute_sql', title: '判断条件*', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'sms_template', title: '通知模版*', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'rule_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '设备种类id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'system_faultrule.auditing',formatter:'effectivestateFormatter'}, 
+	  fault_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_faultrule.fault_name'}, 
+	  device_type:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'system_faultrule.device_type',control_name:'deviceTypeSelect',source_cols:'device_name;type_id',target_cols:'device_type;type_id'}, 
+	  fault_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_faultrule.fault_descript'}, 
+	  is_operation:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'system_faultrule.is_operation',formatter:'chekboxFormatter'}, 
+	  is_repair:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'system_faultrule.is_repair',formatter:'chekboxFormatter'}, 
+	  warning_type:{addedit:true,edit:true,type:'combobox',required:true,default:'sms',orgfield:'system_faultrule.warning_type',control_name:'messagetypeData',formatter:'messagetypeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_faultrule.memo'}, 
+	  compute_sql:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_faultrule.compute_sql'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_faultrule.record_flag'}, 
+	  sms_template:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_faultrule.sms_template'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_faultrule.project_id'}, 
+	  rule_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_faultrule.rule_id'}, 
+	  type_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_faultrule.type_id'} 
+	 }; 
+</script>  

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform">
+		<div class="form-group">
+>				<label class="col-sm-2 control-label "  >限制登录ip：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="login_ip" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >部门名称*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="dept_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deptSelect","dept_id;dept_code;dept_name","dept_id;dept_code;dept_name","null")'/>
+					<button type='button'  name="btn_dept_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deptSelect","dept_id;dept_code;dept_name","dept_id;dept_code;dept_name","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >用户名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_name" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >性别：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="user_sex"      >
+					 <script type="text/javascript"> 
+						  var optionJson= sextypeData;
+						 for(var key in optionJson)  $('select[name="user_sex"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >是否生效：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="is_valid"      >
+					 <script type="text/javascript"> 
+						  var optionJson= effectivestateData;
+						 for(var key in optionJson)  $('select[name="is_valid"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >登录号*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_code" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >个人描述：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="description" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >用户头像：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_img" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >创建时间：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="create_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label "  >备注：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="memo" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >部门id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_id" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >user_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_id" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >project_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >所属角色：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="role_ids" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >密码salt：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_salt" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >密码：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_password" type="text"     readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >部门编号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_code" type="text"     readonly />
+				</div>
+				<label class="col-sm-2 control-label " >最近登录时间：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="login_time" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+	</form>
+</div>  

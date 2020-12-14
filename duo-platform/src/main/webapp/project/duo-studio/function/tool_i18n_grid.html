@@ -1,0 +1,41 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'language_type', title: '分类分组', width:55,visible:true, halign: 'center' }, 
+	 {field: 'language_code', title: '语言代号', width:185,visible:true, halign: 'center' }, 
+	 {field: 'i18n_default', title: '默认描述', width:344,visible:true, halign: 'center' }, 
+	 {field: 'i18n_cn', title: '中文描述', width:364,visible:true, halign: 'center' }, 
+	 {field: 'i18n_en', title: '英文描述', width:314,visible:true, halign: 'center' }, 
+	 {field: 'i18n_tw', title: '繁体描述', width:346,visible:true, halign: 'center' }, 
+	 {field: 'i18n_jp', title: '日文描述', width:365,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:302,visible:true, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'language_id', title: 'language_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'module_id', title: 'module_id', width:110,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:110,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  language_type:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  language_code:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  i18n_default:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  i18n_cn:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  i18n_en:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  i18n_tw:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  i18n_jp:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  language_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  module_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

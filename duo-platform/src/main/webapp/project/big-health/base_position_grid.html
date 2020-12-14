@@ -1,0 +1,63 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:62,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'field_name', title: '所属区域', width:114,visible:true, halign: 'center' }, 
+	 {field: 'position_code', title: '点位编号', width:143,visible:true, halign: 'center' }, 
+	 {field: 'position_property', title: '点位性质', width:100,visible:true, halign: 'center',formatter:positionpropertyFormatter }, 
+	 {field: 'address', title: '详细地址', width:339,visible:true, halign: 'center' }, 
+	 {field: 'provider_name', title: '所属业主', width:151,visible:true, halign: 'center' }, 
+	 {field: 'is_indoor', title: '是否室内', width:70,visible:true, halign: 'center' }, 
+	 {field: 'advantage', title: '位置特点', width:163,visible:true, halign: 'center' }, 
+	 {field: 'contract_expire', title: '合同到期时间', width:117,visible:true, halign: 'center',formatter:dateFormatter },
+	 {field: 'dept_name', title: '管理部门', width:108,visible:true, halign: 'center' }, 
+	 {field: 'owner_username', title: '责任人', width:100,visible:true, halign: 'center' }, 
+	 {field: 'latitude', title: '纬度', width:102,visible:true, halign: 'center' }, 
+	 {field: 'longitude', title: '经度', width:93,visible:true, halign: 'center' }, 
+	 {field: 'usable_area', title: '可用面积', width:126,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:373,visible:true, halign: 'center' }, 
+	 {field: 'dept_id', title: '管理部门id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'field_id', title: '所属区域id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'position_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'provider_id', title: '所属业主id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'video_id', title: '网络摄像头id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'owner_userid', title: '责任人id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'base_position.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  field_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'{tree}',orgfield:'base_position.field_name',control_name:'fieldSelect',source_cols:'field_name;field_id',target_cols:'field_name;field_id'}, 
+	  position_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'base_position.position_code'}, 
+	  position_property:{addedit:true,edit:true,type:'combobox',required:true,default:'factory',orgfield:'base_position.position_property',control_name:'positionpropertyData',formatter:'positionpropertyFormatter'}, 
+	  address:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'base_position.address'}, 
+	  provider_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'base_position.provider_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'provider_name;provider_id'}, 
+	  is_indoor:{addedit:true,edit:true,type:'checkbox',required:true,default:'0',orgfield:'base_position.is_indoor'}, 
+	  advantage:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.advantage'}, 
+	  contract_expire:{addedit:true,edit:true,type:'datetime',required:true,default:'',orgfield:'base_position.contract_expire',formatter:'dateFormatter'}, 
+	  dept_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'{CURRENTDEPTNAME}',orgfield:'base_position.dept_name',control_name:'deptSelect',source_cols:'dept_name;dept_id',target_cols:'dept_name;dept_id'}, 
+	  owner_username:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'base_position.owner_username',control_name:'userSelect',source_cols:'user_name;user_id',target_cols:'owner_username;owner_userid'}, 
+	  latitude:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.latitude'}, 
+	  longitude:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.longitude'}, 
+	  usable_area:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.usable_area'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.memo'}, 
+	  dept_id:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTDEPTID}',orgfield:'base_position.dept_id'}, 
+	  field_id:{addedit:true,edit:true,type:'text',required:false,default:'{tree}',orgfield:'base_position.field_id'}, 
+	  position_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.position_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.project_id'}, 
+	  provider_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.provider_id'}, 
+	  video_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.video_id'}, 
+	  owner_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.owner_userid'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_position.record_flag'} 
+	 }; 
+</script>  

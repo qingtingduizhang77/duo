@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'create_date', title: '创建时间', width:127,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'data_no', title: '流程号', width:138,visible:true, halign: 'center' }, 
+	 {field: 'data_title', title: '审批标题', width:387,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门', width:99,visible:true, halign: 'center' }, 
+	 {field: 'post_name', title: '岗位', width:98,visible:false, halign: 'center' }, 
+	 {field: 'user_name', title: '申请人', width:98,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '操作', width:169,visible:true, halign: 'center',formatter:gridButtonFormatter }, 
+	 {field: 'data_id', title: '主键id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: 'dept_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: '功能id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'record_id', title: '业务表id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'wf_id', title: 'wf_id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'data_status', title: '审批状态', width:146,visible:false, halign: 'center',formatter:checkstatusFormatter }, 
+	 {field: 'wf_userid', title: 'wf_userid', width:146,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  create_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'wf_data.create_date',formatter:'dateTimeFormatter'}, 
+	  data_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.data_no'}, 
+	  data_title:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.data_title'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.dept_name'}, 
+	  post_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.post_name'}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.user_name'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.record_flag',formatter:'gridButtonFormatter'}, 
+	  data_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.data_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.dept_id'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.fun_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.project_id'}, 
+	  record_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.record_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.user_id'}, 
+	  wf_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data.wf_id'}, 
+	  data_status:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'wf_data_nodeuser.data_status',control_name:'checkstatusData',formatter:'checkstatusFormatter'}, 
+	  wf_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'wf_data_nodeuser.wf_userid'} 
+	 }; 
+</script>  

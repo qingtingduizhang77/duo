@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'occur_date', title: '发生时间', width:152,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'api_name', title: '接口名称', width:154,visible:true, halign: 'center' }, 
+	 {field: 'is_success', title: '是否成功', width:96,visible:true, halign: 'center',formatter:checkboxFormatter }, 
+	 {field: 'source_ip', title: '来源ip', width:143,visible:true, halign: 'center' }, 
+	 {field: 'post_parames', title: '提交参数', width:322,visible:true, halign: 'center' }, 
+	 {field: 'log_content', title: '日志内容', width:778,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'log_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'tocken_id', title: 'tocken_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'api_id', title: 'api_id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  occur_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'tool_api_log.occur_date',formatter:'dateTimeFormatter'}, 
+	  api_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.api_name',max_length:80}, 
+	  is_success:{addedit:true,edit:true,type:'checkbox',required:false,default:'',orgfield:'tool_api_log.is_success',max_length:10,formatter:'checkboxFormatter'}, 
+	  source_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.source_ip',max_length:40}, 
+	  post_parames:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.post_parames'}, 
+	  log_content:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.log_content'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.record_flag',max_length:10}, 
+	  log_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.log_id',max_length:32}, 
+	  tocken_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.tocken_id',max_length:40}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.user_id',max_length:32}, 
+	  api_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_log.api_id',max_length:32} 
+	 }; 
+</script>  

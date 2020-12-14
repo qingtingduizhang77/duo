@@ -1,0 +1,27 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'data_type', title: '数据类型', width:105,visible:true, halign: 'center' }, 
+	 {field: 'redis_key', title: '缓存键', width:232,visible:true, halign: 'center' }, 
+	 {field: 'redis_value', title: '缓存值', width:462,visible:true, halign: 'center' }, 
+	 {field: 'expire', title: '过期时间', width:199,visible:true, halign: 'center' }, 
+	 {field: 'el_count', title: '元素总数', width:103,visible:true, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  data_type:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  redis_key:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  redis_value:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  expire:{addedit:false,edit:false,type:'text',required:false,default:''}, 
+	  el_count:{addedit:false,edit:false,type:'text',required:false,default:''} 
+	 }; 
+</script>  

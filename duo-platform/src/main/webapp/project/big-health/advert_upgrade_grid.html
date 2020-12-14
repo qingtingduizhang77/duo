@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '记录状态', width:106,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'message_type', title: '指令类型', width:117,visible:true, halign: 'center',formatter:controlordertypeFormatter }, 
+	 {field: 'plan_time', title: '计划执行时间*', width:158,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'apply_username', title: '提交人', width:88,visible:true, halign: 'center' }, 
+	 {field: 'check_username', title: '审核人', width:78,visible:true, halign: 'center' }, 
+	 {field: 'file_name', title: '升级包版本', width:200,visible:true, halign: 'center' }, 
+	 {field: 'file_size', title: '升级包大小(k)', width:181,visible:true, halign: 'center' }, 
+	 {field: 'is_success', title: '执行状态', width:108,visible:true, halign: 'center',formatter:controlorderstatusFormatter }, 
+	 {field: 'call_backmessage', title: '反馈信息', width:243,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '版本号', width:181,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:183,visible:false, halign: 'center' }, 
+	 {field: 'control_id', title: '主键id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'file_id', title: 'file_id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'apply_userid', title: '提交人id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'check_userid', title: '审核人id', width:183,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_control.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  message_type:{addedit:false,edit:false,type:'combobox',required:false,default:'2',orgfield:'device_control.message_type',control_name:'controlordertypeData',formatter:'controlordertypeFormatter'}, 
+	  plan_time:{addedit:true,edit:true,type:'datetime',required:true,default:'',orgfield:'device_control.plan_time',formatter:'dateTimeFormatter'}, 
+	  apply_username:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.apply_username'}, 
+	  check_username:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.check_username'}, 
+	  file_name:{addedit:false,edit:false,type:'selectwindow',required:false,default:'',orgfield:'device_control.file_name',control_name:'softpackageSelect',source_cols:'file_name;file_size;memo;file_id',target_cols:'file_name;file_size;memo;file_id'}, 
+	  file_size:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'device_control.file_size'}, 
+	  is_success:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_control.is_success',control_name:'controlorderstatusData',formatter:'controlorderstatusFormatter'}, 
+	  call_backmessage:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_control.call_backmessage'}, 
+	  memo:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_control.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.record_flag'}, 
+	  control_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.control_id'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.device_id'}, 
+	  file_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.file_id'}, 
+	  apply_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.apply_userid'}, 
+	  check_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_control.check_userid'} 
+	 }; 
+</script>  

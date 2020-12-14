@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:57,visible:true, halign: 'center' }, 
+	 {field: 'column_name', title: '字段名称', width:154,visible:true, halign: 'center' }, 
+	 {field: 'column_comment', title: '字段描述', width:162,visible:true, halign: 'center' }, 
+	 {field: 'column_type', title: '字段类型', width:84,visible:true, halign: 'center',formatter:formcolumntypeFormatter }, 
+	 {field: 'is_null', title: '是否必填', width:64,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'value_type', title: '取值方式', width:89,visible:true, halign: 'center',formatter:excelvaluetypeFormatter }, 
+	 {field: 'col_index', title: '来源列号', width:61,visible:true, halign: 'center',formatter:excelcolnoFormatter }, 
+	 {field: 'default_value', title: '默认值', width:121,visible:true, halign: 'center' }, 
+	 {field: 'control_name', title: '下拉控件名', width:107,visible:true, halign: 'center' }, 
+	 {field: 'change_type', title: '转换类型', width:81,visible:true, halign: 'center',formatter:exceletltypeFormatter }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'column_id', title: 'column_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'import_id', title: 'import_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:184,visible:true, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_excel_import_column.order_index'}, 
+	  column_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_excel_import_column.column_name'}, 
+	  column_comment:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_excel_import_column.column_comment'}, 
+	  column_type:{addedit:true,edit:true,type:'combobox',required:true,default:'text',orgfield:'tool_excel_import_column.column_type',control_name:'formcolumntypeData',formatter:'formcolumntypeFormatter'}, 
+	  is_null:{addedit:true,edit:true,type:'checkbox',required:true,default:'0',orgfield:'tool_excel_import_column.is_null',formatter:'chekboxFormatter'}, 
+	  value_type:{addedit:true,edit:true,type:'combobox',required:true,default:'excel',orgfield:'tool_excel_import_column.value_type',control_name:'excelvaluetypeData',formatter:'excelvaluetypeFormatter'}, 
+	  col_index:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'tool_excel_import_column.col_index',control_name:'excelcolnoData',formatter:'excelcolnoFormatter'}, 
+	  default_value:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.default_value'}, 
+	  control_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.control_name'}, 
+	  change_type:{addedit:true,edit:true,type:'combobox',required:false,default:'no',orgfield:'tool_excel_import_column.change_type',control_name:'exceletltypeData',formatter:'exceletltypeFormatter'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.project_id'}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.column_id'}, 
+	  import_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.import_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_excel_import_column.memo'} 
+	 }; 
+</script>  

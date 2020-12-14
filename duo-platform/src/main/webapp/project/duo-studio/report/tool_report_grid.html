@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:65,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'report_type', title: '报表类型*', width:101,visible:true, halign: 'center',formatter:reporttypeFormatter }, 
+	 {field: 'report_name', title: '报表名称*', width:179,visible:true, halign: 'center' }, 
+	 {field: 'order_index', title: '排序', width:73,visible:true, halign: 'center' }, 
+	 {field: 'report_file', title: '打印模版', width:240,visible:true, halign: 'center' }, 
+	 {field: 'print_type', title: '打印格式', width:125,visible:true, halign: 'center' }, 
+	 {field: 'module_id', title: 'module_id', width:108,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id*', width:124,visible:true, halign: 'center' }, 
+	 {field: 'page_height', title: '纸张高度mm', width:75,visible:false, halign: 'center' }, 
+	 {field: 'page_width', title: '纸张宽度mm', width:75,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:331,visible:true, halign: 'center' }, 
+	 {field: 'system_id', title: 'system_id', width:163,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'report_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'tool_report.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  report_type:{addedit:true,edit:true,type:'combobox',required:true,default:'grid',orgfield:'tool_report.report_type',control_name:'reporttypeData',formatter:'reporttypeFormatter'}, 
+	  report_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_report.report_name'}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'100',orgfield:'tool_report.order_index'}, 
+	  report_file:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_report.report_file'}, 
+	  print_type:{addedit:true,edit:true,type:'text',required:false,default:';excel;',orgfield:'tool_report.print_type'}, 
+	  module_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_report.module_id'}, 
+	  fun_id:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'tool_report.fun_id',control_name:'funSelect',source_cols:'fun_id;module_id',target_cols:'fun_id;module_id'}, 
+	  page_height:{addedit:true,edit:true,type:'number',required:false,default:'0',orgfield:'tool_report.page_height'}, 
+	  page_width:{addedit:true,edit:true,type:'number',required:false,default:'0',orgfield:'tool_report.page_width'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_report.memo'}, 
+	  system_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTSYSTEMID}',orgfield:'tool_report.system_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_report.record_flag'}, 
+	  report_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_report.report_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_report.project_id'} 
+	 }; 
+</script>  

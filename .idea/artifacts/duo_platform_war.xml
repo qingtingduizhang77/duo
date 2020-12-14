@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="duo-platform:war">
+    <output-path>$PROJECT_DIR$/duo-platform/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>duo-platform</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="duo-platform-0.0.1-SNAPSHOT.war">
+      <element id="artifact" artifact-name="duo-platform:war exploded" />
+    </root>
+  </artifact>
+</component>

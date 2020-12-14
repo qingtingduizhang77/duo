@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="context-path" th:content="@{/}"/>
+        <title>功能窗口</title>
+        <!-- favicon icon -->
+        <link rel="icon" type="image/png" th:href="@{/static/img/favicon.ico}">
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+         <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+        <!-- x-editable-->
+        <link rel="stylesheet" th:href="@{/static/libs/x-editable/bootstrap3-editable/css/bootstrap-editable.css}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+        <!-- Select -->
+        <link rel="stylesheet" th:href="@{/static/libs/select/bootstrap-select.min.css}">
+        <!-- Select2 -->
+        <link rel="stylesheet" th:href="@{/static/css/select2.min.css}">
+        <!-- Theme style -->
+        <link rel="stylesheet" th:href="@{/static/css/AdminLTE.min.css}">
+        <!-- Pace style -->
+        <link rel="stylesheet" th:href="@{/static/css/pace.min.css}">
+        <!-- zTree style -->
+        <link rel="stylesheet" th:href="@{/static/css/ztree/metroStyle/metroStyle.css}">
+        <!-- Bootstrap-table -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-table.min.css}">
+        <!-- Bootstrap-table -->
+        <!--<link rel="stylesheet" th:href="@{/static/libs/bootstrap-table/bootstrap-table.css}">-->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.css}">
+        <!-- Animate -->
+        <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+        <!-- daterange picker -->
+        <link rel="stylesheet" th:href="@{/static/css/daterangepicker.css}">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-datepicker.min.css}">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-colorpicker.min.css}">
+        <!-- Bootstrap time Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-timepicker.min.css}">
+        <!-- iCheck -->
+        <link rel="stylesheet" th:href="@{/static/css/iCheck/square/blue.css}">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" th:href="@{/static/css/skins/_all-skins.min.css}">
+
+        <!-- bootstrap3-dialog  -->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap3-dialog/css/bootstrap-dialog.min.css}">
+        <!-- sweetalert  -->
+        <link rel="stylesheet" th:href="@{/static/css/sweetalert.css}">
+        <link rel="stylesheet"th:href="@{/static/libs/jquery-editable-select/jquery.editable-select.min.css}">
+        <!-- 自定义样式 -->
+        <link rel="stylesheet" th:href="@{/static/css/admin.css?v=1.0.1}">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/html5shiv.min.js}"></script>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/respond.min.js}"></script>
+        <![endif]-->
+        <script th:inline="javascript">
+            var CONTEXT_PATH = [[${#request.getContextPath()}]];
+        </script>
+        <!-- Google Font -->
+        <!--<link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+<style>
+
+    .sidebar-menu >div> li > a {
+        padding: 5px 5px 5px 15px;
+        display: block;
+    }
+
+    .sidebar-menu >div> li > a > .fa,
+    .sidebar-menu >div> li > a > .glyphicon,
+    .sidebar-menu >div> li > a > .ion {
+        width: 20px;
+    }
+    html,body{
+        height: 100%;
+    }
+
+    .portal-content {
+        position: relative;
+        background-color: #fff;
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        border-radius: 6px;
+        outline: 0;
+        border: 1px solid rgba(0, 0, 0, .2);
+        -webkit-box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+        box-shadow: 0 3px 9px rgba(0, 0, 0, .5);
+    }
+    .portal-header {
+        position: absolute;
+        z-index:1000;
+        width:100%;
+        padding:5px 10px 5px 10px;
+        border-bottom: 1px solid #e5e5e5;
+        height:35px;
+        background: #c7e6f5;
+    }
+
+    .portal-header  > .close {
+        line-height: 25px;
+        margin-left:10px;
+        font-size:14px;
+        margin-top: -2px;
+    }
+    .portal-title {
+        margin: 0;
+        line-height: 25px;
+    }
+
+    .portal-body {
+        position: relative;
+        padding: 15px;
+    }
+</style>
+    <!--Fortmatter方法 -->
+    <script th:replace="~{../project/common/common-data-formatter :: formatterScript}"></script>
+
+    </head>
+    <body>
+             <!--Content Wrapper. Contains page content-->
+            <div class="box-body" id="content-wrapper">
+            </div>
+
+
+             <div th:replace="../project/common/common-modal-mini :: CommonWindowModal"></div>
+    </body>
+    <!-- jQuery 3 -->
+    <script th:src="@{/static/libs/jquery/jquery-2.2.4.min.js}"></script>
+    <!-- easyui-->
+    <script th:src="@{/static/libs/easyui1.8.3/jquery.easyui.min.js}"></script>
+    <!-- Bootstrap-table -->
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/bootstrap-table.min.js}"></script>
+    <!--<script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/editable/bootstrap-table-editable.min.js}"></script>-->
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/locale/bootstrap-table-zh-CN.min.js}"></script>
+
+    <!-- Bootstrap 3.3.7 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-v3.3.7.min.js}"></script>
+
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table.min.js}"></script>-->
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table-edit.min.js}"></script>-->
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table-zh-CN.min.js}"></script>-->
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-select.js}"></script>-->
+    <!-- x-eidtable -->
+ <!--<script th:src="@{/static/libs/x-editable/bootstrap3-editable/js/bootstrap-editable.js}"></script>-->
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/static/libs/fastclick.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/static/libs/adminlte/adminlte.min.js}"></script>
+    <!-- Select -->
+    <script th:src="@{/static/libs/select/bootstrap-select.min.js}"></script>
+    <!-- Select2 -->
+    <script th:src="@{/static/libs/select2/select2.full.min.js}"></script>
+    <!-- InputMask -->
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.date.extensions.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.extensions.js}"></script>
+    <!-- date-range-picker -->
+    <script th:src="@{/static/libs/moment.min.js}"></script>
+    <script th:src="@{/static/libs/daterangepicker.js}"></script>
+    <!-- My97DatePicker -->
+    <script th:src="@{/static/libs/datepicker/WdatePicker.js}"></script>
+
+    <!-- bootstrap3-dialog  -->
+    <script th:src="@{/static/libs/bootstrap3-dialog/js/bootstrap-dialog.min.js}"></script>
+    <!-- bootstrap datepicker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-datepicker.min.js}"></script>
+    <!-- bootstrap color picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-colorpicker.min.js}"></script>
+    <!-- bootstrap time picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-timepicker.min.js}"></script>
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- PACE -->
+    <script th:src="@{/static/libs/pace.min.js}"></script>
+    <!-- zTree script -->
+    <script th:src="@{/static/libs/jquery-ztree/jquery.ztree.all.min.js}"></script>
+        <!--<script th:src="@{/static/libs/bootstrap-editable/bootstrap-table-edit.js}"></script>-->
+    <!-- Bootstrap-notify-3.1.3 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-notify.min.js}"></script>
+    <!-- Bootstrap-validator-0.11.9 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-validator.min.js}"></script>
+    <!-- ckedit -->
+    <script th:src="@{/static/libs/ckeditor/ckeditor.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/static/libs/iCheck/icheck.min.js}"></script>
+    <!-- AdminLTE for menu purposes -->
+    <script th:src="@{/static/js/right-menu-color.js}"></script>
+
+    <script th:src="@{/static/js/admin.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/static/js/common/utils.js?v=1.0.1}"></script>
+    <script th:src="@{/static/libs/jquery-editable-select/jquery.editable-select.min.js}"></script>
+
+    <script th:src="@{/project/common/common-editable.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-formatter.js?v=1.0.1}" th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-function.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-chart.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:inline="javascript">
+        var url= [[${url}]];
+        var height= [[${height}]];
+        var foreignKeyId= [[${foreignKeyId}]];
+        var foreignColumn= [[${foreignColumn}]];
+        var mainValide= [[${mainValide}]];
+
+
+        var CURRENTUSERID = [[${CURRENTUSERID}]];
+        var CURRENTUSERNAME = [[${CURRENTUSERNAME}]];
+        var CURRENTDEPTID = [[${CURRENTDEPTID}]];
+        var CURRENTDEPTNAME = [[${CURRENTDEPTNAME}]];
+        var CURRENTCOMPANYID = [[${CURRENTCOMPANYID}]];
+        var CURRENTSYSTEMID = [[${CURRENTSYSTEMID}]];
+        var CURRENTONEDEPTID = [[${CURRENTONEDEPTID}]];
+        var CURRENTTWODEPTID = [[${CURRENTTWODEPTID}]];
+
+        $(function () {
+            if(document.body.clientHeight>1) {
+                height=document.body.clientHeight;
+            }
+
+            $('#content-wrapper').height(height-10);
+            $('#content-wrapper').load(CONTEXT_PATH+url+(url.indexOf("?")>0?"&":"?")+"pageType=subgrid&foreignColumn="+foreignColumn+"&foreignKeyId="+foreignKeyId+("&mainValide="+mainValide), function () {
+                $(".content-header").hide();
+                $(".box").css("border-top","0px");
+                try{
+                $("#treeBody").css("height",height-30);
+                $table.bootstrapTable('resetView',{ height: height } );
+                    reloadComponent();
+                }catch(e){}
+                if(typeof (initLoad)!="undefined")initLoad();
+            });
+
+        });
+
+
+
+    </script>
+
+
+</html>

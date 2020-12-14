@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'rec_default', title: '是否默认', width:97,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'rec_address', title: '收件地址', width:320,visible:true, halign: 'center' }, 
+	 {field: 'rec_phone', title: '收件人手机号', width:174,visible:true, halign: 'center' }, 
+	 {field: 'rec_postcode', title: '邮编', width:144,visible:true, halign: 'center' }, 
+	 {field: 'rec_user', title: '收件人姓名', width:145,visible:true, halign: 'center' }, 
+	 {field: 'create_time', title: '创建时间', width:176,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'member_id', title: '用户id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'rec_id', title: '配送地址id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  rec_default:{addedit:true,edit:true,type:'checkbox',required:false,default:'',orgfield:'user_member_address.rec_default',max_length:10,formatter:'chekboxFormatter'}, 
+	  rec_address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.rec_address',max_length:200}, 
+	  rec_phone:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.rec_phone',max_length:20}, 
+	  rec_postcode:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.rec_postcode',max_length:20}, 
+	  rec_user:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.rec_user',max_length:40}, 
+	  create_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'user_member_address.create_time',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.memo',max_length:200}, 
+	  member_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.member_id',max_length:32}, 
+	  rec_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.rec_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_address.record_flag',max_length:10} 
+	 }; 
+</script>  

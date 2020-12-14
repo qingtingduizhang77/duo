@@ -1,0 +1,59 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'stock_code', title: '货架号', width:97,visible:true, halign: 'center' }, 
+	 {field: 'stock_name', title: '货架名', width:108,visible:true, halign: 'center' }, 
+	 {field: 'bar_code', title: '商品条码号', width:97,visible:true, halign: 'center' }, 
+	 {field: 'goods_name', title: '商品名称', width:114,visible:true, halign: 'center' }, 
+	 {field: 'type_name', title: '商品分类', width:107,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '单位', width:48,visible:true, halign: 'center' }, 
+	 {field: 'batch_no', title: '批次号', width:108,visible:true, halign: 'center' }, 
+	 {field: 'store_num', title: '库存数量', width:68,visible:true, halign: 'center' }, 
+	 {field: 'check_result', title: '盘点结果', width:76,visible:true, halign: 'center',formatter:checkresultFormatter }, 
+	 {field: 'fact_num', title: '实际数量', width:68,visible:true, halign: 'center' }, 
+	 {field: 'factory', title: '生产厂家', width:158,visible:true, halign: 'center' }, 
+	 {field: 'goods_size', title: '规格', width:128,visible:true, halign: 'center' }, 
+	 {field: 'store_price', title: '采购单价', width:76,visible:true, halign: 'center' }, 
+	 {field: 'create_date', title: '生产日期', width:108,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'expiry_date', title: '有效期至', width:118,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'memo', title: '备注', width:158,visible:true, halign: 'center' }, 
+	 {field: 'check_id', title: 'in_id', width:166,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:166,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: 'goods_id', width:166,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: 'stock_id', width:166,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:166,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  stock_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'store_stock.stock_code'}, 
+	  stock_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'store_stock.stock_name'}, 
+	  bar_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.bar_code'}, 
+	  goods_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.goods_name'}, 
+	  type_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.type_name'}, 
+	  unit:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.unit'}, 
+	  batch_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'store_check_det.batch_no'}, 
+	  store_num:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'store_check_det.store_num'}, 
+	  check_result:{addedit:true,edit:true,type:'combobox',required:true,default:'',orgfield:'store_check_det.check_result',control_name:'checkresultData',formatter:'checkresultFormatter'}, 
+	  fact_num:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'store_check_det.fact_num'}, 
+	  factory:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.factory'}, 
+	  goods_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'goods_list.goods_size'}, 
+	  store_price:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'store_check_det.store_price'}, 
+	  create_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'store_check_det.create_date',formatter:'dateFormatter'}, 
+	  expiry_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'store_check_det.expiry_date',formatter:'dateFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_check_det.memo'}, 
+	  check_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'store_check_det.check_id'}, 
+	  det_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'store_check_det.det_id'}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_check_det.goods_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_check_det.stock_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'store_check_det.record_flag'} 
+	 }; 
+</script>  

@@ -1,0 +1,51 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'stock_code', title: '仓库货架号*', width:120,visible:true, halign: 'center' }, 
+	 {field: 'stock_name', title: '仓库货架名*', width:183,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '保管员', width:111,visible:true, halign: 'center' }, 
+	 {field: 'min_num', title: '最小库存量', width:86,visible:true, halign: 'center' }, 
+	 {field: 'max_num', title: '最大库存量', width:81,visible:true, halign: 'center' }, 
+	 {field: 'inplace_descript', title: '位置描述', width:363,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:161,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '公司id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '部门id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '保管员id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门名称', width:164,visible:false, halign: 'center' }, 
+	 {field: 'company_name', title: '公司名称', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'bar_code', title: '条码号', width:164,visible:false, halign: 'center' }, 
+	 {field: 'stock_level', title: '级别', width:70,visible:false, halign: 'center',formatter:imsstocklevelFormatter } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  stock_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'ims_store_stock.stock_code'}, 
+	  stock_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'ims_store_stock.stock_name'}, 
+	  user_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'ims_store_stock.user_name',control_name:'userSelect',source_cols:'user_id;user_name',target_cols:'user_id;user_name'}, 
+	  min_num:{addedit:true,edit:true,type:'number',required:false,default:'0',orgfield:'ims_store_stock.min_num'}, 
+	  max_num:{addedit:true,edit:true,type:'number',required:false,default:'999',orgfield:'ims_store_stock.max_num'}, 
+	  inplace_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.inplace_descript'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.memo'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.company_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.dept_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.project_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.stock_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.user_id'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.dept_name'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.company_name'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.record_flag'}, 
+	  bar_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_stock.bar_code'}, 
+	  stock_level:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'ims_store_stock.stock_level',control_name:'imsstocklevelData',formatter:'imsstocklevelFormatter'} 
+	 }; 
+</script>  

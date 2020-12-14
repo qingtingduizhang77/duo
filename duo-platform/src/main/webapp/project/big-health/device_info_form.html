@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >管理状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >点位编号*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="position_code"       style='width:80%;float:left; '  onclick='formSelectWindow("positionSelect","position_code;position_id","position_code;position_id","null")'/>
+					<button type='button'  name="btn_position_code"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("positionSelect","position_code;position_id","position_code;position_id","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >设备编号*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_code" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >设备名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_name" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >设备类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="device_kind"      >
+					 <script type="text/javascript"> 
+						  var optionJson= devicekindData;
+						 for(var key in optionJson)  $('select[name="device_kind"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >生产厂家*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_factory" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >设备型号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_type" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >设备规格：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_size" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >管理部门*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="dept_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","null")'/>
+					<button type='button'  name="btn_dept_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","null")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label "  >出厂价(元)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_price" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >货道容量(条)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="cargo_num" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly />
+				</div>
+				<label class="col-sm-2 control-label "  >能耗(KWH/日)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_energy" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >设备重量(KG)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_weight" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly />
+				</div>
+				<label class="col-sm-2 control-label "  >是否有备库：</label>
+				<div class=col-sm-3_5>
+					<input   name="has_stock" type="checkbox"      readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue" >出厂日期*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="out_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label " >安装日期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="install_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue" >启用日期*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="use_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label "  >使用寿命(年)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="use_age" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >温控模式：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="temperature_type"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= temperaturetypeData;
+						 for(var key in optionJson)  $('select[name="temperature_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >目标温度(°C)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="temperature_set" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >目标湿度(%)：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="humidity_set" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+				<label class="col-sm-2 control-label "  >限制ip：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="fix_ip" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:82px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:77px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>type_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="type_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>管理部门id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>点位_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="position_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>运营商户id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="company_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

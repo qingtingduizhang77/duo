@@ -1,0 +1,73 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:78,visible:true, halign: 'center',formatter:imsinstatusFormatter }, 
+	 {field: 'in_type', title: '入库类型*', width:111,visible:true, halign: 'center',formatter:imsintypeFormatter }, 
+	 {field: 'in_no', title: '入库单号', width:162,visible:true, halign: 'center' }, 
+	 {field: 'in_date', title: '入库时间', width:186,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'user_name', title: '入库人', width:111,visible:true, halign: 'center' }, 
+	 {field: 'house_code', title: '仓库号', width:105,visible:true, halign: 'center' }, 
+	 {field: 'house_name', title: '仓库名称*', width:122,visible:true, halign: 'center' }, 
+	 {field: 'in_num', title: '入库数量', width:95,visible:false, halign: 'center' }, 
+	 {field: 'in_money', title: '入库金额(元)', width:117,visible:false, halign: 'center' }, 
+	 {field: 'provider_name', title: '供应商名称', width:181,visible:true, halign: 'center' }, 
+	 {field: 'delivery_man', title: '送货人*', width:96,visible:true, halign: 'center' }, 
+	 {field: 'delivery_mobile', title: '送货人电话', width:130,visible:true, halign: 'center' }, 
+	 {field: 'purchase_no', title: '采购单号', width:150,visible:true, halign: 'center' }, 
+	 {field: 'audit_user_nane', title: '审核人', width:105,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核日期', width:181,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'memo', title: '备注', width:181,visible:true, halign: 'center' }, 
+	 {field: 'audit_user_id', title: '审核人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '公司id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '部门id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'house_id', title: '入库仓库id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'in_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'provider_id', title: '供应商id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'purchase_id', title: '采购单id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '入库人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'company_name', title: '公司名称', width:182,visible:false, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门名称', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'ims_store_in.auditing',control_name:'imsinstatusData',formatter:'imsinstatusFormatter'}, 
+	  in_type:{addedit:true,edit:true,type:'combobox',required:true,default:'buy',orgfield:'ims_store_in.in_type',control_name:'imsintypeData',formatter:'imsintypeFormatter'}, 
+	  in_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_in.in_no'}, 
+	  in_date:{addedit:false,edit:false,type:'datetime',required:false,default:'{CURRENTTIME}',orgfield:'ims_store_in.in_date',formatter:'dateTimeFormatter'}, 
+	  user_name:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'ims_store_in.user_name'}, 
+	  house_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_in.house_code'}, 
+	  house_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'ims_store_in.house_name',control_name:'imsstoreShopSelect',source_cols:'stock_id;stock_code;stock_name',target_cols:'house_id;house_code;house_name',control_where:'stock_level=1'}, 
+	  in_num:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'ims_store_in.in_num'}, 
+	  in_money:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'ims_store_in.in_money'}, 
+	  provider_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.provider_name'}, 
+	  delivery_man:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'ims_store_in.delivery_man'}, 
+	  delivery_mobile:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.delivery_mobile'}, 
+	  purchase_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.purchase_no'}, 
+	  audit_user_nane:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_in.audit_user_nane'}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'ims_store_in.audit_date',formatter:'dateTimeFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.memo'}, 
+	  audit_user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.audit_user_id'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTCOMPANYID}',orgfield:'ims_store_in.company_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTDEPTID}',orgfield:'ims_store_in.dept_id'}, 
+	  house_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.house_id'}, 
+	  in_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.in_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.project_id'}, 
+	  provider_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.provider_id'}, 
+	  purchase_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.purchase_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'ims_store_in.user_id'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.company_name'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTDEPTNAME}',orgfield:'ims_store_in.dept_name'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_in.record_flag'} 
+	 }; 
+</script>  

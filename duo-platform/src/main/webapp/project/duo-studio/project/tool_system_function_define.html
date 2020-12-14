@@ -1,0 +1,12 @@
+<script  th:fragment="gridScript">
+
+    //模块
+    function systemNameFormatter(value, row, index){
+        if(row.system_name!=null&&row.system_name!="")
+            return row.system_name;
+        return value;
+    }
+
+
+
+</script>

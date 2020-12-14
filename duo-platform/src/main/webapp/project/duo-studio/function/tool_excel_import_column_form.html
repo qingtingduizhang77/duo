@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="text"   default=""    />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >字段名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_name" type="text"   default=""    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >字段描述*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_comment" type="text"   default=""    />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >字段类型*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="column_type"   default="text"   >
+					 <script type="text/javascript"> 
+						  var optionJson= formcolumntypeData;
+						 for(var key in optionJson)  $('select[name="column_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >是否必填*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="is_null" type="text"   default="0"    />
+				</div>
+				<label class="col-sm-2 control-label "  >来源列号：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="col_index"   default="0"   >
+					 <script type="text/javascript"> 
+						  var optionJson= excelcolnoData;
+						 for(var key in optionJson)  $('select[name="col_index"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >取值方式*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="value_type"   default="excel"   >
+					 <script type="text/javascript"> 
+						  var optionJson= excelvaluetypeData;
+						 for(var key in optionJson)  $('select[name="value_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >默认值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="default_value" type="text"   default=""    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >下拉控件名：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="control_name" type="text"   default=""    />
+				</div>
+				<label class="col-sm-2 control-label "  >转换类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="change_type"   default="no"   >
+					 <script type="text/javascript"> 
+						  var optionJson= exceletltypeData;
+						 for(var key in optionJson)  $('select[name="change_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:76px;"   >导入后执行sql1：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:71px" name="post_sql1"   default=""    ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:86px;"   >导入后执行sql2：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:81px" name="post_sql2"   default=""    ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:88px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:83px" name="memo"   default=""    ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   default="" style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>column_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="column_id" type="text"   default="" style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>import_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="import_id" type="text"   default="" style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

@@ -1,0 +1,53 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'man_name', title: '姓名*', width:101,visible:true, halign: 'center' }, 
+	 {field: 'sex', title: '性别', width:82,visible:true, halign: 'center',formatter:sextypeFormatter }, 
+	 {field: 'mobile_no', title: '手机号*', width:156,visible:true, halign: 'center' }, 
+	 {field: 'both_date', title: '出生日期', width:128,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'address', title: '住址', width:325,visible:true, halign: 'center' }, 
+	 {field: 'height', title: '身高(kg)', width:80,visible:true, halign: 'center' }, 
+	 {field: 'weight', title: '体重(cm)', width:78,visible:true, halign: 'center' }, 
+	 {field: 'drug_allergy', title: '药物过敏史', width:326,visible:true, halign: 'center' }, 
+	 {field: 'past_history', title: '既往病史', width:350,visible:true, halign: 'center' }, 
+	 {field: 'genetic_disease', title: '遗传病史', width:385,visible:true, halign: 'center' }, 
+	 {field: 'e_mail', title: '邮箱', width:195,visible:true, halign: 'center' }, 
+	 {field: 'id_card', title: '身份证号', width:181,visible:true, halign: 'center' }, 
+	 {field: 'social_card', title: '社保卡号', width:181,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:181,visible:true, halign: 'center' }, 
+	 {field: 'man_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'member_id', title: 'member_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  man_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member_man.man_name'}, 
+	  sex:{addedit:true,edit:true,type:'combobox',required:false,default:'1',orgfield:'user_member_man.sex',control_name:'sextypeData',formatter:'sextypeFormatter'}, 
+	  mobile_no:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_member_man.mobile_no'}, 
+	  both_date:{addedit:true,edit:true,type:'date',required:false,default:'',orgfield:'user_member_man.both_date',formatter:'dateFormatter'}, 
+	  address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.address'}, 
+	  height:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_member_man.height'}, 
+	  weight:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_member_man.weight'}, 
+	  drug_allergy:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.drug_allergy'}, 
+	  past_history:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.past_history'}, 
+	  genetic_disease:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.genetic_disease'}, 
+	  e_mail:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.e_mail'}, 
+	  id_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.id_card'}, 
+	  social_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.social_card'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.memo'}, 
+	  man_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.man_id'}, 
+	  member_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.member_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.project_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_member_man.record_flag'} 
+	 }; 
+</script>  

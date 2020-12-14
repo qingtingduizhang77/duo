@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >会员姓名*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="member_name" type="text"      required=true />
+				</div>
+				<label class="col-sm-2 control-label "  >激活状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"       >
+					 <script type="text/javascript"> 
+						  var optionJson= memberstatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >昵称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="nick_name" type="text"      required=true />
+				</div>
+				<label class="col-sm-2 control-label "  >性别：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="sex"       >
+					 <script type="text/javascript"> 
+						  var optionJson= sextypeData;
+						 for(var key in optionJson)  $('select[name="sex"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >出生日期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="both_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label "  >邮箱：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="e_mail" type="text"       />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >手机号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="mobile_no" type="text"       />
+				</div>
+				<label class="col-sm-2 control-label "  >会员级别：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="member_level"       >
+					 <script type="text/javascript"> 
+						  var optionJson= memberlevelData;
+						 for(var key in optionJson)  $('select[name="member_level"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >身份证号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="id_card" type="text"       />
+				</div>
+				<label class="col-sm-2 control-label "  >社保卡号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="social_card" type="text"       />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >住址：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="address" type="text"       />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >登录帐号*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_code" type="text"      required=true />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >登录密码*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="user_password" type="text"      required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >累计金额：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_money" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly  />
+				</div>
+				<label class="col-sm-2 control-label "  >累计订单数：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_num" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >总积分：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="total_point" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly  />
+				</div>
+				<label class="col-sm-2 control-label "  >可用积分：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="usable_point" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"     readonly  />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label " >会员有效期：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="limit_date" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:88px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:83px" name="memo"          ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="member_id" type="text"   style='display:none;'    />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'    />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'    />
+				</div>
+		</div>
+	</form>
+</div>  

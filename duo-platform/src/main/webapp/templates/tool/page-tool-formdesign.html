@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+    .form-groupt {
+        background-color: rgba(157, 229, 245, 0.33);
+        margin: 10px 20px 5px 10px;
+        position: absolute;
+        line-height: 35px;
+    }
+
+    .form-group {
+        background-color: rgba(59, 204, 79, 0.33);
+        margin: 10px 20px 5px 10px;
+        position: absolute;
+        line-height: 35px;
+    }
+
+    .OSelect{
+        border:1px solid #1d34cc;
+        border-style:dotted;
+    }
+
+    .OHide{
+        background-color:#cccccc;
+    }
+
+
+</style>
+
+<section class="content-header" style="">
+    <h1><span>表单设计器</span>
+        <small> 用于实现托拉拽可视化开发</small>
+    </h1>
+</section>
+
+<section class="content">
+
+    <div id="toolbar">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" onclick="openSelectColumnWin()">
+                <i class="glyphicon glyphicon-tasks"></i> 选择字段列表
+            </button>
+            <button type="button" class="btn btn-default" onclick="addFieldSet()">
+                <i class="glyphicon glyphicon-plus"></i> 新增分类框
+            </button>
+            <button type="button" class="btn btn-default" onclick="addTextLabel()">
+                <i class="glyphicon glyphicon-plus"></i> 新增文本标签
+            </button>
+            <button type="button" class="btn btn-default" onclick="sortFarmat()">
+                <i class="glyphicon glyphicon-th"></i> 自动对齐
+            </button>
+            <button type="button" class="btn btn-default" onclick="removeObj()">
+                <i class="glyphicon glyphicon-remove"></i> 删除
+            </button>
+            <button type="button" class="btn btn-default" onclick="cleanObj()">
+                <i class="glyphicon glyphicon-remove"></i> 全部删除
+            </button>
+            <button type="button" class="btn btn-default" onclick="setHide()">
+                <i class="glyphicon glyphicon-task"></i> 设置隐藏
+            </button>
+            <button type="button" class="btn btn-default" onclick="setShow()">
+                <i class="glyphicon glyphicon-task"></i> 设置显示
+            </button>
+            <button type="button" class="btn btn-default" onclick="save2Json()">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 保存设计
+            </button>
+            <button type="button" class="btn btn-default" onclick="save2Json(true)">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 生成Form页面
+            </button>
+        </div>
+    </div>
+    <!--表单的显示区域开始-->
+    <div id="formContext" class="col-xs-12"
+         style=" padding-top: 20px; background: url(/static/images/table.jpg) ; overflow-y: scroll;">
+
+
+        <div style="height: 5000px;">
+        </div>
+    </div>
+    <!--表单的显示区域结束-->
+    </div>
+
+
+    <!-- importModal -->
+    <div class="modal fade" id="selectColumnModal"    style="width:360px;height:600px;top :130px;left:100px; " tabindex="-1" >
+        <div class="modal-content" style="width:360px;height:600px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >选择字段列</h4>
+            </div>
+            <div id="selecttoolbar">
+                <div class="btn-group btn-group-sm">
+                    <button type="button"  class="btn btn-default" onclick="checkall();"><i class="glyphicon glyphicon-check"></i>全选
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body"  style=" border: 0px;padding: 0px;height:525px;overflow:auto"    id="table-content">
+                <table class="table table-bordered table-hover text-nowrap content-table" id="column-table">
+                    <tbody th:utext="${selectColumnList}" >
+                    <!--<tr>-->
+                    <!--<td style="width:13%;"><input type="checkbox"/></td>-->
+                    <!--<td style="width:32%;">column_name</td>-->
+                    <!--<td style="width:35%;">字段名称</td>-->
+                    <!--<td style="width:20%;">200</td>-->
+                    <!--</tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    var curSelectObj;
+    var objnum=1;
+    var  datas =  $.parseJSON(unEscapeHTML('[[${datas}]]'));
+
+    //后台Controller传回来下列值
+    var foreignKeyId = '[[${foreignKeyId}]]';//外键值
+
+    $(function () {
+        var height = 600;
+        if (document.body.clientHeight > 1) {
+            height = document.body.clientHeight;
+        }
+        $('#formContext').height(height - 40);
+        $(document).on("show.bs.modal", ".modal", function () {
+            $(this).draggable({
+                 handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        //表格点击高亮事件
+        $(document).on('click', '#table-content .content-table > tbody > tr', function () {
+            if ($(this).hasClass("showColor") == false) {
+                $(this).addClass('showColor').css("background-color", "#cce7fc");
+                //创建对象
+                var column_name=$(this).find("td").eq(0).text();
+                var column_comment=$(this).find("td").eq(1).text();
+                var objtype=$(this).find("td").eq(2).text();
+                var bean={column_name:column_name,column_comment:column_comment,num:objnum++};
+                createObj(objtype,bean);
+            } else {
+                $(this).removeClass('showColor').css("background-color", "white");
+                //去掉对象
+                var column_name=$(this).find("td").eq(0).text();
+                $("#formContext").find(".form-group").each(function () {
+                    var name =$(this).attr("name");
+                    if(name!=null){
+                        if(name==column_name){
+                            $(this).remove();
+                            return;
+                        }
+                    }
+                })
+            }
+        });
+        // openSelectColumnWin();//打开字段列表
+
+        //读取数据库设计
+        for(var i=0;i<datas.length;i++){
+            var bean=datas[i];
+            $("#table-content").find("tr").each(function () {
+                var column_name=$(this).find("td").eq(0).text();
+                var column_comment=$(this).find("td").eq(1).text();
+                var objtype=$(this).find("td").eq(2).text();
+                if(bean.column_name==column_name){
+                    $(this).addClass('showColor').css("background-color", "#cce7fc");
+                    bean.type=objtype
+                    bean["column_comment"]=column_comment;
+                    createObj(bean.type,bean);
+                }
+
+            });
+           if(bean["column_name"]==null||bean["column_name"]==""||bean["column_comment"]==null||bean["column_comment"]=='') createObj(bean.type,bean);
+        }
+        sortFarmat();
+
+
+    });
+
+    //对象拖拉改变大小后修正显示效果
+    function resizableSuccess(that){
+
+        var img= $(that).find("img") ;
+        if(img.length>0) return;
+        if ($(that).width() > 600) {//里面标签比例改变
+            $(that).find(".col-sm-4").addClass("col-sm-2");
+            $(that).find(".col-sm-4").removeClass("col-sm-4");
+            $(that).find(".col-sm-8").addClass("col-sm-10");
+            $(that).find(".col-sm-8").removeClass("col-sm-8");
+        } else {
+            $(that).find(".col-sm-2").addClass("col-sm-4");
+            $(that).find(".col-sm-2").removeClass("col-sm-2");
+            $(that).find(".col-sm-10").addClass("col-sm-8");
+            $(that).find(".col-sm-10").removeClass("col-sm-10");
+        }
+        //3.高度不能小于40
+        if ($(that).height() < 40) $(that).height(40);
+        else if ($(that).height()>75){
+           var input= $(that).find("input") ;
+           if(input.length>0){
+            input.remove();
+            $(that).find("div") .html('<textarea   class="form-control"/>');
+           }else{
+               return;
+           }
+        }
+        var textarea = $(that).find("textarea");
+        if (textarea != null) {
+            textarea.height($(that).height() - 24);
+        }
+
+        //1.左侧在0-450范围内的，统一为left:30px;    ，在450以上的，统一为 left:530px;
+        if($(that).css('left').replace("px","")*1<450) $(that).css('left',30);
+        else  $(that).css('left',530);
+
+        if ($(that).width() < 460||$(that).width() <= 660) $(that).width(460);
+        else if ($(that).width() > 660||$(that).width() > 960) $(that).width(960);
+
+    }
+
+
+    function openSelectColumnWin() {
+        //居中
+        $('#selectColumnModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+        });
+        $('#selectColumnModal').modal({show: true, backdrop: false});
+
+    }
+
+
+    //全选
+    function checkall() {
+        objnum=1;
+        $("#table-content").find("tr").each(function (i) {
+            $(this).addClass('showColor').css("background-color", "#cce7fc");
+            var column_name=$(this).find("td").eq(0).text();
+            var column_comment=$(this).find("td").eq(1).text();
+            var objtype=$(this).find("td").eq(2).text();
+            var bean={column_name:column_name,column_comment:column_comment,num:objnum };
+            if(column_name=="memo"){
+               // objtype="textarea";
+            }
+            createObj(objtype,bean);
+        })
+    }
+    //自动对齐
+    function sortFarmat(){
+        var fieldsets=$("#formContext").find(".form-groupt");
+        var inputs=$("#formContext").find(".form-group");
+        //对齐控件
+        //1.垂直间距小于10的设为10，大于的不管
+        //2.top在上下30差异内的，统一一行
+        var lastobj;
+        inputs.each(function(){
+            resizableSuccess(this);
+            if(lastobj!=null){
+                //1.垂直间距小于10的设为10，大于的不管
+                    if($(this).css('top').replace("px","")*1>lastobj.css('top').replace("px","")*1+25
+                        && $(this).css('top').replace("px","")*1<lastobj.css('top').replace("px","")*1+lastobj.height()+10){
+                        $(this).css('top',lastobj.css('top').replace("px","")*1+lastobj.height()+10);
+                    }
+                //2.top在上下25差异内的，统一一行
+                    if(Math.abs($(this).css('top').replace("px","")*1-lastobj.css('top').replace("px","")*1)<30 ){
+                        $(this).css('top',lastobj.css('top').replace("px","")*1);
+                    }else if($(this).css('left').replace("px","")*1==530&&lastobj.css('left').replace("px","")*1==30&&lastobj.width()<600){
+
+                       //   $(this).css('top',lastobj.css('top').replace("px","")*1);
+                    }
+
+               }
+
+
+            lastobj=$(this);
+        });
+
+        //判断是否存在 分类框fieldset
+        if(fieldsets!=null&&fieldsets.length==1){//只有一个框，则最上最下需要包涵其他控件
+            var mintop=fieldsets.css('top').replace("px","")*1,maxbottom=fieldsets.css('top').replace("px","")*1+fieldsets.height();
+           // alert(mintop+","+maxbottom);
+            inputs.each(function(){
+                //可能为了好看，部分控件不一定都在分类框内，只有落在mintop和maxbottom范围的才处理
+                if($(this).css('top').replace("px","")*1+$(this).height()>mintop && $(this).css('top').replace("px","")*1<maxbottom ){
+                    if($(this).css('top').replace("px","")*1<mintop+40) $(this).css('top',mintop+40);//控件溢出不处理
+                    if($(this).css('top').replace("px","")*1+$(this).height()>maxbottom) maxbottom=$(this).css('top').replace("px","")*1+$(this).height();
+                }
+            });
+           if(fieldsets.height()<maxbottom-mintop) fieldsets.height(maxbottom-mintop+5);
+        }
+
+        //对控件按top和left由小到大重新排序
+        var newinputs=inputs.slice();
+        for(var i=0;i<newinputs.length;i++){
+            var n=i;
+            var top=$(newinputs[i]).css('top').replace("px","")*1;
+            var left=$(newinputs[i]).css('left').replace("px","")*1;
+            for(var j=i+1;j<newinputs.length;j++){
+                if(top>$(newinputs[j]).css('top').replace("px","")*1){
+                    top=$(newinputs[j]).css('top').replace("px","")*1;
+                    n=j;
+                }else  if(top==$(newinputs[j]).css('top').replace("px","")*1){
+                    if(left>$(newinputs[j]).css('left').replace("px","")*1){
+                        left=$(newinputs[j]).css('left').replace("px","")*1;
+                        n=j;
+                    }
+                }
+            }
+            if(n!=i){
+                newinputs[i]=inputs[n];
+                newinputs[n]=inputs[i];
+                inputs[i]=newinputs[i];
+                inputs[n]=newinputs[n];
+            }
+            //   alert(i+" = "+n+"   "+$(newinputs[i]).find("label").text());
+        }
+        return newinputs;
+    }
+    //新增分类框
+    function  addFieldSet() {
+        createObj("fieldset",null);
+    }
+    //新增分类框
+    function  addImage() {
+        createObj("image",null);
+    }
+
+    //新增空白标签
+    function  addTextLabel() {
+        createObj("label",null);
+    }
+    //全部删除
+    function cleanObj(){
+        $("#table-content").find("tr").each(function (i) {
+            if ($(this).hasClass("showColor") != false){
+                $(this).removeClass('showColor').css("background-color", "white");
+            }
+        })
+
+        $("#formContext").find(".form-group").remove();
+        $("#formContext").find(".form-groupt").remove();
+        curSelectObj=null;
+        objnum=1;
+    }
+    //删除选中对象
+    function removeObj(){
+        if(curSelectObj!=null){
+            //将列表选中改为不选中
+            var name =curSelectObj.attr("name");
+            if(name!=null) {
+                $("#table-content").find("tr").each(function () {
+                    var column_name=$(this).find("td").eq(0).text();
+                    if(name==column_name){
+                        if ($(this).hasClass("showColor") != false){
+                            $(this).removeClass('showColor').css("background-color", "white");
+                        }
+                      }
+
+                });
+            }
+            curSelectObj.remove();
+        }
+
+    }
+    //设置对象隐藏属性
+    function setHide(){
+        if(curSelectObj!=null){
+            curSelectObj.addClass("OHide") ;
+        }
+    }
+
+    //设置对象显示属性
+    function setShow(){
+        if(curSelectObj!=null){
+            curSelectObj.removeClass("OHide") ;
+        }
+    }
+
+    //选中对象后设置选中样式
+    function setSelectStyle(obj){
+        $("#formContext").find(".form-group").removeClass("OSelect");
+        $("#formContext").find(".form-groupt").removeClass("OSelect");
+        obj.addClass("OSelect");
+        curSelectObj =  obj;
+    }
+
+    //创建对象
+    function createObj(objType,bean){
+        var isHas=false;
+        //已经创建，不再重复创建
+        if(bean!=null){
+            $("#formContext").find(".form-group").each(function () {
+                var name =$(this).attr("name");
+                if(name!=null){
+                    if(name==bean["column_name"]){
+                        isHas=true;
+                        return;//已存在
+                    }
+                }
+            })
+        }else{
+            bean={width:null,top:null,left:null,num:1};
+        }
+        if(isHas) return;
+
+        var obj;
+//        alert(objType);
+        if(objType=="combobox"){//下拉
+            var input=' <div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2)*50)+'px;left:'+(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"  name="'+bean["column_name"]+'">'
+                +' <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +' <div class="col-sm-8">'
+                +'  <select class="form-control">'
+                +'      <option>-请选择-</option>'
+                +'   </select>'
+                +'  </div>'
+                +'</div>';
+            obj=$(input);
+        }else if(objType=="datetime"||objType=="date"){//日期
+            var input=' <div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2)*50)+'px;left:'+(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;" name="'+bean["column_name"]+'">'
+                +'      <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'   <div class="col-sm-8">'
+                +'       <input type="date" class="form-control"/>'
+                +'   </div>'
+                +'</div>';
+            obj=$(input);
+        }else if(objType=="number"){//number
+            var input=' <div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2)*50)+'px;left:'+(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"   name="'+bean["column_name"]+'">'
+                +'      <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'   <div class="col-sm-8">'
+                +'       <input type="number" class="form-control"/>'
+                +'   </div>'
+                +'</div>';
+            obj=$(input);
+        }else if(objType=="fieldset"){//分类框
+            var fieldsets=$("#formContext").find(".form-groupt");
+            var field="<div class='form-groupt' style='z-index:1;width:"+(bean!=null&&bean["width"]!=null?bean["width"]:1050)+"px;height:"+(bean!=null&&bean["height"]!=null?bean["height"]:200)+"px;top: "
+                +(bean!=null&&bean["top"]!=null?bean["top"]:(fieldsets==null?10:fieldsets.length*210))+"px;left:"+(bean!=null&&bean["left"]!=null?bean["left"]:10)+"px;'>"
+                +"   <label class='col-sm-1 control-label text-right'>"+(bean!=null&&bean["column_name"]!=null?bean["column_name"]:"分类框")+"</label>"
+                +"  <div class='col-sm-11'></div>"
+                +"  </div>";
+            obj=$(field);
+            obj.dblclick(function(){
+                var o=$(this).find("label");
+                var newtext = prompt("请输入标签值",o.text());
+                if(newtext!=null) o.text(newtext);
+            });
+        }else if(objType=="label"){//标签
+            var label=' <div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2)*50)+'px;left:'+(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"   '
+                +"   <label class='col-sm-12 control-label text-left'></label>"
+                +"  </div>";
+            obj=$(label);
+            obj.dblclick(function(){
+                var o=$(this).find("label");
+                var newtext = prompt("请输入标签值",o.text());
+                if(newtext!=null) o.text(newtext);
+            });
+        }else if(objType=="checkbox"){//复选框
+            var checkbox=' <div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2)*50)+'px;left:'+(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"   name="'+bean["column_name"]+'">'
+                +'      <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'   <div class="col-sm-8">'
+                +'       <input type="checkbox"  />'
+                +'   </div>'
+                +"  </div>";
+            obj=$(checkbox);
+        }else if(objType=="image"){//图片上传框
+            var div=' <div class="form-group" style="z-index:999;width:940px;top:'+(bean["top"]!=null?bean["top"]:Math.ceil(bean["num"]/2+1)*50)+'px;left:30px;"   name="'+bean["column_name"]+'">'
+                +'      <label class="col-sm-4 control-label text-right">'+(bean["column_comment"]==null?"图片上传":bean["column_comment"])+':</label>'
+                +'   <div class="col-sm-9">'
+                +'    <div  class="imgPreview"> '
+                +'      <input type="text" class="form-control" style="display: none;"/>'
+                +'     <img src="" name="'+bean["column_name"]+'_img"  alt="" class="img3"  />'
+                +'      <div class="imgcover" >'
+                +'      </div>'
+                +'   </div>'
+                +'   </div>'
+                +"  </div>";
+            obj=$(div);
+        }else if(objType=="selectwindow"){//选择窗口
+            var input='<div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;top:'+(bean["top"]!=null?bean["top"]:(Math.ceil(bean["num"]/2)*50))+'px;left:'
+                +(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"  name="'+bean["column_name"]+'">'
+                +' <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'<div class="col-sm-8">'
+                +' <input type="text" class="form-control" style="float:left;width:85%"/><button type="button"  style="float:left;width:15%">...</button>'
+                + ' </div>'
+                + '  </div>';
+            obj=$(input);
+        }else if((bean["height"]!=null&&bean["height"]>75&&objType=="text")||objType=="textarea"||objType=="editor"){//textarea
+            var input='<div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;height:'+(bean["height"]!=null?bean["height"]:40)+'px;top:'+(bean["top"]!=null?bean["top"]:(Math.ceil(bean["num"]/2)*50))+'px;left:'
+                +(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"  name="'+bean["column_name"]+'">'
+                +' <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'<div class="col-sm-8">'
+                +' <textarea   class="form-control" '+(objType=="editor"?' id="editor1" ':'')+'/>'
+                + ' </div>'
+                + '  </div>';
+            obj=$(input);
+            if(bean!=null&&bean["hidden"]!=null&&bean["hidden"]){
+                obj.addClass("OHide");
+            }
+        }else{//文本
+            var input='<div class="form-group" style="z-index:999;width:'+(bean["width"]!=null?bean["width"]:460)+'px;height:'+(bean["height"]!=null?bean["height"]:40)+'px;top:'+(bean["top"]!=null?bean["top"]:(Math.ceil(bean["num"]/2)*50))+'px;left:'
+                +(bean["left"]!=null?bean["left"]:((bean["num"]%2==0)? 530:30))+'px;"  name="'+bean["column_name"]+'">'
+                +' <label class="col-sm-4 control-label text-right">'+bean["column_comment"]+':</label>'
+                +'<div class="col-sm-8">'
+                +' <input type="text" class="form-control"/>'
+                + ' </div>'
+                + '  </div>';
+            obj=$(input);
+            if(bean!=null&&bean["hidden"]!=null&&bean["hidden"]){
+                obj.addClass("OHide");
+            }
+        }
+        if(obj!=null){
+            obj.click(function () {
+                setSelectStyle(obj);
+            });
+            obj.draggable({containment: "parent"}).resizable({containment: "parent"}).on("mouseup", function () {
+                var thisObj=this;
+                resizableSuccess(thisObj);
+            });
+            obj.appendTo("#formContext");
+        }
+    }
+
+    function save2Json(createFile){
+        var fieldsets=$("#formContext").find(".form-groupt");
+        var inputs=sortFarmat();
+        if((fieldsets==null||fieldsets.length==0)&&(inputs==null||inputs.length==0)){
+            alert("没有发现任何可保存对象！");
+            return;
+        }
+        var objJson=new Array();
+        fieldsets.each(function(){
+            var obj=$(this);
+            objJson[objJson.length]={type:"fieldset",column_name:obj.find("label").text().replace(":",""),top:Math.ceil(obj.css("top").replace("px","")),left:Math.ceil(obj.css("left").replace("px","")),width:Math.ceil(obj.width()),height:Math.ceil(obj.height()),label:obj.find("label").text};
+        });
+
+        inputs.each(function(){
+            var obj=$(this);
+            var objtype="label";
+            if(obj.find("select").length==1){
+                objtype="combobox";
+            }else  if(obj.find("input[type='date']").length==1){
+                objtype="datetime";
+            }else  if(obj.find("input[type='number']").length==1){
+                objtype="number";
+                // alert(obj.attr("name"));
+            }else  if(obj.find("input[type='checkbox']").length==1){
+                objtype="checkbox";
+            }else if(obj.find("img").length==1){
+                objtype="image";
+            }else if(obj.find("textarea").length==1){
+                objtype="textarea";
+                if(obj.height()<45) objtype="text";
+                if(obj.find("textarea").attr("id")!=null&&obj.find("textarea").attr("id")=="editor1") objtype="editor";
+            }else if(obj.find("input").length==1){
+                objtype="text";
+                if(obj.height()>75) objtype="textarea";
+                else if(obj.find("button").length==1) objtype="selectwindow";
+            }
+                objJson[objJson.length]={type:objtype,column_name:obj.attr("name"),hidden:(obj.hasClass("OHide")),top:Math.ceil(obj.css("top").replace("px","")),left:Math.ceil(obj.css("left").replace("px","")),width:Math.ceil(obj.width()),height:Math.ceil(obj.height()),column_comment:obj.find("label").text().replace(":","")};
+        });
+
+//        alert(JSON.stringify(objJson));
+        ajaxSumit( CONTEXT_PATH +"/tool/formupdate",{data:JSON.stringify(objJson),foreignKeyId:foreignKeyId,isCreateFile:createFile==null?"":"true"},null);
+    }
+
+</script>
+
+</html>

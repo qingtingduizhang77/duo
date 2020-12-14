@@ -1,0 +1,59 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '素材状态', width:115,visible:true, halign: 'center',formatter:cmsAuditStatusFormatter }, 
+	 {field: 'type_id', title: '素材分类', width:128,visible:true, halign: 'center',formatter:cmsFileTypeFormatter }, 
+	 {field: 'file_name', title: '素材文件名称', width:214,visible:true, halign: 'center' }, 
+	 {field: 'file_type', title: '素材类型', width:118,visible:true, halign: 'center' }, 
+	 {field: 'use_descript', title: '适用描述', width:364,visible:true, halign: 'center' }, 
+	 {field: 'file_id', title: '访问链接', width:584,visible:true, halign: 'center',formatter:downloadFormatter }, 
+	 {field: 'file_size', title: '文件大小', width:137,visible:true, halign: 'center' }, 
+	 {field: 'file_md5', title: '文件MD5', width:289,visible:true, halign: 'center' }, 
+	 {field: 'file_path', title: '素材路径', width:341,visible:true, halign: 'center' }, 
+	 {field: 'file_date', title: '创建时间', width:167,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'dept_name', title: '上传部门', width:202,visible:true, halign: 'center' }, 
+	 {field: 'upload_user', title: '上传人', width:136,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核时间', width:200,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'audit_user', title: '审核人', width:200,visible:true, halign: 'center' }, 
+	 {field: 'upload_ip', title: '上传IP', width:181,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:583,visible:true, halign: 'center' }, 
+	 {field: 'data_id', title: '数据id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'table_name', title: '表名或标识', width:128,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: 'dept_id', width:128,visible:false, halign: 'center' }, 
+	 {field: 'upload_date', title: '上传时间', width:200,visible:false, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'system_attachment.auditing',control_name:'cmsAuditStatusData',max_length:20,formatter:'cmsAuditStatusFormatter'}, 
+	  type_id:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'system_attachment.type_id',control_name:'cmsFileTypeData',max_length:32,formatter:'cmsFileTypeFormatter'}, 
+	  file_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_name',max_length:80}, 
+	  file_type:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_type',max_length:20}, 
+	  use_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.use_descript'}, 
+	  file_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_id',max_length:32,formatter:'downloadFormatter'}, 
+	  file_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_size',max_length:50}, 
+	  file_md5:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_md5',max_length:32}, 
+	  file_path:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.file_path',max_length:500}, 
+	  file_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'system_attachment.file_date',formatter:'dateTimeFormatter'}, 
+	  dept_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.dept_name',max_length:80}, 
+	  upload_user:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.upload_user',max_length:50}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'system_attachment.audit_date',formatter:'dateTimeFormatter'}, 
+	  audit_user:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.audit_user',max_length:40}, 
+	  upload_ip:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'system_attachment.upload_ip',max_length:50}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.memo',max_length:200}, 
+	  data_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.data_id',max_length:32}, 
+	  table_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.table_name',max_length:60}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.dept_id',max_length:32}, 
+	  upload_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'system_attachment.upload_date',formatter:'dateTimeFormatter'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_attachment.record_flag',max_length:10} 
+	 }; 
+</script>  

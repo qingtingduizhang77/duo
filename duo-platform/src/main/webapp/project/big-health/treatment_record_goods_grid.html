@@ -1,0 +1,41 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'goods_name', title: '药品名称', width:240,visible:true, halign: 'center' }, 
+	 {field: 'drug_usage', title: '药品用法', width:255,visible:true, halign: 'center' }, 
+	 {field: 'buy_num', title: '购买量*', width:77,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '单位', width:50,visible:true, halign: 'center' }, 
+	 {field: 'goods_price', title: '单价', width:103,visible:true, halign: 'center' }, 
+	 {field: 'goods_money', title: '金额*', width:130,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:210,visible:true, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: 'goods_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'service_id', title: 'service_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  goods_name:{addedit:false,edit:false,type:'selectwindow',required:false,default:'',orgfield:'treatment_record_goods.goods_name',control_name:'goodsSelect',source_cols:'goods_id;goods_name;unit;retail_price',target_cols:'goods_id;goods_name;unit;goods_price'}, 
+	  drug_usage:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.drug_usage'}, 
+	  buy_num:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'treatment_record_goods.buy_num'}, 
+	  unit:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'treatment_record_goods.unit'}, 
+	  goods_price:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'treatment_record_goods.goods_price'}, 
+	  goods_money:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'treatment_record_goods.goods_money'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.memo'}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.det_id'}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.goods_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.project_id'}, 
+	  service_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.service_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_record_goods.record_flag'} 
+	 }; 
+</script>  

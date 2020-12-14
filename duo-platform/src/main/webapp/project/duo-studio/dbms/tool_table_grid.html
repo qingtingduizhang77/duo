@@ -1,0 +1,40 @@
+<script  th:fragment="gridScript">
+
+//列字段定义
+var _tableColumns=[
+                {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter
+                },{field:'number',
+                    title: 'No.',visible:false,
+                    width: 38,  formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+                },
+                {field: 'order_index', width:70, title: '排序', sortable: true, halign: 'center'},
+                { field: 'column_name', width: 180, title: '字段名*', sortable: true, halign: 'center' },
+                {field: 'column_comment', width:200, title: '字段描述*', sortable: true, halign: 'center' },
+                {field: 'column_type', width:120,title: '字段类型*', sortable: true, halign: 'center' },
+                {field: 'column_length', width:80,title: '字段长度',  halign: 'center' },
+                {field: 'default_value', width:100,title: '默认值',   halign: 'center'},
+                {field: 'is_pk', width:50,title: '主键?',  halign: 'center',align: 'center',formatter:chekboxFormatter},
+                {field: 'is_allownull', width:50,title: '非空?',  halign: 'center',align: 'center',formatter:chekboxFormatter},
+                {field: 'tree_propertie', width:100,title: '树属性',  halign: 'center',align: 'center' },
+                {field: 'is_has', width:100,title: '数据库状态',  halign: 'center',align: 'center',formatter:dbHasFormatter},
+                {field: 'memo', width:350,title: '备注',   halign: 'center'}
+            ];
+//可编辑列设置信息
+editData={
+        order_index:{edit:true,type:"number",required:true,default:"5",formatter:""},
+        column_name:{edit:true,type:"text",required:true,default:"",formatter:""},
+        column_comment:{edit:true,type:"text",required:true,default:"",formatter:""},
+        column_type:{edit:true,type:"combobox",required:false,default:"varchar",formatter:"",control_name:"columntypeData"},
+        column_length:{edit:true,type:"number",required:false,default:"32",formatter:""},
+        default_value:{edit:true,type:"text",required:false,default:"",formatter:""},
+        is_pk:{edit:true,type:"checkbox",required:false,default:"0",formatter:"chekboxFormatter"},
+        is_allownull:{edit:true,type:"checkbox",required:false,default:"0",formatter:"chekboxFormatter"},
+        tree_propertie:{edit:true,type:"text",required:false,default:"",formatter:""},
+        is_has:{edit:false,type:"text",required:false,default:"10",formatter:""},
+        memo:{edit:true,type:"text",required:false,default:"",formatter:""}
+    };
+</script>

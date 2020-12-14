@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.5.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.duo</groupId>
+	<artifactId>duo-bi</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>duo-bi</name>
+	<description>BI project for Spring Boot</description>
+
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<shiro.version>1.3.2</shiro.version>
+		<spring-security.version>4.1.0.RELEASE</spring-security.version>
+		<activiti.version>5.22.0</activiti.version>
+		<h2.version>1.4.196</h2.version>
+		<presto.version>0.161</presto.version>
+		<sqlhelper.version>2.0.0</sqlhelper.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.1.0</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!--引用DUO-Bean-->
+		<dependency>
+			<groupId>com.duo</groupId>
+			<artifactId>duo-bean</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+			<!--引用uid-generator-->
+		<dependency>
+			<groupId>com.baidu.fsg</groupId>
+			<artifactId>uid-generator</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+
+
+		<!--引用DUO-Cord-->
+		<dependency>
+			<groupId>com.duo</groupId>
+			<artifactId>duo-core</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-log4j</artifactId>
+			<version>1.3.5.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>net.logstash.logback</groupId>
+			<artifactId>logstash-logback-encoder</artifactId>
+			<version>4.9</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.47</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.1.2</version>
+		</dependency>
+		<!--mapper-->
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.github.xiaoymin</groupId>
+			<artifactId>swagger-bootstrap-ui</artifactId>
+			<version>1.9.6</version>
+		</dependency>
+	</dependencies>
+
+
+
+
+
+
+	<build>
+		<plugins>
+			<!-- maven热启动 -->
+<!--			<plugin>-->
+<!--				<groupId>org.springframework.boot</groupId>-->
+<!--				<artifactId>spring-boot-maven-plugin</artifactId>-->
+<!--				<configuration>-->
+<!--					&lt;!&ndash;fork :  如果没有该项配置，肯定devtools不会起作用，即应用不会restart &ndash;&gt;-->
+<!--					<fork>true</fork>-->
+<!--				</configuration>-->
+<!--			</plugin>-->
+<!--			<plugin>-->
+<!--				<groupId>org.mybatis.generator</groupId>-->
+<!--				<artifactId>mybatis-generator-maven-plugin</artifactId>-->
+<!--				<version>1.3.2</version>-->
+<!--				<configuration>-->
+<!--					<configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>-->
+<!--					<overwrite>true</overwrite>-->
+<!--					<verbose>true</verbose>-->
+<!--				</configuration>-->
+<!--				<dependencies>-->
+<!--					<dependency>-->
+<!--						<groupId>mysql</groupId>-->
+<!--						<artifactId>mysql-connector-java</artifactId>-->
+<!--						<version>${mysql.version}</version>-->
+<!--					</dependency>-->
+<!--					<dependency>-->
+<!--						<groupId>org.mybatis.generator</groupId>-->
+<!--						<artifactId>mybatis-generator-core</artifactId>-->
+<!--						<version>1.3.2</version>-->
+<!--					</dependency>-->
+<!--					<dependency>-->
+<!--						<groupId>tk.mybatis</groupId>-->
+<!--						<artifactId>mapper-generator</artifactId>-->
+<!--						<version>1.0.0</version>-->
+<!--					</dependency>-->
+<!--					<dependency>-->
+<!--						<groupId>tk.mybatis</groupId>-->
+<!--						<artifactId>mapper</artifactId>-->
+<!--					</dependency>-->
+<!--				</dependencies>-->
+<!--			</plugin>-->
+			<!-- 规避检查src/main/webapp/WEB-INF下没有web.xml文件 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+
+			<!-- 指定jdk版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<!--fork :  如果没有该项配置，devtools不会起作用，即应用不会restart -->
+					<fork>true</fork>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<configuration>
+					<skip>true</skip>
+					<testFailureIgnore>true</testFailureIgnore>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+						<exclude>**/Test*.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+
+
+			<!-- Allatori plugin start -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.6</version>
+				<executions>
+					<execution>
+						<id>copy-and-filter-allatori-config</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${basedir}/allatori</directory>
+									<includes>
+										<include>allatori.xml</include>
+									</includes>
+									<filtering>true</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>run-allatori</id>
+						<phase>package</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<executable>java</executable>
+					<arguments>
+						<argument>-Xms128m</argument>
+						<argument>-Xmx512m</argument>
+						<argument>-jar</argument>
+						<argument>${basedir}/lib/allatori.jar</argument>
+						<argument>${basedir}/target/allatori.xml</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<!-- Allatori plugin end -->
+
+		</plugins>
+	</build>
+
+</project>

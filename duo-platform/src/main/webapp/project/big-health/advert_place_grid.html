@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'palce_code', title: '广告位编号', width:154,visible:true, halign: 'center' }, 
+	 {field: 'place_name', title: '广告位名称', width:228,visible:true, halign: 'center' }, 
+	 {field: 'place_type', title: '广告位类型', width:118,visible:true, halign: 'center',formatter:adplacetypeFormatter }, 
+	 {field: 'place_size', title: '广告位规格', width:205,visible:true, halign: 'center' }, 
+	 {field: 'place_version', title: '版本号', width:182,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:355,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'place_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'place_level', title: '级别', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  palce_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.palce_code'}, 
+	  place_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.place_name'}, 
+	  place_type:{addedit:true,edit:true,type:'combobox',required:false,default:'4',orgfield:'advert_place.place_type',control_name:'adplacetypeData',formatter:'adplacetypeFormatter'}, 
+	  place_size:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.place_size'}, 
+	  place_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.place_version'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.record_flag'}, 
+	  place_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.place_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'advert_place.project_id'}, 
+	  place_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'advert_place.place_level'} 
+	 }; 
+</script>  

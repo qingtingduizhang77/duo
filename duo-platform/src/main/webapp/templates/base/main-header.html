@@ -1,0 +1,143 @@
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <body>
+        <header class="main-header" th:fragment="header">
+            <!-- Logo -->
+            <a href="#" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>DUO</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>[[${ProjectSystemName}]]</b></span>
+            </a>
+
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" id="mainNav">
+                <!-- Sidebar toggle button-->
+                <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </a>
+
+                <ul class="nav navbar-nav"  th:utext="${mainmenu}">
+                    <li  class="li-menu"  module-id="menu-home">
+                          首&nbsp;页
+                    </li>
+                    <li  class="li-menu" >
+                        数据治理
+                    </li>
+
+                    <li  class="li-menu">
+                        用户画像
+                    </li>
+
+                    <li  class="li-menu">
+                        AI建模
+                    </li>
+
+                    <li  class="li-menu">
+                        BI分析
+                    </li>
+
+                    <li  class="li-menu"  module-id="menu-1002">
+                        系统管理
+                    </li>
+
+                    <li  class="li-menu"  module-id="menu-1001">
+                        开发平台
+                    </li>
+                </ul>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+
+                        <!-- Notifications: style can be found in dropdown.less -->
+                        <li class="dropdown notifications-menu">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                                <i class="fa fa-bell-o"></i>
+                                <span class="label label-warning">10</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">你有 10 条通知</li>
+                                <li style="min-height: 170px;">
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu" style="width: 100%">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-tasks text-aqua"></i> xxx给你提交了一条待审批信息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> xxx给你提交了一条待审批信息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-tasks text-aqua"></i> xxx给你提交了一条待审批信息
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-users text-aqua"></i> xxx给你提交了一条待审批信息
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">浏览所有</a></li>
+                            </ul>
+                        </li>
+
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu">
+                            <a href="#" class="dropdown-toggle" style="height: 50px;" data-toggle="dropdown">
+                                <img th:src="@{/static/img/user3-128x128.jpg}" class="user-image"
+                                     alt="User Image">
+                                <span class="hidden-xs"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img th:src="@{/static/img/user3-128x128.jpg}" class="img-circle"
+                                         alt="User Image">
+
+                                    <p>
+                                        超级管理员（总裁）
+                                        <small>集团-总裁办公室</small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+<!--                                <li class="user-body">-->
+<!--                                    <div class="row">-->
+<!--                                        <div class="col-xs-12 text-center">-->
+<!--                                            <a href="#"></a>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                    &lt;!&ndash; /.row &ndash;&gt;-->
+<!--                                </li>-->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat" onclick="systemChangePWDWindow()">修改密码</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a th:href="@{/logout}" class="btn btn-default btn-flat">退出系统</a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li  style="display: none;">
+                            <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <!--<nav class="navbar " >-->
+                <!--<ul class="nav nav-tabs"  id="tablist">-->
+                <!--</ul>-->
+            <!--</nav>-->
+
+        </header>
+    </body>
+</html>

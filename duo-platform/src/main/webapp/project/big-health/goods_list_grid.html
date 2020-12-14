@@ -1,0 +1,75 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '发布状态', width:123,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'img_url', title: '图片', width:227,visible:true, halign: 'center',formatter:imgFormatter }, 
+	 {field: 'bar_code', title: '商品条码号*', width:140,visible:true, halign: 'center' }, 
+	 {field: 'type_name', title: '商品分类', width:130,visible:true, halign: 'center' }, 
+	 {field: 'goods_name', title: '商品名称*', width:196,visible:true, halign: 'center' }, 
+	 {field: 'retail_price', title: '零售价(元)*', width:121,visible:true, halign: 'center' }, 
+	 {field: 'machine_price', title: '设备价(元)*', width:112,visible:true, halign: 'center' }, 
+	 {field: 'eshop_price', title: '电商价(元)*', width:123,visible:true, halign: 'center' }, 
+	 {field: 'trade_price', title: '批发价(元)', width:106,visible:true, halign: 'center' }, 
+	 {field: 'factory', title: '生产厂家*', width:189,visible:true, halign: 'center' }, 
+	 {field: 'goods_size', title: '规格', width:180,visible:true, halign: 'center' }, 
+	 {field: 'expiry_date', title: '有效期', width:163,visible:true, halign: 'center' }, 
+	 {field: 'goods_descript', title: '商品介绍', width:384,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:127,visible:true, halign: 'center' }, 
+	 {field: 'is_certification', title: '是否需要实名', width:132,visible:true, halign: 'center' }, 
+	 {field: 'is_free', title: '是否赠品', width:98,visible:true, halign: 'center' }, 
+	 {field: 'is_oct', title: '是否处方药', width:108,visible:true, halign: 'center' }, 
+	 {field: 'is_tcm', title: '是否中药成分', width:124,visible:true, halign: 'center' }, 
+	 {field: 'humidity_demand', title: '湿度要求', width:133,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'sick_label', title: '治疗疾病标签', width:282,visible:true, halign: 'center' }, 
+	 {field: 'temperature_demand', title: '温度要求', width:219,visible:true, halign: 'center' }, 
+	 {field: 'add_username', title: '创建人', width:126,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '计量单位', width:110,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:449,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '商品分类id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'goods_list.auditing',control_name:'recordsatusData',max_length:20,formatter:'recordsatusFormatter'}, 
+	  img_url:{addedit:true,edit:true,type:'image',required:false,default:'',orgfield:'goods_list.img_url',max_length:200,formatter:'imgFormatter'}, 
+	  bar_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'goods_list.bar_code',max_length:40}, 
+	  type_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'goods_list.type_name',control_name:'goodsTypeSelect',source_cols:'type_name;type_id',target_cols:'type_name;type_id',max_length:80}, 
+	  goods_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'goods_list.goods_name',max_length:80}, 
+	  retail_price:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'goods_list.retail_price'}, 
+	  machine_price:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'goods_list.machine_price'}, 
+	  eshop_price:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'goods_list.eshop_price'}, 
+	  trade_price:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'goods_list.trade_price'}, 
+	  factory:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'goods_list.factory',max_length:80}, 
+	  goods_size:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.goods_size',max_length:200}, 
+	  expiry_date:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.expiry_date',max_length:20}, 
+	  goods_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.goods_descript'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'goods_list.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id',max_length:60}, 
+	  is_certification:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'goods_list.is_certification',max_length:10}, 
+	  is_free:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'goods_list.is_free',max_length:10}, 
+	  is_oct:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'goods_list.is_oct',max_length:10}, 
+	  is_tcm:{addedit:true,edit:true,type:'checkbox',required:false,default:'0',orgfield:'goods_list.is_tcm',max_length:10}, 
+	  humidity_demand:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.humidity_demand',max_length:80}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.record_flag',max_length:10}, 
+	  sick_label:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.sick_label',max_length:200}, 
+	  temperature_demand:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.temperature_demand',max_length:80}, 
+	  add_username:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.add_username',max_length:40}, 
+	  unit:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.unit',max_length:20}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.memo',max_length:200}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.company_id',max_length:32}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.goods_id',max_length:32}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.project_id',max_length:32}, 
+	  type_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_list.type_id',max_length:32} 
+	 }; 
+</script>  

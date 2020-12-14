@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '停机状态', width:83,visible:true, halign: 'center',formatter:stopstatusFormatter }, 
+	 {field: 'stop_type', title: '停机类型', width:99,visible:true, halign: 'center',formatter:stoptypeFormatter }, 
+	 {field: 'begin_time', title: '停机开始时间', width:162,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'end_time', title: '停机结束时间', width:183,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'stop_reason', title: '停机原因', width:182,visible:true, halign: 'center' }, 
+	 {field: 'is_sent', title: '发送远程控制', width:113,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'position_code', title: '点位编号', width:128,visible:true, halign: 'center' }, 
+	 {field: 'device_code', title: '设备编号', width:127,visible:true, halign: 'center' }, 
+	 {field: 'device_kind', title: '设备类型', width:93,visible:true, halign: 'center',formatter:devicekindFormatter }, 
+	 {field: 'device_name', title: '设备名称', width:120,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '运营商户', width:103,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:841,visible:true, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:165,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:165,visible:false, halign: 'center' }, 
+	 {field: 'stop_id', title: '主键id', width:165,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:165,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_stop.auditing',control_name:'stopstatusData',formatter:'stopstatusFormatter'}, 
+	  stop_type:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_stop.stop_type',control_name:'stoptypeData',formatter:'stoptypeFormatter'}, 
+	  begin_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'device_stop.begin_time',formatter:'dateTimeFormatter'}, 
+	  end_time:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'device_stop.end_time',formatter:'dateTimeFormatter'}, 
+	  stop_reason:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.stop_reason'}, 
+	  is_sent:{addedit:true,edit:true,type:'checkbox',required:false,default:'',orgfield:'device_stop.is_sent',formatter:'chekboxFormatter'}, 
+	  position_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.position_code'}, 
+	  device_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.device_code'}, 
+	  device_kind:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'device_info.device_kind',control_name:'devicekindData',formatter:'devicekindFormatter'}, 
+	  device_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.device_name'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info.company_name'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.memo'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.device_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.project_id'}, 
+	  stop_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.stop_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_stop.record_flag'} 
+	 }; 
+</script>  

@@ -1,0 +1,85 @@
+<script  th:fragment="gridScript">
+  
+
+    $(function () {
+
+    });
+
+    function onclickDefine(){
+        var datas = $table.bootstrapTable('getSelections');
+        if(datas!=null&&(typeof datas[0]["form_html"] == 'undefined'||datas[0]["form_html"]==null||datas[0]["form_html"]=="")){
+            $("#myFormTab").find("li").each(function () {
+                if($(this).find("a").text().indexOf("Form")>-1) $(this).hide();
+            });
+        }else{
+            $("#myFormTab").find("li").show();
+        }
+    }
+
+ 
+	function griddesign(){
+		
+		var row=$table.bootstrapTable('getSelections')[0];
+		var frameSrc = CONTEXT_PATH +"/iframe/subfun-window?foreignKeyId="+row["fun_id"]+"&url=/tool/page-tool-griddesign?funId=tool_function_column";
+		$("#selectIframe").attr("src", frameSrc);
+		//居中
+		$('#selectWindowModal').on('show.bs.modal', function (e) {
+			// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+			$(this).css('display', 'block');
+			var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+			var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-100;
+			$(this).find('.modal-dialog').css({
+				'margin-top': modalHeight,
+				'margin-left': modalWidth
+			});
+		});
+		$('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+		$('#selectWindowModal').on("hide.bs.modal",function(){
+				callback();
+			});
+	}
+
+
+    //复制事件
+    function gridcopy_function(that,isTree) {
+
+        var datas=$table.bootstrapTable('getSelections');
+        var ids="";
+        for(var i=0;i<datas.length;i++){
+            let  keyId=datas[i][keyIDColumn];
+            if(keyId==null||keyId=="") {
+                alert("新增行需要保存后才能复制！");
+                return;
+            }
+            ids+= keyId+";";
+//            for(var key in datas[i]) {//遍历
+//                alert(key + "==" + datas[i][key]);
+//            }
+        }
+        var newID = prompt("请输入新的FunID","");
+        if(newID==null||newID==""){
+            alert("新FunID不能为空！复制失败！");
+        }
+
+        var url=isTree!=null&&isTree ? '/tree/copy' : '/common/copy';
+        var parames="";
+        if(that!=null){//指定了执行自定义类
+            if($(that).attr("bo-function")!=null&&$(that).attr("bo-function")!=""){
+                if($(that).attr("bo-function").indexOf("/")>-1) url=$(that).attr("bo-function");
+                else parames=$(that).attr("bo-function");
+            }
+        }
+        ajaxSumit(url+'?funId='+funId+"&newID="+newID+parames,{ids:ids.substring(0,ids.length-1)},isTree!=null&&isTree ? callbackTree:callback);
+    }
+
+
+    //模块
+    function moduleFormatter(value, row, index){
+        if(row.module_name!=null&&row.module_name!="")
+            return row.module_name;
+        return value;
+    }
+
+
+
+</script>

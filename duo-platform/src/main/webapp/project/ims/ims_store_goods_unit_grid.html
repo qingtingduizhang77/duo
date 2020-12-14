@@ -1,0 +1,33 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'in_unit', title: '入库单位*', width:173,visible:true, halign: 'center',formatter:imsuintFormatter }, 
+	 {field: 'out_unit', title: '出库单位*', width:156,visible:true, halign: 'center',formatter:imsuintFormatter }, 
+	 {field: 'change_num', title: '换算比例(1:N)*', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:330,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: 'goods_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'key_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  in_unit:{addedit:true,edit:true,type:'combobox',required:true,default:'',orgfield:'ims_store_goods_unit.in_unit',control_name:'imsuintData',max_length:32,formatter:'imsuintFormatter'}, 
+	  out_unit:{addedit:true,edit:true,type:'combobox',required:true,default:'',orgfield:'ims_store_goods_unit.out_unit',control_name:'imsuintData',max_length:32,formatter:'imsuintFormatter'}, 
+	  change_num:{addedit:true,edit:true,type:'number',required:true,default:'1',orgfield:'ims_store_goods_unit.change_num'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_goods_unit.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_goods_unit.record_flag',max_length:10}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_goods_unit.goods_id',max_length:32}, 
+	  key_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_goods_unit.key_id',max_length:32}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_goods_unit.project_id',max_length:32} 
+	 }; 
+</script>  

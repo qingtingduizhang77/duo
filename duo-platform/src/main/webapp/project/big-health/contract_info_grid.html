@@ -1,0 +1,55 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '合同状态', width:200,visible:true, halign: 'center' }, 
+	 {field: 'contract_code', title: '合同编号', width:200,visible:true, halign: 'center' }, 
+	 {field: 'contract_date', title: '合同签订日期', width:200,visible:true, halign: 'center' }, 
+	 {field: 'contract_descript', title: '合同概要', width:200,visible:true, halign: 'center' }, 
+	 {field: 'contract_money', title: '合同总额(元)', width:200,visible:true, halign: 'center' }, 
+	 {field: 'contract_name', title: '合同名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '管理部门', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'price', title: '设备总价(元)', width:200,visible:true, halign: 'center' }, 
+	 {field: 'provider_code', title: '供应商编号', width:200,visible:true, halign: 'center' }, 
+	 {field: 'provider_name', title: '供应商名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:true, halign: 'center' }, 
+	 {field: 'sup_user', title: '供方经办人', width:200,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '授权人', width:200,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '授权人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'provider_id', title: '供应商id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '管理部门id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'contract_id', title: '主键id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.auditing'}, 
+	  contract_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.contract_code'}, 
+	  contract_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'contract_info.contract_date'}, 
+	  contract_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.contract_descript'}, 
+	  contract_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'contract_info.contract_money'}, 
+	  contract_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.contract_name'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.dept_name'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.memo'}, 
+	  price:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'contract_info.price'}, 
+	  provider_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.provider_code'}, 
+	  provider_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.provider_name'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.record_flag'}, 
+	  sup_user:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.sup_user'}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.user_name'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.project_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.user_id'}, 
+	  provider_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.provider_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.dept_id'}, 
+	  contract_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'contract_info.contract_id'} 
+	 }; 
+</script>  

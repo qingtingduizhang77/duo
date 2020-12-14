@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >医院名称*：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="hospital_name" type="text"      maxlength="32"     required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >医院等级：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="hospital_level"       >
+					 <script type="text/javascript"> 
+						  var optionJson= hospitallevelData;
+						 for(var key in optionJson)  $('select[name="hospital_level"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label "  >医院类别：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="hospital_category"       >
+					 <script type="text/javascript"> 
+						  var optionJson= hospitaltypeData;
+						 for(var key in optionJson)  $('select[name="hospital_category"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >医院地址：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="hospital_address" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >医院电话：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="hospital_telephone" type="text"      maxlength="40"      />
+				</div>
+				<label class="col-sm-2 control-label "  >所属区域：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="field_name"       style='width:80%;float:left; '  onclick='formSelectWindow("fieldSelect","field_id;field_code;field_name","field_id;field_code;field_name","")'    />
+					<button type='button'  name="btn_field_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("fieldSelect","field_id;field_code;field_name","field_id;field_code;field_name","")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:79px;"   >医院简介：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:74px" name="hospital_profile"       maxlength="255"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:154px;"   >医院详细介绍：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:149px" name="hospital_introduce"       maxlength="32"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >医院官网：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="hospital_wesite" type="text"      maxlength="100"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:100px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:95px" name="memo"       maxlength="200"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>所属区域编码：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="field_code" type="text"   style='display:none;'   maxlength="20"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   maxlength="10"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="hospital_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>所属区域id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="field_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+	</form>
+</div>  

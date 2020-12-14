@@ -1,0 +1,35 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:54,visible:true, halign: 'center' }, 
+	 {field: 'auditing', title: '项目状态', width:84,visible:true, halign: 'center',formatter:publicstateFormatter }, 
+	 {field: 'project_code', title: '项目编号', width:104,visible:true, halign: 'center' }, 
+	 {field: 'project_name', title: '项目名称', width:179,visible:true, halign: 'center' }, 
+	 {field: 'project_version', title: '版本号', width:111,visible:true, halign: 'center' }, 
+	 {field: 'manager_name', title: '项目负责人', width:180,visible:true, halign: 'center' }, 
+	 {field: 'sent_date', title: '发布时间', width:180,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'memo', title: '备注', width:336,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'5',orgfield:'tool_project.order_index'}, 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:true,default:'0',orgfield:'tool_project.auditing',control_name:'publicstateData',formatter:'publicstateFormatter'}, 
+	  project_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_project.project_code'}, 
+	  project_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_project.project_name'}, 
+	  project_version:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_project.project_version'}, 
+	  manager_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_project.manager_name'}, 
+	  sent_date:{addedit:true,edit:true,type:'date',required:false,default:'',orgfield:'tool_project.sent_date',formatter:'dateFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project.memo'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_project.project_id'} 
+	 }; 
+</script>  

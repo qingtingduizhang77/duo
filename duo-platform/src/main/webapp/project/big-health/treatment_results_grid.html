@@ -1,0 +1,33 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'results_name', title: '诊疗结果名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'results_code', title: '名称首字母', width:200,visible:true, halign: 'center' }, 
+	 {field: 'results_level', title: '层级', width:200,visible:false, halign: 'center' }, 
+	 {field: 'results_sort', title: '排序', width:100,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'results_id', title: '诊疗结果id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  results_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.results_name',max_length:32}, 
+	  results_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.results_code',max_length:32}, 
+	  results_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_results.results_level'}, 
+	  results_sort:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'treatment_results.results_sort'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.memo',max_length:200}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.project_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.record_flag',max_length:10}, 
+	  results_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'treatment_results.results_id',max_length:32} 
+	 }; 
+</script>  

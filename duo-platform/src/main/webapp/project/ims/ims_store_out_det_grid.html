@@ -1,0 +1,73 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'bar_code', title: '条码号', width:127,visible:true, halign: 'center' }, 
+	 {field: 'goods_code', title: '物品号', width:133,visible:true, halign: 'center' }, 
+	 {field: 'goods_name', title: '物品名称', width:166,visible:true, halign: 'center' }, 
+	 {field: 'store_num', title: '库存数量', width:103,visible:true, halign: 'center' }, 
+	 {field: 'out_num', title: '出库数量*', width:91,visible:true, halign: 'center' }, 
+	 {field: 'out_price', title: '库存单价(元)', width:112,visible:true, halign: 'center' }, 
+	 {field: 'out_money', title: '出库金额(元)', width:105,visible:true, halign: 'center' }, 
+	 {field: 'unit', title: '计量单位', width:92,visible:true, halign: 'center',formatter:imsuintFormatter }, 
+	 {field: 'stock_code', title: '货架号', width:139,visible:true, halign: 'center' }, 
+	 {field: 'stock_name', title: '货架名', width:157,visible:true, halign: 'center' }, 
+	 {field: 'batch_no', title: '批次号', width:127,visible:true, halign: 'center' }, 
+	 {field: 'goods_size', title: '规格', width:126,visible:true, halign: 'center' }, 
+	 {field: 'is_free', title: '是否赠品', width:106,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'memo', title: '备注', width:399,visible:true, halign: 'center' }, 
+	 {field: 'type_id', title: '物品分类id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'goods_id', title: 'goods_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'out_id', title: 'in_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'stock_id', title: 'stock_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'img_url', title: '图片', width:200,visible:false, halign: 'center' }, 
+	 {field: 'type_name', title: '物品分类', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'goods_descript', title: '物品介绍', width:200,visible:false, halign: 'center' }, 
+	 {field: 'create_date', title: '生产日期', width:200,visible:false, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'expiry_date', title: '有效期至', width:200,visible:false, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'brand', title: '品牌', width:200,visible:false, halign: 'center' }, 
+	 {field: 'factory', title: '生产厂家', width:200,visible:false, halign: 'center' }, 
+	 {field: 'store_id', title: 'store_id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  bar_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.bar_code'}, 
+	  goods_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.goods_code'}, 
+	  goods_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.goods_name'}, 
+	  store_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'ims_store_out_det.store_num',blur_js:'computeMoney("out_price","out_num","out_money")'}, 
+	  out_num:{addedit:true,edit:true,type:'number',required:true,default:'',orgfield:'ims_store_out_det.out_num',blur_js:'computeMoney("out_price","out_num","out_money")'}, 
+	  out_price:{addedit:false,edit:false,type:'number',required:false,default:'',orgfield:'ims_store_out_det.out_price'}, 
+	  out_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'ims_store_out_det.out_money'}, 
+	  unit:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'ims_store_goods.unit',formatter:'imsuintFormatter'}, 
+	  stock_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out_det.stock_code'}, 
+	  stock_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out_det.stock_name'}, 
+	  batch_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out_det.batch_no'}, 
+	  goods_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.goods_size'}, 
+	  is_free:{addedit:false,edit:false,type:'checkbox',required:false,default:'',orgfield:'ims_store_goods.is_free',formatter:'chekboxFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.memo'}, 
+	  type_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.type_id'}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.det_id'}, 
+	  goods_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.goods_id'}, 
+	  out_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.out_id'}, 
+	  stock_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.stock_id'}, 
+	  img_url:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.img_url'}, 
+	  type_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.type_name'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.record_flag'}, 
+	  goods_descript:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.goods_descript'}, 
+	  create_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'ims_store_out_det.create_date',formatter:'dateFormatter'}, 
+	  expiry_date:{addedit:false,edit:false,type:'date',required:false,default:'',orgfield:'ims_store_out_det.expiry_date',formatter:'dateFormatter'}, 
+	  brand:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.brand'}, 
+	  factory:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_goods.factory'}, 
+	  store_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out_det.store_id'} 
+	 }; 
+</script>  

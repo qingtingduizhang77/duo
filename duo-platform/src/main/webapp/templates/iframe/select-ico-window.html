@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="context-path" th:content="@{/}"/>
+        <title>选择窗口</title>
+        <!-- favicon icon -->
+        <link rel="icon" type="image/png" th:href="@{/static/img/favicon.ico}">
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+         <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+        <!-- x-editable-->
+        <link rel="stylesheet" th:href="@{/static/libs/x-editable/bootstrap3-editable/css/bootstrap-editable.css}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+        <!-- Select -->
+        <link rel="stylesheet" th:href="@{/static/libs/select/bootstrap-select.min.css}">
+        <!-- Select2 -->
+        <link rel="stylesheet" th:href="@{/static/css/select2.min.css}">
+        <!-- Theme style -->
+        <link rel="stylesheet" th:href="@{/static/css/AdminLTE.min.css}">
+        <!-- Pace style -->
+        <link rel="stylesheet" th:href="@{/static/css/pace.min.css}">
+        <!-- zTree style -->
+        <link rel="stylesheet" th:href="@{/static/css/ztree/metroStyle/metroStyle.css}">
+        <!-- Bootstrap-table -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-table.min.css}">
+        <!-- Bootstrap-table -->
+        <!--<link rel="stylesheet" th:href="@{/static/libs/bootstrap-table/bootstrap-table.css}">-->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.css}">
+        <!-- Animate -->
+        <link rel="stylesheet" th:href="@{/static/css/animate.min.css}">
+        <!-- daterange picker -->
+        <link rel="stylesheet" th:href="@{/static/css/daterangepicker.css}">
+        <!-- bootstrap datepicker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-datepicker.min.css}">
+        <!-- Bootstrap Color Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-colorpicker.min.css}">
+        <!-- Bootstrap time Picker -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap-timepicker.min.css}">
+        <!-- iCheck -->
+        <link rel="stylesheet" th:href="@{/static/css/iCheck/square/blue.css}">
+        <!-- AdminLTE Skins. Choose a skin from the css/skins
+             folder instead of downloading all of them to reduce the load. -->
+        <link rel="stylesheet" th:href="@{/static/css/skins/_all-skins.min.css}">
+
+        <!-- bootstrap3-dialog  -->
+        <link rel="stylesheet" th:href="@{/static/libs/bootstrap3-dialog/css/bootstrap-dialog.min.css}">
+        <!-- sweetalert  -->
+        <link rel="stylesheet" th:href="@{/static/css/sweetalert.css}">
+        <!-- 自定义样式 -->
+        <link rel="stylesheet" th:href="@{/static/css/admin.css?v=1.0.1}">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/html5shiv.min.js}"></script>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/respond.min.js}"></script>
+        <![endif]-->
+        <script th:inline="javascript">
+            var CONTEXT_PATH = [[${#request.getContextPath()}]];
+        </script>
+        <!-- Google Font -->
+        <!--<link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+<style>
+
+    .sidebar-menu >div> li > a {
+        padding: 5px 5px 5px 15px;
+        display: block;
+    }
+
+    .sidebar-menu >div> li > a > .fa,
+    .sidebar-menu >div> li > a > .glyphicon,
+    .sidebar-menu >div> li > a > .ion {
+        width: 20px;
+    }
+    html,body{
+        height: 100%;
+    }
+    .metro{
+        float:left;
+        width:40px;
+        height:40px;
+        line-height:40px;
+        text-align: center;
+        list-style:none;
+    }
+    .metro:hover{
+        background: #a4d0c8;
+    }
+    .selectli{
+        border: 1px solid #ccc;
+        background: #a4d0c8;
+    }
+</style>
+    </head>
+    <body>
+             <!--Content Wrapper. Contains page content-->
+             <div class="btn-group btn-group-sm">
+<!--                 <button type="button" class="btn btn-default" onclick="selectClose()"><i class="glyphicon glyphicon-plus"></i>关闭</button>-->
+                 <button type="button"  class="btn btn-default" onclick="selectIco()"><i class="glyphicon glyphicon-save"></i>确定</button>
+             </div>
+            <div class="box-body" id="content-wrapper" style="margin:5px 5px 5px 5px;">
+            </div>
+    </body>
+    <!-- jQuery 3 -->
+    <script th:src="@{/static/libs/jquery/jquery-2.2.4.min.js}"></script>
+    <!-- easyui-->
+    <script th:src="@{/static/libs/easyui1.8.3/jquery.easyui.min.js}"></script>
+    <!-- Bootstrap-table -->
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/bootstrap-table.min.js}"></script>
+    <!--<script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/editable/bootstrap-table-editable.min.js}"></script>-->
+    <script th:src="@{/static/libs/bootstrap-table-v1.11.1/locale/bootstrap-table-zh-CN.min.js}"></script>
+
+    <!-- Bootstrap 3.3.7 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-v3.3.7.min.js}"></script>
+
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table.min.js}"></script>-->
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table-edit.min.js}"></script>-->
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-table-zh-CN.min.js}"></script>-->
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/static/libs/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js}"></script>
+    <!--<script th:src="@{/static/libs/bootstrap-table/bootstrap-select.js}"></script>-->
+    <!-- x-eidtable -->
+ <!--<script th:src="@{/static/libs/x-editable/bootstrap3-editable/js/bootstrap-editable.js}"></script>-->
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- FastClick -->
+    <script th:src="@{/static/libs/fastclick.js}"></script>
+    <!-- AdminLTE App -->
+    <script th:src="@{/static/libs/adminlte/adminlte.min.js}"></script>
+    <!-- Select -->
+    <script th:src="@{/static/libs/select/bootstrap-select.min.js}"></script>
+    <!-- Select2 -->
+    <script th:src="@{/static/libs/select2/select2.full.min.js}"></script>
+    <!-- InputMask -->
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.date.extensions.js}"></script>
+    <script th:src="@{/static/libs/jquery-inputmask/jquery.inputmask.extensions.js}"></script>
+    <!-- date-range-picker -->
+    <script th:src="@{/static/libs/moment.min.js}"></script>
+    <script th:src="@{/static/libs/daterangepicker.js}"></script>
+    <!-- My97DatePicker -->
+    <script th:src="@{/static/libs/datepicker/WdatePicker.js}"></script>
+
+    <!-- bootstrap3-dialog  -->
+    <script th:src="@{/static/libs/bootstrap3-dialog/js/bootstrap-dialog.min.js}"></script>
+    <!-- bootstrap datepicker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-datepicker.min.js}"></script>
+    <!-- bootstrap color picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-colorpicker.min.js}"></script>
+    <!-- bootstrap time picker -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-timepicker.min.js}"></script>
+    <!-- SlimScroll -->
+    <script th:src="@{/static/libs/jquery-slimscroll/jquery.slimscroll.min.js}"></script>
+    <!-- PACE -->
+    <script th:src="@{/static/libs/pace.min.js}"></script>
+    <!-- zTree script -->
+    <script th:src="@{/static/libs/jquery-ztree/jquery.ztree.all.min.js}"></script>
+        <!--<script th:src="@{/static/libs/bootstrap-editable/bootstrap-table-edit.js}"></script>-->
+    <!-- Bootstrap-notify-3.1.3 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-notify.min.js}"></script>
+    <!-- Bootstrap-validator-0.11.9 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-validator.min.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/static/libs/iCheck/icheck.min.js}"></script>
+    <!-- AdminLTE for menu purposes -->
+    <script th:src="@{/static/js/right-menu-color.js}"></script>
+
+    <script th:src="@{/static/js/admin.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/static/js/common/utils.js?v=1.0.1}"></script>
+
+    <script th:src="@{/project/common/common-editable.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-formatter.js?v=1.0.1}" th:inline="javascript"></script>
+    <script th:src="@{/project/common/common-function.js?v=1.0.1}"  th:inline="javascript"></script>
+    <script th:inline="javascript">
+        var tableName= [[${tableName}]];
+        var dataID= [[${dataID}]];
+        var columnName= [[${columnName}]];
+        var icos=("glyphicon glyphicon-asterisk,glyphicon glyphicon-plus,glyphicon glyphicon-minus,glyphicon glyphicon-euro,glyphicon glyphicon-cloud,glyphicon glyphicon-envelope,glyphicon glyphicon-pencil,glyphicon glyphicon-glass,glyphicon glyphicon-music,glyphicon glyphicon-search,glyphicon glyphicon-heart,glyphicon glyphicon-star,glyphicon glyphicon-star-empty,glyphicon glyphicon-user,glyphicon glyphicon-film,glyphicon glyphicon-th-large,glyphicon glyphicon-th,glyphicon glyphicon-th-list,glyphicon glyphicon-ok,glyphicon glyphicon-remove,glyphicon glyphicon-zoom-in,glyphicon glyphicon-zoom-out,glyphicon glyphicon-off,glyphicon glyphicon-signal,glyphicon glyphicon-cog,glyphicon glyphicon-trash,glyphicon glyphicon-home,glyphicon glyphicon-file,glyphicon glyphicon-time,glyphicon glyphicon-road,glyphicon glyphicon-download-alt,glyphicon glyphicon-download,glyphicon glyphicon-upload,glyphicon glyphicon-inbox,glyphicon glyphicon-play-circle,glyphicon glyphicon-repeat,glyphicon glyphicon-refresh,glyphicon glyphicon-list-alt,glyphicon glyphicon-lock,glyphicon glyphicon-flag,glyphicon glyphicon-headphones,glyphicon glyphicon-volume-off,glyphicon glyphicon-volume-down,glyphicon glyphicon-volume-up,glyphicon glyphicon-qrcode,glyphicon glyphicon-barcode,glyphicon glyphicon-tag,glyphicon glyphicon-tags,glyphicon glyphicon-book,glyphicon glyphicon-bookmark,glyphicon glyphicon-print,glyphicon glyphicon-camera,glyphicon glyphicon-font,glyphicon glyphicon-bold,glyphicon glyphicon-italic,glyphicon glyphicon-text-height,glyphicon glyphicon-text-width,glyphicon glyphicon-align-left,glyphicon glyphicon-align-center,glyphicon glyphicon-align-right,glyphicon glyphicon-align-justify,glyphicon glyphicon-list,glyphicon glyphicon-indent-left,glyphicon glyphicon-indent-right,glyphicon glyphicon-facetime-video,glyphicon glyphicon-picture,glyphicon glyphicon-map-marker,glyphicon glyphicon-adjust,glyphicon glyphicon-tint,glyphicon glyphicon-edit,glyphicon glyphicon-share,glyphicon glyphicon-check,glyphicon glyphicon-move,glyphicon glyphicon-step-backward,glyphicon glyphicon-fast-backward,glyphicon glyphicon-backward,glyphicon glyphicon-play,glyphicon glyphicon-pause,glyphicon glyphicon-stop,glyphicon glyphicon-forward,glyphicon glyphicon-fast-forward,glyphicon glyphicon-step-forward,glyphicon glyphicon-eject,glyphicon glyphicon-chevron-left,glyphicon glyphicon-chevron-right,glyphicon glyphicon-plus-sign,glyphicon glyphicon-minus-sign,glyphicon glyphicon-remove-sign,glyphicon glyphicon-ok-sign,glyphicon glyphicon-question-sign,glyphicon glyphicon-info-sign,glyphicon glyphicon-screenshot,glyphicon glyphicon-remove-circle,glyphicon glyphicon-ok-circle,glyphicon glyphicon-ban-circle,glyphicon glyphicon-arrow-left,glyphicon glyphicon-arrow-right,glyphicon glyphicon-arrow-up,glyphicon glyphicon-arrow-downglyphicon glyphicon-share-alt,glyphicon glyphicon-resize-full,glyphicon glyphicon-resize-small,glyphicon glyphicon-exclamation-sign,glyphicon glyphicon-gift,glyphicon glyphicon-leaf,glyphicon glyphicon-fire,glyphicon glyphicon-eye-open,glyphicon glyphicon-eye-close,glyphicon glyphicon-warning-sign,glyphicon glyphicon-plane,glyphicon glyphicon-calendar,glyphicon glyphicon-random,glyphicon glyphicon-comment,glyphicon glyphicon-magnet,glyphicon glyphicon-chevron-up,glyphicon glyphicon-chevron-down,glyphicon glyphicon-retweet,glyphicon glyphicon-shopping-cart,glyphicon glyphicon-folder-close,glyphicon glyphicon-folder-open,glyphicon glyphicon-resize-vertical,glyphicon glyphicon-resize-horizontal,glyphicon glyphicon-hdd,glyphicon glyphicon-bullhorn,glyphicon glyphicon-bell,glyphicon glyphicon-certificate,glyphicon glyphicon-thumbs-up,glyphicon glyphicon-thumbs-down,glyphicon glyphicon-hand-right,glyphicon glyphicon-hand-left,glyphicon glyphicon-hand-up,glyphicon glyphicon-hand-down,glyphicon glyphicon-circle-arrow-right,glyphicon glyphicon-circle-arrow-left,glyphicon glyphicon-circle-arrow-up,glyphicon glyphicon-circle-arrow-down,glyphicon glyphicon-globe,glyphicon glyphicon-wrench,glyphicon glyphicon-tasks,glyphicon glyphicon-filter,glyphicon glyphicon-briefcase,glyphicon glyphicon-fullscreen,glyphicon glyphicon-dashboard,glyphicon glyphicon-paperclip,glyphicon glyphicon-heart-empty,glyphicon glyphicon-link,glyphicon glyphicon-phone,glyphicon glyphicon-pushpin,glyphicon glyphicon-usd,glyphicon glyphicon-gbp,glyphicon glyphicon-sort,glyphicon glyphicon-sort-by-alphabet,glyphicon glyphicon-sort-by-alphabet-alt,glyphicon glyphicon-sort-by-order,glyphicon glyphicon-sort-by-order-alt,glyphicon glyphicon-sort-by-attributes,glyphicon glyphicon-sort-by-attributes-alt,glyphicon glyphicon-unchecked,glyphicon glyphicon-expand,glyphicon glyphicon-collapse-down,glyphicon glyphicon-collapse-up,glyphicon glyphicon-log-in,glyphicon glyphicon-flash,glyphicon glyphicon-log-out,glyphicon glyphicon-new-window,glyphicon glyphicon-record,glyphicon glyphicon-save,glyphicon glyphicon-open,glyphicon glyphicon-saved,glyphicon glyphicon-import,glyphicon glyphicon-export,glyphicon glyphicon-send,glyphicon glyphicon-floppy-disk,glyphicon glyphicon-floppy-saved,glyphicon glyphicon-floppy-remove,glyphicon glyphicon-floppy-save,glyphicon glyphicon-floppy-open,glyphicon glyphicon-credit-card,glyphicon glyphicon-transfer,glyphicon glyphicon-cutlery,glyphicon glyphicon-header,glyphicon glyphicon-compressed,glyphicon glyphicon-earphone,glyphicon glyphicon-phone-alt,glyphicon glyphicon-tower,glyphicon glyphicon-stats,glyphicon glyphicon-sd-video,glyphicon glyphicon-hd-video,glyphicon glyphicon-subtitles,glyphicon glyphicon-sound-stereo,glyphicon glyphicon-sound-dolby,glyphicon glyphicon-sound-5-1,glyphicon glyphicon-sound-6-1,glyphicon glyphicon-sound-7-1,glyphicon glyphicon-copyright-mark,glyphicon glyphicon-registration-mark,glyphicon glyphicon-cloud-download,glyphicon glyphicon-cloud-upload,glyphicon glyphicon-tree-conifer,glyphicon glyphicon-tree-deciduous," +
+                    "fa fa-sitemap,fa fa-user,fa fa-desktop,fa fa-child,fa fa-wrench,fa fa-suitcase,fa fa-cubes,fa fa-wrench,fa fa-history,fa fa-users").split(",");
+        $(function () {
+            $('#content-wrapper').height(500);
+            var icoHtml="<ul>";
+            for(var i=0;i<icos.length;i++){
+                icoHtml+="<li class='metro'><i class='"+icos[i]+"'></i></li>";
+            }
+            icoHtml+="</ul>";
+
+            $('#content-wrapper').append(icoHtml);
+            $('#content-wrapper').find("li").each(function(){
+                $(this).click(function(){
+                    $('#content-wrapper').find("li").removeClass("selectli");
+                    $(this).addClass("selectli");
+                   // alert($(this).find("i").attr("class"));
+                });
+            })
+        });
+
+
+        function selectIco(){
+            var select=$('#content-wrapper').find(".selectli");
+            if(select==null||select.length==0){
+                alert("没有选中任何图标！");
+                return;
+            }
+            var ico=select.find("i").attr("class");
+            ajaxSumit('/tool/setico?tableName='+tableName+"&dataID="+dataID+"&columnName="+columnName,{icoclass:ico}, iFrameClose);
+        }
+
+        function selectClose() {
+            window.parent.$(".modal").modal("hide");
+        }
+
+    </script>
+
+    <script th:inline="javascript">
+
+//        var pageType = [[${userRoles}]];
+//        var userRoles = [[${userRoles}]];
+//        var userRoles = [[${userRoles}]];
+//        function  initLoad() {
+//            alert(1);
+//        }
+    </script>
+</html>

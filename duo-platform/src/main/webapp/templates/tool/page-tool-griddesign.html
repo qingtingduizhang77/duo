@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<style>
+
+    table th.resizing {
+        cursor: col-resize;
+    }
+    #maintable th{
+        border: 1px solid #cccccc;
+    }
+</style>
+<section class="content-header" style="">
+    <h1 ><span >表格设计器</span>
+        <small > 用于表格页面可视化开发 </small>
+    </h1>
+</section>
+
+<section class="content">
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="box">
+
+                    <div class="col-xs-12 col-sm-12"  style="padding-right: 0px;width: 100%"  >
+
+                        <div id="toolbar">
+                            <div class="btn-group btn-group-sm">
+                                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                                <button type="button" class="btn btn-default"   onclick="openSelectColumnWin()"><i class="glyphicon glyphicon-tasks"></i> 选择字段列表
+                                </button>
+                                <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                                <button type="button"  class="btn btn-default"  onclick="saveGridToFile()"><i class="glyphicon glyphicon-floppy-disk"  ></i> 生成Grid页面
+                                </button>
+                            </div>
+                        </div>
+                    <!--表格自动出现水平滚动条-->
+                    <div class="table-responsive"   >
+                        <table name="table" id="maintable"  class="table table-bordered table-hover text-nowrap content-table"  style="table-layout:fixed;margin-bottom: 40px;" scrolling="auto">
+                            <thead>
+                            <tr>
+                                <th style="width:180px;">栏目类型</th>
+                                <th style="width:200px;">活动名称</th>
+                                <th style="width:100px;">状态</th>
+                                <th style="width:1800px;"></th>
+                            </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!-- importModal -->
+<div class="modal fade" id="selectColumnModal"    style="width:380px;height:600px;top :130px;left:100px; padding-left: 0px;" tabindex="-1" >
+        <div class="modal-content" style="width:380px;height:600px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >选择字段列</h4>
+            </div>
+                <div id="selecttoolbar">
+                    <div class="btn-group btn-group-sm">
+                        <button type="button"  class="btn btn-default" onclick="checkall();"><i class="glyphicon glyphicon-check"></i>全选
+                        </button>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                        <button type="button"  class="btn btn-default" onclick="gridtop();"><i class="glyphicon glyphicon-open"></i> 置顶
+                        </button>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                        <button type="button" class="btn btn-default" onclick="gridup();"><i class="glyphicon glyphicon-chevron-up"></i> 向上
+                        </button>
+                        <button type="button"  class="btn btn-default" onclick="griddown();"><i class="glyphicon glyphicon-chevron-down"></i> 向下
+                        </button>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                        <button type="button" class="btn btn-default" onclick="gridbottom();"><i class="glyphicon glyphicon-save"></i> 置底
+                        </button>
+                        <!-- Provides extra visual weight and identifies the primary action in a set of buttons -->
+                        <button type="button"  class="btn btn-default" onclick="preview();" ><i class="glyphicon glyphicon-refresh"></i> 预览
+                        </button>
+                    </div>
+                </div>
+                <div class="panel-body"  style=" border: 0px;padding: 0px;height:525px;overflow:auto"    id="table-content">
+                        <table class="table table-bordered table-hover text-nowrap content-table" id="column-table">
+                            <tbody th:utext="${selectColumnList}" >
+                                <!--<tr>-->
+                                    <!--<td style="width:13%;"><input type="checkbox"/></td>-->
+                                    <!--<td style="width:32%;">column_name</td>-->
+                                    <!--<td style="width:35%;">字段名称</td>-->
+                                    <!--<td style="width:20%;">200</td>-->
+                                <!--</tr> -->
+                            </tbody>
+                        </table>
+                </div>
+        </div>
+</div>
+<!-- colResizable-->
+<!--<script th:src="@{/static/libs/colResizable/colResizable-1.6.min.js}"></script>-->
+<!--<script th:src="@{/static/libs/bootstrap-table-v1.11.1/extensions/resizable/bootstrap-table-resizable.min.js}"></script>-->
+
+<script th:inline="javascript">
+
+    //后台Controller传回来下列值
+    var topModuleId = [[${topModuleId}]];//一级模块id
+    var moduleId = [[${moduleId}]];//二级模块id
+    funId = [[${funId}]];//功能id
+    var pageType = [[${pageType}]];//页面类型
+    keyIDColumn = [[${keyIDColumn}]];//主键id列
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    var treeURL = [[${getTreeDataUrl}]];//树获取
+    var treeTopId = [[${treeTopId}]];//树顶级id
+    var treeWhereSQL = [[${treeWhereSQL}]];//树过滤sql
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    defaultQueryId= [[${defaultQueryId}]];//默认查询条id
+    var foreignColumn = [[${foreignColumn}]];//外键名
+    var foreignKeyId = [[${foreignKeyId}]];//外键值
+
+    allowEidtRole=allowEidtRole=="true";
+
+    var $table = $('#selecttable');
+    var changeRows = new Array();
+
+    //可编辑列设置信息
+    editData= {
+        column_name: {edit: false, type: "text", required: false, default: "", formatter: ""},
+        column_comment: {edit: false, type: "text", required: false, default: "", formatter: ""},
+        column_width: {edit: true, type: "number", required: true, default: "", formatter: ""}
+    }
+
+    $(function () {
+        $(document).on("show.bs.modal", ".modal", function(){
+            $(this).draggable({
+                 handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        //表格点击高亮事件，影响宽度框输入
+        $(document).on('click', '#table-content .content-table > tbody > tr', function() {
+            if($(this).hasClass("showColor") == false){
+                $(this).addClass('showColor').css("background-color", "#cce7fc");
+                $(this).siblings().removeClass('showColor').css("background-color", "white");
+            }
+        });
+
+        $("#table-content").on('dblclick', 'tbody > tr > td', function(){
+            var tdSeq = $(this).parent().find("td").index($(this)[0]); //列号
+            if(tdSeq!=3) return;
+            if($(this).html().indexOf("input")>0) return;
+            var that=this;
+            var value=$(this).text();
+            var input = $("<input type='number'  class='form-control' />");
+            $(this).html(input);
+            input.focus().val(value);
+            input.blur(function () {
+                let tdValue = input.val();
+                $(that).html("" + tdValue);
+            });
+        });
+
+        //判断是否定义grid路径
+        var datas=window.parent.$table.bootstrapTable('getSelections');
+        if(datas!=null&&datas.length>0){
+
+        }
+
+        openSelectColumnWin();//打开字段列表
+        preview();
+    });
+
+    function preview(){
+        var th="<tr>";
+        var twidth=500;
+        var widths=new Array();
+        $("#column-table").find("tr").each(function (i) {
+            var isShow=$(this).find(":checkbox").is(':checked');
+            var name=$(this).find("td").eq(2).text();
+            var width=$(this).find("td").eq(3).text();
+            if(width=="") width="200";
+            widths[widths.length]=width;
+            th+="<th style='width:"+width+"px;"+(isShow?"":"display:none;")+"'>"+name+"</th>";
+            twidth =twidth+(isShow?width*1:0);
+        })
+        th+="<th style='width: 500px;'></th></tr>";
+        widths[widths.length]="500";
+      //  alert($("#table").find("tr").html());
+        $("[name='table']").find("thead").html(th);
+        $("[name='table']").width(twidth);
+        //
+        // $(".JCLRgrips").remove();
+        // $(".JCLRFlex").removeClass("JCLRFlex");
+        // $(".JColResizer").removeClass("JColResizer");
+        // $("table[id^='JColResizer']").removeAttr("id");
+
+        var n=0;
+        $("[name='table']").find("thead").find("th").each(function(){
+            $(this).css("width",widths[n++]+"px");
+        })
+        // $("[name='table']").colResizable({
+        //     resizeMode:'overflow',
+        //     liveDrag: true,//实时显示滑动位置
+        //     gripInnerHtml: "<div class='grip'></div>",
+        //     //draggingClass: "dragging",
+        //     postbackSafe: true,//刷新后保留之前的拖拽宽度
+        //     headerOnly:true,
+        //     onResize: onSampleResized
+        // } );
+        if(!pressed) setChange();
+    }
+
+    var pressed = false;
+    var start = undefined;
+    var startX, startWidth;
+    var tdSeq;
+    function setChange(){
+
+         pressed = false;
+        $("[name='table']").find("thead").find("th").mousedown(function(e) {
+            start = $(this);
+            pressed = true;
+            startX = e.pageX;
+            startWidth = $(this).width();
+            tdSeq = $(this).parent().find("th").index($(this)[0]); //列号
+            $(start).addClass("resizing");
+        });
+
+        $(document).mousemove(function(e) {
+            if(pressed) {
+                let vary=(e.pageX-startX);
+                $(start).width(startWidth+vary);
+                $("#column-table").find("tr").eq(tdSeq).find("td").eq(3).text(Math.ceil($(start).width()+18));
+                // $("#column-table").find("tr").each(function (i) {
+                //     var width=$(this).find("td").eq(3).text();
+                //     $(this).width(width);
+                // });
+                preview();
+            }
+        });
+
+        $(document).mouseup(function() {
+            if(pressed) {
+                $(start).removeClass("resizing");
+                pressed = false;
+                setChange();
+            }
+        });
+
+    }
+
+    //改变宽度触发
+    function onSampleResized(){
+        var n=$("[name='table']").find("th").size();
+        $("[name='table']").find("th").each(function(i){
+            if(i<n-1)
+            $("#column-table").find("tr").eq(i).find("td").eq(3).text(Math.ceil($(this).width())); // 注意-1是因为index从0开始计数
+        });
+    }
+
+    function openSelectColumnWin() {
+        //居中
+        $('#selectColumnModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            $(this).find('.modal-dialog').css({
+                'margin-top': 50,
+                'margin-left':50
+            });
+        });
+        $('#selectColumnModal').modal({ show: true, backdrop: false  });
+
+    }
+
+
+    function saveGridToFile(){
+        var datas=[];
+        $("#column-table").find("tr").each(function (i) {
+            var isShow=$(this).find(":checkbox").is(':checked');
+            var name=$(this).find("td").eq(2).text();
+            var width=$(this).find("td").eq(3).text();
+            var column_id=$(this).find("td").eq(4).text();
+            if(width=="") width="200";
+            datas[datas.length]={column_id:column_id,is_show:isShow?"1":"0",column_width:width};
+        });
+        ajaxSumit( '/tool/saveToFile?funId='+funId,{datas:JSON.stringify(datas),foreignKeyId:foreignKeyId},null);
+    }
+
+    //全选
+    function checkall(){
+        $("#column-table").find("tr").each(function (i) {
+            var column_id=$(this).find("td").eq(1).text();
+            if(column_id.indexOf("_id")<0){
+                 $(this).find(":checkbox").prop("checked",true);
+            }
+        })
+    }
+
+    //置顶
+    function gridtop() {
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                flag = true;
+                if($(this).index() == 0){
+                    alert('已经是最顶部了！');
+                    return;
+                }
+                $("#table-content .content-table").prepend($(this));
+                $(this).css("background-color", "#d5d5d5");
+                $(this).siblings().css("background-color", "white");
+                return false;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+    //上移
+    function gridup() {
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                flag = true;
+                if($(this).index() == 0){
+                    alert('已经是第一个了！');
+                    return;
+                }
+                $(this).prev().before($(this));
+                $(this).css("background-color", "#d5d5d5");
+                $(this).siblings().css("background-color", "white");
+                return false;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    } ;
+
+    //下移
+    var trLen=$('#table-content .content-table > tbody > tr').length;
+    function griddown() {
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                flag = true;
+                if($(this).index() == trLen - 1){
+                    alert('已经是最后一个了！');
+                    return;
+                }
+                $(this).next().after($(this));
+                $(this).css("background-color", "#d5d5d5");
+                $(this).siblings().css("background-color", "white");
+                return false;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    }
+    //置底
+   function gridbottom() {
+        var flag = false;
+        $('#table-content .content-table > tbody').find('tr').each(function(){
+            if($(this).hasClass('showColor')){
+                flag = true;
+                if($(this).index() == trLen - 1){
+                    alert('已经是最底部了！');
+                    return;
+                }
+                $(this).fadeOut().fadeIn();
+                $("#table-content .content-table").append($(this));
+                $(this).css("background-color", "#d5d5d5");
+                $(this).siblings().css("background-color", "white");
+                return false;
+            }
+        });
+        if(flag == false){
+            alert('请选择一行数据！');
+            return;
+        }
+    } ;
+
+
+</script>
+
+</html>

@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '记录状态', width:83,visible:true, halign: 'center' }, 
+	 {field: 'apply_code', title: '申购单号', width:106,visible:true, halign: 'center' }, 
+	 {field: 'apply_date', title: '申购日期', width:125,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '申购部门', width:152,visible:true, halign: 'center' }, 
+	 {field: 'device_source', title: '设备来源', width:130,visible:true, halign: 'center' }, 
+	 {field: 'edit_user', title: '申购人', width:104,visible:true, halign: 'center' }, 
+	 {field: 'edit_userid', title: '申购人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'reason', title: '申购原因', width:431,visible:true, halign: 'center' }, 
+	 {field: 'sec_dept', title: '二级单位', width:181,visible:true, halign: 'center' }, 
+	 {field: 'sec_deptid', title: '二级单位id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'sum_money', title: '设备总价(元)', width:181,visible:true, halign: 'center' }, 
+	 {field: 'apply_id', title: '主键', width:182,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '申购部门id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'tenant_id', title: '系统租户ID', width:182,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:181,visible:true, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.auditing'}, 
+	  apply_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.apply_code'}, 
+	  apply_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'prop_apply.apply_date'}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.dept_name'}, 
+	  device_source:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.device_source'}, 
+	  edit_user:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.edit_user'}, 
+	  edit_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.edit_userid'}, 
+	  reason:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.reason'}, 
+	  sec_dept:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.sec_dept'}, 
+	  sec_deptid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.sec_deptid'}, 
+	  sum_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'prop_apply.sum_money'}, 
+	  apply_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.apply_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.dept_id'}, 
+	  tenant_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.tenant_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'prop_apply.memo'} 
+	 }; 
+</script>  

@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'api_name', title: 'API名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'api_url', title: 'API访问地址', width:290,visible:true, halign: 'center' }, 
+	 {field: 'each_num', title: '折算扣除次数*', width:295,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'accect_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'api_id', title: 'api_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  api_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_api.api_name',max_length:80}, 
+	  api_url:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_api.api_url',max_length:80}, 
+	  each_num:{addedit:true,edit:true,type:'number',required:true,default:'1',orgfield:'tool_api_user_rule.each_num'}, 
+	  record_flag:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_api_user_rule.record_flag',max_length:10}, 
+	  accect_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user_rule.accect_id',max_length:32}, 
+	  api_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_api_user_rule.api_id',max_length:32}, 
+	  user_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'tool_api_user_rule.user_id',max_length:32} 
+	 }; 
+</script>  

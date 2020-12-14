@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<section class="content-header" style="">
+    <h1 ><span th:text="${funName}">功能名称</span>
+        <small th:text="${funDescript}"> 功能描述 </small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> <span  th:text="${topModuleName}">一级模块</span></li>
+        <li  th:text="${moduleName}"> 二级模块</li>
+        <li class="active"  th:text="${funName}">功能名称</li>
+    </ol>
+    </section>
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="btn-group btn-group-sm"  th:utext="${eventBar}">
+                    <!-- Indicates a dangerous or potentially negative action -->
+                    &nbsp;&nbsp; &nbsp;&nbsp; <span title="[已复核]状态数据自动归档"><input th:type="checkbox"/> 显示归档</span>
+                </div>
+                <iframe id="windowIframe" width="100%" height="100%" frameborder="0" scrolling="auto" src="" ></iframe>
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+<!-- /.content -->
+
+<script th:inline="javascript">
+    var gridUrl = [[${gridUrl}]];
+    var topModuleId = [[${topModuleId}]];//一级模块id
+    var moduleId = [[${moduleId}]];//二级模块id
+    funId = [[${funId}]];//功能id
+    funName = [[${funName}]];//功能名称
+    var funParames = [[${funParames}]];//其他自定义参数
+    var pageType = [[${pageType}]];//页面类型
+
+    try{
+        //刷新浏览器时，点击链接进入时，默认选中对应模块菜单
+        funParames= unEscapeHTML(funParames);
+        if(funParames.indexOf("{")>-1) eval("funParames="+funParames);
+        if(pageType="grid") {
+            if (urlentry) {
+                var selectNav = top.$('#mainNav').find("li[module-id='menu-" + topModuleId + "']");
+                var rgb = selectNav.css("color");
+                if (rgb.indexOf("#") < 0) {//ie是#333333格式
+                    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
+                    function hex(x) {
+                        return ("0" + parseInt(x).toString(16)).slice(-2);
+                    }
+
+                    rgb = "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+                }
+                if (rgb == "#333333" && pageType != "sub" && pageType != "select" && pageType != "import" && pageType != "") {
+                    selectNav.click();
+                    if (!top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").parent().hasClass("menu-open")) {
+                        top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").click();
+                    }
+
+                }
+            }
+        }
+    }catch (e){}
+        $("#windowIframe").attr("src", gridUrl.split("project")[1]);
+        $("#windowIframe").height(document.body.clientHeight);
+
+</script>
+
+</html>

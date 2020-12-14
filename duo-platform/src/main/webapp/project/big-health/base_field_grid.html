@@ -1,0 +1,35 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:61,visible:true, halign: 'center' }, 
+	 {field: 'field_code', title: '区域编码', width:107,visible:true, halign: 'center' }, 
+	 {field: 'field_level', title: '层级', width:146,visible:false, halign: 'center' }, 
+	 {field: 'field_name', title: '区域名称*', width:217,visible:true, halign: 'center' }, 
+	 {field: 'field_fullname', title: '区域全称', width:394,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:318,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:146,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'field_id', title: 'field_id', width:146,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'5',orgfield:'base_field.order_index'}, 
+	  field_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.field_code'}, 
+	  field_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'base_field.field_level'}, 
+	  field_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'base_field.field_name'}, 
+	  field_fullname:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.field_fullname'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.record_flag'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.project_id'}, 
+	  field_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'base_field.field_id'} 
+	 }; 
+</script>  

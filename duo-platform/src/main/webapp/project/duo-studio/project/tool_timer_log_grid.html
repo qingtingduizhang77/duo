@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'is_success', title: '执行状态', width:106,visible:true, halign: 'center',formatter:timerrunstateFormatter }, 
+	 {field: 'occur_date', title: '发生时间', width:177,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'timer_no', title: '定时器编号', width:182,visible:true, halign: 'center' }, 
+	 {field: 'timer_name', title: '定时器名称', width:182,visible:true, halign: 'center' }, 
+	 {field: 'source_ip', title: '执行ip', width:182,visible:true, halign: 'center' }, 
+	 {field: 'log_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'timer_id', title: 'timer_id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  is_success:{addedit:true,edit:true,type:'combobox',required:false,default:'',control_name:'timerrunstateData',formatter:'timerrunstateFormatter'}, 
+	  occur_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',formatter:'dateTimeFormatter'}, 
+	  timer_no:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  timer_name:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  source_ip:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  log_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  timer_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

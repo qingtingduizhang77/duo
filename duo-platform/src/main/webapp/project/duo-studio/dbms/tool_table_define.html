@@ -1,0 +1,467 @@
+<script  th:fragment="gridScript">
+
+var fileName="";
+var moduleName="com.duo.modules.模块目录";
+var entitypath="F:/EAM2020/duo-bean/src/main/java/com/duo/modules/模块目录/entity/";
+var mapperpath="F:/EAM2020/duo-bean/src/main/java/com/duo/modules/模块目录/mapper/";
+var entityFileBody="";
+var mapperFileBody="";
+
+function viewScript(){
+	$("#modulename").val(moduleName);
+	$("#entitypath").val(entitypath);
+	$("#mapperpath").val(mapperpath);
+
+	var nodes = $.fn.zTree.getZTreeObj("tree").getSelectedNodes();
+	var node =nodes[0];
+	if (node){
+		var other=node.obj;
+		var table_name=other.table_name;
+		var table_comment=other.table_comment;
+
+		var rows=$table.bootstrapTable('getData');
+
+		if(rows&&rows.length>0){
+
+			var entityScript="------------------------------------Entity.java----------------------------------------<br><br>";
+			entityFileBody=    "package "+moduleName+".entity;<br><br>import com.duo.core.BaseEntity;<br>import lombok.Data;<br>import lombok.NoArgsConstructor;<br>"
+				+"import javax.persistence.*;<br>"
+				+"import java.util.Date;<br><br>"
+				+"@Data<br>"
+				+"@NoArgsConstructor<br>";
+			//驼峰处理
+			var tables=table_name.split("_");
+			var classname="";
+			for(var n=0;n<tables.length;n++){
+				classname+=tables[n].substring(0,1).toUpperCase()+tables[n].substring(1,40);
+			}
+
+			fileName=classname;
+			entityFileBody+='@Table(name="'+table_name+'")<br>public class '+classname+' extends BaseEntity{ <br><br>';
+
+			var levelcolumn="",textcolumn="",fullnamecolumn="";
+			for(var i=0;i<rows.length;i++){
+				entityFileBody+=(rows[i].is_pk=="1"?'&nbsp;&nbsp;&nbsp;&nbsp;@Id<br> ':'' )+"&nbsp;&nbsp;&nbsp;&nbsp;private "
+					+(rows[i].column_type=="int"? 'Integer ':rows[i].column_type=="float"||rows[i].column_type=="double"?'Double ':
+						rows[i].column_type=="date"||rows[i].column_type=="datetime"?'java.util.Date ':rows[i].column_type=="text"?'String ': 'String ')
+					+rows[i].column_name+";//"+rows[i].column_comment+"<br><br>";
+				if(rows[i].tree_propertie!=null&&rows[i].tree_propertie=="level") levelcolumn=rows[i].column_name;//树级别字段
+				if(rows[i].tree_propertie!=null&&rows[i].tree_propertie=="text") textcolumn=textcolumn+","+rows[i].column_name;//树显示text值
+                if(rows[i].tree_propertie!=null&&rows[i].tree_propertie=="fullname") fullnamecolumn= rows[i].column_name;//树显示text值
+			}
+
+			if(other.is_tree!=null&&other.is_tree=="1"){//树形功能需要加上树形属性
+				if(textcolumn.length>1) textcolumn=textcolumn.substring(1);
+				entityFileBody+="&nbsp;&nbsp;&nbsp;&nbsp;//用于树型表，返回级别字段名称<br>";
+				entityFileBody+='&nbsp;&nbsp;&nbsp;&nbsp;public String getLevelColumn(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "'+levelcolumn+'";<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>';
+				entityFileBody+='&nbsp;&nbsp;&nbsp;&nbsp;public void setLevel(Integer level){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+levelcolumn+'=level;<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br>';
+				entityFileBody+="&nbsp;&nbsp;&nbsp;&nbsp;//用于树型表，返回显示值字段名称，返回2个字段（中间用,隔开）则会   字段1（字段2） 格式显示树值<br>";
+				entityFileBody+='&nbsp;&nbsp;&nbsp;&nbsp; public String getTextColumn(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "'+textcolumn+'";<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>';
+                entityFileBody+="&nbsp;&nbsp;&nbsp;&nbsp;//用于树型表，获取全称字段<br>";
+                entityFileBody+='&nbsp;&nbsp;&nbsp;&nbsp; public String getFullNameColumn(){<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return "'+fullnamecolumn+'";<br>&nbsp;&nbsp;&nbsp;&nbsp;}<br><br>';
+			}
+
+			entityFileBody+="&nbsp;}";
+			mapperFileBody = "package  "+moduleName+".mapper;<br><br>import com.duo.core.MyMapper;<br>import "+moduleName+".entity."+classname+";<br><br>public interface "+classname+"Mapper extends MyMapper< "+classname+" > {<br><br>}";
+
+			$("#textarea_script").html( entityScript+entityFileBody+"<br><br>------------------------------------Mapper.java----------------------------------------<br><br>"+mapperFileBody);
+
+			return true;
+		}else {
+			alert('没有找到字段信息，不能生成SQL！');
+			return false;
+		}
+	}else {
+		alert('请先选择树节点中的表名后再操作！');
+		return false;
+	}
+}
+
+function createEntityReflesh() {
+	moduleName=$("#modulename").val();
+	var newPath=moduleName.replace(new RegExp("\\.","gm"),"/");
+	entitypath=entitypath.substring(0,entitypath.indexOf("com"))+newPath+"/entity/";
+	mapperpath=mapperpath.substring(0,mapperpath.indexOf("com"))+newPath+"/mapper/";
+	viewScript();
+
+} 
+
+//生成文件
+ function createEntityFile() {
+	var data={entityFileName:fileName+".java",mapperFileName:fileName+"Mapper.java",entitypath:entitypath,mapperpath:mapperpath,
+		entityFileBody:entityFileBody.replace(new RegExp("&nbsp;","gm")," ").replace(new RegExp("\\<br\\>","gm"),"\n"),mapperFileBody:mapperFileBody.replace(new RegExp("\\<br\\>","gm"),"\n") };
+	ajaxSumit('/tool/entity',data,callback);
+} 
+
+
+function createentity() {
+	if(viewScript()){
+			//居中
+			$('#entityWindowModal').on('show.bs.modal', function (e) {
+				// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+				$(this).css('display', 'block');
+				var modalHeight=$(window).height() / 2 - $('#entityWindowModal .modal-dialog').height() / 2;
+				var modalWidth=$(window).width() / 2 - $('#entityWindowModal .modal-dialog').width() / 2-100;
+				$(this).find('.modal-dialog').css({
+					'margin-top': modalHeight,
+					'margin-left': modalWidth
+				});
+			});
+			$('#entityWindowModal').modal({ show: true, backdrop: 'static' });
+	}
+
+}
+
+
+
+
+ function createsql() {
+
+	var nodes = $.fn.zTree.getZTreeObj("tree").getSelectedNodes();
+	var node =nodes[0];
+	if (node){
+		var other=node.obj;
+		var table_name=other.table_name;
+		var table_comment=other.table_comment;
+
+		var rows=$table.bootstrapTable('getData');
+
+		if(rows&&rows.length>0){
+//                    alert(JSON.stringify(rows));
+			var createsql="";
+			createsql+="--根据实际需求是否需要删除表创建，或者仅仅是增删字段<br>--DROP TABLE `"+table_name+"`;<br>"+"CREATE TABLE `"+table_name+"` (<br>"
+			var key=rows[0].column_name;
+			var addOrdelSQL="";
+			var isNewTable=true;
+			var changeColumn=new Array();
+			var changeColumn2=new Array();
+			for(var i=0;i<rows.length;i++){
+				if(rows[i].is_pk=="1") key=rows[i].column_name;
+				createsql+="&nbsp;&nbsp;`"+rows[i].column_name+"` "+(rows[i].column_type=="date"?"datetime":rows[i].column_type)+(rows[i].column_type=="int"||rows[i].column_type=="float"||rows[i].column_type=="date"||rows[i].column_type=="datetime"||rows[i].column_type=="text"||rows[i].column_length==null||rows[i].column_length=="0"?"":"("+rows[i].column_length+")")+" "
+					+(rows[i].is_allownull=="1"?" NOT NULL":(rows[i].default_value==null||rows[i].default_value==""?" DEFAULT NULL":" DEFAULT "+rows[i].default_value))
+					+" COMMENT '"+(rows[i].column_comment==""?rows[i].column_name:rows[i].column_comment)+"',<br>";
+				if(rows[i].is_has=="10"){//新增字段
+					addOrdelSQL+="alter table `"+table_name+"` add  `"+rows[i].column_name+"`  "+(rows[i].column_type=="date"?"datetime":rows[i].column_type)+(rows[i].column_type=="int"||rows[i].column_type=="float"||rows[i].column_type=="date"||rows[i].column_type=="datetime"||rows[i].column_type=="text"||rows[i].column_length==null||rows[i].column_length=="0"?"":"("+rows[i].column_length+")")+" "
+						+(rows[i].is_allownull=="1"?" NOT NULL":(rows[i].default_value==null||rows[i].default_value==""?" DEFAULT NULL":" DEFAULT "+rows[i].default_value))
+						+" COMMENT '"+(rows[i].column_comment==""?rows[i].column_name:rows[i].column_comment)+"';<br>";
+					changeColumn[changeColumn.length]=rows[i].column_comment+";;"+i;
+				}else if(rows[i].is_has=="01"){//删除字段
+					addOrdelSQL+="alter table `"+table_name+"` drop column `"+rows[i].column_name+"`;<br>"
+					isNewTable=false;
+					changeColumn2[changeColumn2.length]=rows[i].column_comment+";;"+i;
+				}else{
+					if((rows[i].column_type=="date"?"datetime":rows[i].column_type)!=rows[i].db_column_type|| (rows[i].db_column_length==""?0:rows[i].db_column_length)!=(rows[i].column_type=="int"||rows[i].column_type=="float"||rows[i].column_type=="double"||rows[i].column_type=="date"||rows[i].column_type=="datetime"||rows[i].column_type=="text"||rows[i].column_length==null||rows[i].column_length=="0"? 0:rows[i].column_length)){//rows[i].column_length)!=(rows[i].db_column_length==""?0:rows[i].db_column_length
+						addOrdelSQL+="alter table `"+table_name+"` MODIFY  column `"+rows[i].column_name+"` "+(rows[i].column_type=="date"?"datetime":rows[i].column_type)+(rows[i].column_type=="int"||rows[i].column_type=="float"||rows[i].column_type=="date"||rows[i].column_type=="datetime"||rows[i].column_type=="text"||rows[i].column_length==null||rows[i].column_length=="0"?"":"("+rows[i].column_length+")")+" "
+							+(rows[i].is_allownull=="1"?" NOT NULL":(rows[i].default_value==null||rows[i].default_value==""?" DEFAULT NULL":" DEFAULT "+rows[i].default_value))
+							+" COMMENT '"+(rows[i].column_comment==""?rows[i].column_name:rows[i].column_comment)+"';<br>";
+					}
+					isNewTable=false;
+				}
+			}
+			//可能存在修改字段名情况
+			var changeColumnSQL="<br><br>--可能是修改字段名称<br>";
+			if(changeColumn.length>0&&changeColumn2.length>0){
+				for(var i=0;i<changeColumn.length;i++){
+					for(var j=0;j<changeColumn2.length;j++){
+						if(changeColumn[i].split(";;")[0]==changeColumn2[j].split(";;")[0]){
+							var m=changeColumn[i].split(";;")[1];//新增
+							var n=changeColumn2[j].split(";;")[1];//删除
+							changeColumnSQL+= "alter table `"+table_name+"` change column `"+rows[n].column_name+"`  `"+rows[m].column_name+"`  "+(rows[m].column_type=="date"?"datetime":rows[m].column_type)+(rows[m].column_type=="int"||rows[m].column_type=="float"||rows[m].column_type=="date"||rows[i].column_type=="datetime"||rows[i].column_length==null||rows[m].column_length=="0"?"":"("+rows[m].column_length+")")+" "
+								+(rows[m].is_allownull=="1"?" NOT NULL":(rows[i].default_value==null||rows[m].default_value==""?" DEFAULT NULL":" DEFAULT "+rows[m].default_value))
+								+" COMMENT '"+(rows[m].column_comment==""?rows[m].column_name:rows[m].column_comment)+"';<br>";
+						}
+					}
+				}
+			}
+			createsql+="&nbsp;&nbsp;PRIMARY KEY (`"+key+"`)<br>) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='"+table_comment+"';";
+			$("#textarea_sql").html(createsql.replace("&nbsp;"," ")+(isNewTable||addOrdelSQL==""?"":"<br><br>--增删字段脚本<br>"+addOrdelSQL+changeColumnSQL));
+
+
+			//居中
+			$('#SQLWindowModal').on('show.bs.modal', function (e) {
+				// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+				$(this).css('display', 'block');
+				var modalHeight=$(window).height() / 2 - $('#SQLWindowModal .modal-dialog').height() / 2;
+				var modalWidth=$(window).width() / 2 - $('#SQLWindowModal .modal-dialog').width() / 2-100;
+				$(this).find('.modal-dialog').css({
+					'margin-top': modalHeight,
+					'margin-left': modalWidth
+				});
+			});
+			$('#SQLWindowModal').modal({ show: true, backdrop: 'static' });
+		}else {
+			alert('没有找到字段信息，不能生成SQL！');
+		}
+	}else {
+		alert('请先选择树节点中的表名后再操作！');
+	}
+
+} 
+
+
+function openCopyImport() {
+	$("#importcopy_sql").html("");
+	$("#importcopy_sql").focus();
+	//居中
+	$('#importcopyModal').on('show.bs.modal', function (e) {
+		// 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+		$(this).css('display', 'block');
+		var modalHeight=$(window).height() / 2 - $('#importcopyModal .modal-dialog').height() / 2;
+		var modalWidth=$(window).width() / 2 - $('#importcopyModal .modal-dialog').width() / 2-100;
+		$(this).find('.modal-dialog').css({
+			'margin-top': modalHeight,
+			'margin-left': modalWidth
+		});
+	});
+    _autoFresh=false;
+	$('#importcopyModal').modal({ show: true, backdrop: 'static' });
+
+}
+//Copy Excel to新增
+var copycols=new Array("column_name","column_comment","column_type","column_length");
+function insertRow() {
+	var count = $table.bootstrapTable('getData', {useCurrentPage: true, includeHiddenRows: true}).length;
+	var exceldata=$("#importcopy_sql").html();
+   var copytab=$(exceldata);
+   var datas=[];
+	copytab.find("tr").each(function(i){  // 遍历 tr
+		var data={};
+		$(this).children('td').each(function(j){  // 遍历 tr 的各个 td
+		 //alert("第"+(i+1)+"行，第"+(j+1)+"个td的值："+$(this).text()+"。");
+			if(j<4) data[copycols[j]]=$(this).text().trim();
+		});
+		if(i==0)data["is_pk"]="1";//第一个默认主键
+        if(i==0)data["is_allownull"]="1";//第一个默认主键
+		data["order_index"]=50+10*i;//序号自递增+5
+		data["isUpdateData"]="1";
+		datas[datas.length]=data;
+	  });
+	//alert( JSON.stringify(datas));
+	for(var i=0;i<datas.length;i++){
+		var row=datas[i];
+		//if(i==0)alert( JSON.stringify(row));
+		var pId=$("#searchForm input[name='pId']").val();
+		if(pId==""){
+			alert("请先选择左边树节点再新增数据！");
+			return;
+		}
+		row["table_id"]=pId;
+		for(var key in editData){//取默认值
+			if(editData[key].default!=null&&row[key]==null){
+				row[key]=editData[key].default;
+			   }
+		}
+		$table.bootstrapTable('insertRow', {
+			index: count++,
+			row: row
+		});
+	}
+}
+//Grid新增
+function gridadd_tool_table(isTree,isRoot) {
+	var count = $table.bootstrapTable('getData', {useCurrentPage: true, includeHiddenRows: true}).length;
+
+	if(count>0&&isEditing>0){
+		alert("必填字段为空,不能增加新行！"+isEditing);
+		return;
+	}
+	var row={};
+	// row["isUpdateData"]="2";
+  //  if(isTree!=null&&isTree){
+		var pId=$("#searchForm input[name='pId']").val();
+		 if(pId==""){
+			alert("请先选择左边树节点再新增数据！");
+			return;
+		 }
+		row["table_id"]=pId;
+   // }
+	for(var key in editData){//取默认值
+		row[key]=editData[key].default;
+	}
+	$table.bootstrapTable('insertRow', {
+		index: count,
+		row: row
+	});
+}
+
+//复制事件
+function gridcopy_tool_table(isTree) {
+	var datas=$table.bootstrapTable('getSelections');
+	var ids="";
+	for(var i=0;i<datas.length;i++){
+		let  keyId=datas[i]["column_id"];
+		if(keyId==null||keyId=="") {
+			alert("新增行需要保存后才能复制！");
+			return;
+		}
+		ids+= keyId+";";
+//            for(var key in datas[i]) {//遍历
+//                alert(key + "==" + datas[i][key]);
+//            }
+	}
+	ajaxSumit(isTree!=null&&isTree ? '/tree/copy?funId=tool_table_column' : '/common/copy?funId=tool_table_column',{ids:ids.substring(0,ids.length-1)},isTree!=null&&isTree ? callbackTree:callback);
+}
+
+//保存事件
+function gridsave_tool_table(isTree) {
+	var datas=$table.bootstrapTable('getData', {useCurrentPage: true, includeHiddenRows: true});
+	var submitData=[];
+	for(var i=0;i<datas.length;i++){
+		let  isUpdateData=datas[i]["isUpdateData"];
+
+		if(isUpdateData==null||isUpdateData=="0") {// 没有修改过的不保存
+			continue;
+		}
+
+		let n=0;
+		for(var key in editData) {//遍历 检查必填项
+//                alert(key + "==" + datas[i][key]);
+			n++;
+			if(editData[key]["required"]) {
+				if (datas[i][key]==null||datas[i][key]=="") {
+					alert("第"+(i+1)+"行，第"+n+"为必填字段，请检查后再保存！");
+					var  temp = $table.find("tbody tr").eq(i).find("td").eq(n);
+					// alert(temp.html());
+					allowEidt=true;
+					temp.trigger("click");
+					return;
+				}
+			}
+		}
+		submitData[submitData.length]=datas[i];//新增和修改过记录提交到后台
+
+	}
+	if(submitData.length==0){
+		alert("没有找到需要保存的修改数据！");
+		return;
+	}
+    _autoFresh=true;
+	ajaxSumit(isTree!=null&&isTree ? '/tree/gridsave?funId=tool_table_column&tableName=tool_table_column'  : '/common/gridsave?funId=tool_table_column&tableName=tool_table_column' ,{datas:JSON.stringify(submitData)},isTree!=null&&isTree ? callbackTree:callback);
+}
+
+//删除事件
+function griddelete_tool_table(isTree) {
+
+	var datas=$table.bootstrapTable('getSelections');
+	var ids="";
+	for(var i=0;i<datas.length;i++){
+		let  keyId=datas[i]["column_id"];
+		if(keyId==null||keyId=="") {
+			continue;
+		}
+		ids+= keyId+";"
+	}
+	if(ids==""){
+		alert("没有选中要删除的记录数据，请确认后再删除！");
+		return;
+	}
+
+	BootstrapDialog.confirm({
+		title : '确认',
+		message : "确认要删除？",
+		type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+		// BootstrapDialog.TYPE_PRIMARY
+		closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+		draggable : true, // <-- Default value is false，可拖拽
+		btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+		btnOKLabel : '确定', // <-- Default value is 'OK',
+		btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+		size : BootstrapDialog.SIZE_SMALL,
+		// 对话框关闭的时候执行方法
+		onhide : function () {
+
+		},
+		callback : function(result) {
+			// 点击确定按钮时，result为true
+			if (result) {
+				// 执行方法
+				ajaxSumit(isTree!=null&&isTree ? '/tree/deletes?funId=tool_table_column' : '/common/deletes?funId=tool_table_column',{ids:ids},isTree!=null&&isTree ? callbackTree:callback);
+			}
+		}
+	});
+}
+
+//增删改事件
+function savetable(action) {
+
+    var data=action=="create" ? $("#addForm").parseForm():action=="update" ? $("#editForm").parseForm():$("#deleteForm").parseForm();
+   if(action=="create") $('#addModal').modal('hide');
+   else  if(action=="update") $('#addModal').modal('hide');
+   else $('#deleteModal').modal('hide');
+    ajaxSumit('/tree/'+action,data,callbackTree );
+}
+
+
+//表信息同步事件
+function tablesyn(that) {
+    var parames="";
+    if(that!=null){//指定了执行自定义类
+        if($(that).attr("bo-function")!=null&&$(that).attr("bo-function")!=""){
+            parames=$(that).attr("bo-function");
+        }
+    }
+	ajaxSumit('/tool/syn',{dbsource:parames},callback);
+}
+
+
+//导入数据事件
+
+function importdata_tool_table(that) {
+    var parames;
+    if(that!=null){//指定了执行自定义类
+        if($(that).attr("bo-function")!=null&&$(that).attr("bo-function")!=""){
+            parames=$(that).attr("bo-function");
+        }
+    }
+
+    var pId=$("#searchForm input[name='pId']").val();
+    if(pId==""){
+        alert("请先选择左边树节点再新增数据！");
+        return;
+    }
+    var frameSrc = CONTEXT_PATH +"/iframe/import-window?targetFunID="+funId+"&importforeignKeyId="+pId+parames;
+    $("#selectIframe").attr("src", frameSrc);
+    $('#selectWindowModal .modal-title').text("导入数据");
+    //居中
+    $('#selectWindowModal').on('show.bs.modal', function (e) {
+        // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+        $(this).css('display', 'block');
+        var modalHeight=$(window).height() / 2 - $('#selectWindowModal .modal-dialog').height() / 2;
+        var modalWidth=$(window).width() / 2 - $('#selectWindowModal .modal-dialog').width() / 2-200;
+        $(this).find('.modal-dialog').css({
+            'margin-top': modalHeight,
+            'margin-left': modalWidth
+        });
+    });
+    $('#selectWindowModal').modal({ show: true, backdrop: 'static' });
+    //模态框隐藏的事件
+    var n=1;
+    $('#selectWindowModal').on('hidden.bs.modal', function (e) {
+        if(n-->0)
+            $('#table').bootstrapTable('refresh', {silent: true});
+    });
+}
+
+//导入事件
+function dataimport_tool_table(that){
+
+    var datas=$table.bootstrapTable('getSelections');
+    var ids="";
+    for(var i=0;i<datas.length;i++){
+        let  keyId=datas[i]["column_id"];
+        if(keyId==null||keyId=="") {
+            alert("请选择要导入记录！");
+            return;
+        }
+        ids+= keyId+";";
+    }
+    var eventId="";
+    if(that!=null){//获取eventId
+        if($(that).attr("id")!=null&&$(that).attr("id")!=""){
+            eventId=$(that).attr("id");
+        }
+    }
+    ajaxSumit('/common/dataimport?eventId='+eventId+'&sourceFunId='+funId+"&targetFunId="+targetFunID+"&importforeignKeyId="+importforeignKeyId,{ids:ids.substring(0,ids.length-1)}, iFrameClose);
+
+}
+</script>

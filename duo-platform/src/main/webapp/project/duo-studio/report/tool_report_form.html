@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >报表类型*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="report_type"      >
+					 <script type="text/javascript"> 
+						  var optionJson= reporttypeData;
+						 for(var key in optionJson)  $('select[name="report_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >报表名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="report_name" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >打印模版：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="report_file" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >打印格式：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="print_type" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >fun_id*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="fun_id"       style='width:80%;float:left; '  onclick='formSelectWindow("funSelect","fun_id;module_id","fun_id;module_id","null")'/>
+					<button type='button'  name="btn_fun_id"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("funSelect","fun_id;module_id","fun_id;module_id","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:90px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:85px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>module_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="module_id" type="text"   style='display:none;'  readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>system_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="system_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="report_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>纸张高度mm：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="page_height" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>纸张宽度mm：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="page_width" type="text"   onkeyup="value=value.replace(/[^\d.]/g,'')"   style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

@@ -1,0 +1,64 @@
+<script  th:fragment="gridScript">
+  
+
+    $(function () {
+
+
+    });
+    //弹出修改密码窗口
+    function openChangePWDWindow(that){
+        var datas=$table.bootstrapTable('getSelections');
+        if(datas==null||datas.length==0){
+            alert("请选择至少一条记录后再操作！");
+            return;
+        }
+        var row=datas[0];
+        $("#changePwdForm input[name=userId]").val(row["user_id"]);
+        $("#changePwdForm input[name=userCode]").val(row["user_code"]);
+        $("#changePwdForm input[name=userName]").val(row["user_name"]);
+
+        //居中
+        $('#changePwdModal').on('show.bs.modal', function (e) {
+            // 关键代码，如没将modal设置为 block，则$modala_dialog.height() 为零
+            $(this).css('display', 'block');
+            var modalHeight=$(window).height() / 2 - $('#changePwdModal .modal-dialog').height() / 2;
+            var modalWidth=$(window).width() / 2 - $('#changePwdModal .modal-dialog').width() / 2-100;
+            $(this).find('.modal-dialog').css({
+                'margin-top': modalHeight,
+                'margin-left': modalWidth
+            });
+        });
+        $('#changePwdModal').modal({ show: true, backdrop: 'static' });
+
+    }
+    //修改密码
+    function changePassword(){
+        var userId=$("#changePwdForm input[name=userId]").val();
+        var userCode=$("#changePwdForm input[name=userCode]").val();
+        var userName=$("#changePwdForm input[name=userName]").val();
+        var oldPassword=$("#changePwdForm input[name=oldPassword]").val();
+        var newPassword=$("#changePwdForm input[name=newPassword]").val();
+        var newPassword2=$("#changePwdForm input[name=newPassword2]").val();
+//        if(oldPassword ==""){
+//            alert("旧密码不能为空！");
+//            $("#changePwdForm input[name=oldPassword]").focus();
+//            return;
+//        }
+        if(newPassword ==""||newPassword2==""){
+            alert("新密码或新密码缺认不能为空！");
+            $("#changePwdForm input[name=newPassword]").focus();
+            return;
+        }
+        if(newPassword!=newPassword2){
+            alert("新密码和确认新密码不一致，请重新输入");
+            $("#changePwdForm input[name=newPassword]").val("");
+            $("#changePwdForm input[name=newPassword2]").val("");
+            $("#changePwdForm input[name=newPassword]").focus();
+        }
+        var parames={userId:userId,userCode:userCode,userName:userName,newPassword:$.base64.encode(newPassword)};
+        ajaxSumit('/system/changePassword'  ,  parames, callback);
+    }
+
+
+
+</script>

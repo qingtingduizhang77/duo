@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'ico_img', title: '图标', width:57,visible:true, halign: 'center',formatter:icoFormatter }, 
+	 {field: 'fun_id', title: 'fun_id', width:162,visible:true, halign: 'center' }, 
+	 {field: 'system_id', title: '系统模块', width:193,visible:true, halign: 'center',formatter:systemNameFormatter }, 
+	 {field: 'fun_name', title: '功能名称*', width:162,visible:true, halign: 'center' }, 
+	 {field: 'order_index', title: '排序', width:100,visible:true, halign: 'center' }, 
+	 {field: 'db_source', title: '数据源*', width:139,visible:true, halign: 'center' }, 
+	 {field: 'is_show', title: '是否显示', width:118,visible:true, halign: 'center',formatter:yesnoFormatter }, 
+	 {field: 'url_parames', title: '个性参数', width:346,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:333,visible:true, halign: 'center' }, 
+	 {field: 'system_funid', title: 'system_funid', width:128,visible:false, halign: 'center' }, 
+	 {field: 'system_name', title: '系统模块id', width:128,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  ico_img:{addedit:true,edit:false,type:'text',required:false,default:'',orgfield:'tool_system_function.ico_img',max_length:100,formatter:'icoFormatter'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_function.fun_id',max_length:32}, 
+	  system_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_function.system_id',max_length:32,formatter:'systemNameFormatter'}, 
+	  fun_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_system_function.fun_name',max_length:60}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_system_function.order_index'}, 
+	  db_source:{addedit:true,edit:true,type:'selectwindow',required:true,default:'default',orgfield:'tool_system_function.db_source',control_name:'dbSourceSelect',source_cols:'dbsource_name',target_cols:'db_source',control_where:'dbsource_name!=&#39;1&#39;',max_length:60}, 
+	  is_show:{addedit:true,edit:true,type:'combobox',required:false,default:'1',orgfield:'tool_system_function.is_show',control_name:'yesnoData',max_length:10,formatter:'yesnoFormatter'}, 
+	  url_parames:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_function.url_parames',max_length:200}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_function.memo',max_length:200}, 
+	  system_funid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_function.system_funid',max_length:32}, 
+	  system_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_system_module.system_name',max_length:60} 
+	 }; 
+</script>  

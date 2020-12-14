@@ -1,0 +1,37 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:97,visible:true, halign: 'center' }, 
+	 {field: 'event_type', title: '事件类型*', width:119,visible:true, halign: 'center' }, 
+	 {field: 'source_funid', title: '源funid*', width:131,visible:true, halign: 'center' }, 
+	 {field: 'target_funid', title: '目标funid*', width:139,visible:true, halign: 'center' }, 
+	 {field: 'source_sql', title: '源sql', width:393,visible:true, halign: 'center' }, 
+	 {field: 'target_sql', title: '目标sql', width:455,visible:true, halign: 'center' }, 
+	 {field: 'bo_function', title: '执行SQL/Class', width:420,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:324,visible:true, halign: 'center' }, 
+	 {field: 'eventsql_id', title: 'eventsql_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'event_id', title: 'eventdet_id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'10',orgfield:'tool_function_event_sql.order_index'}, 
+	  event_type:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_function_event_sql.event_type',max_length:10}, 
+	  source_funid:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'tool_function_event_sql.source_funid',control_name:'funSelect',source_cols:'fun_id',target_cols:'source_funid',max_length:32}, 
+	  target_funid:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'tool_function_event_sql.target_funid',control_name:'funSelect',source_cols:'fun_id',target_cols:'target_funid',max_length:32}, 
+	  source_sql:{addedit:true,edit:true,type:'text',required:false,default:'select  from where  =#{sourceKeyId}',orgfield:'tool_function_event_sql.source_sql',max_length:800}, 
+	  target_sql:{addedit:true,edit:true,type:'text',required:false,default:'INSERT INTO  ( )  values( #{newDetKeyId},#{newKeyId},#{importforeignKeyId} )',orgfield:'tool_function_event_sql.target_sql',max_length:800}, 
+	  bo_function:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event_sql.bo_function',max_length:800}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event_sql.memo',max_length:200}, 
+	  eventsql_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event_sql.eventsql_id',max_length:32}, 
+	  event_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event_sql.event_id',max_length:32} 
+	 }; 
+</script>  

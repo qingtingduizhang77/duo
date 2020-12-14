@@ -1,0 +1,49 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:86,visible:true, halign: 'center' }, 
+	 {field: 'ico_img', title: '图标', width:71,visible:true, halign: 'center',formatter:icoFormatter }, 
+	 {field: 'event_code', title: '事件编号*', width:121,visible:true, halign: 'center' }, 
+	 {field: 'event_name', title: '事件名*', width:138,visible:true, halign: 'center' }, 
+	 {field: 'page_type', title: '页面类型', width:145,visible:true, halign: 'center' }, 
+	 {field: 'js_function', title: '前台方法', width:154,visible:true, halign: 'center' }, 
+	 {field: 'bo_function', title: '自定义参数', width:464,visible:true, halign: 'center' }, 
+	 {field: 'selection_type', title: '多选，单选控制', width:132,visible:true, halign: 'center' }, 
+	 {field: 'default_disabled', title: '是否默认不可编辑', width:137,visible:true, halign: 'center' }, 
+	 {field: 'permission_type', title: '权限类型', width:127,visible:true, halign: 'center' }, 
+	 {field: 'is_show', title: '是否显示?', width:99,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'forward_function', title: '响应方法', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:385,visible:true, halign: 'center' }, 
+	 {field: 'event_id', title: 'event_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'fun_id', title: 'fun_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标记', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'tool_function_event.order_index'}, 
+	  ico_img:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.ico_img',formatter:'icoFormatter'}, 
+	  event_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_function_event.event_code'}, 
+	  event_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_function_event.event_name'}, 
+	  page_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.page_type'}, 
+	  js_function:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.js_function'}, 
+	  bo_function:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.bo_function'}, 
+	  selection_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.selection_type'}, 
+	  default_disabled:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.default_disabled'}, 
+	  permission_type:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.permission_type'}, 
+	  is_show:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_function_event.is_show',formatter:'chekboxFormatter'}, 
+	  forward_function:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.forward_function'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.memo'}, 
+	  event_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.event_id'}, 
+	  fun_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.fun_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_function_event.record_flag'} 
+	 }; 
+</script>  

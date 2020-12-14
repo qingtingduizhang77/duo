@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'type_name', title: '分类名称', width:153,visible:true, halign: 'center' }, 
+	 {field: 'full_name', title: '分类全称', width:313,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:360,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'type_level', title: '级别', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'type_id', title: '主键id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  type_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'goods_type.type_name'}, 
+	  full_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_type.full_name'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_type.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_type.record_flag'}, 
+	  type_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'goods_type.type_level'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_type.project_id'}, 
+	  type_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'goods_type.type_id'} 
+	 }; 
+</script>  

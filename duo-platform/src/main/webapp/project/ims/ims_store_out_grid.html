@@ -1,0 +1,67 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:97,visible:true, halign: 'center',formatter:imsoutstatusFormatter }, 
+	 {field: 'out_type', title: '出库类型*', width:112,visible:true, halign: 'center',formatter:imsouttypeFormatter }, 
+	 {field: 'out_date', title: '出库时间', width:172,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'out_no', title: '出库单号', width:143,visible:true, halign: 'center' }, 
+	 {field: 'house_code', title: '出库仓库号', width:106,visible:true, halign: 'center' }, 
+	 {field: 'house_name', title: '出库仓库*', width:149,visible:true, halign: 'center' }, 
+	 {field: 'apply_user_nane', title: '领用人*', width:107,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '领用部门*', width:116,visible:true, halign: 'center' }, 
+	 {field: 'out_num', title: '出库数量', width:94,visible:false, halign: 'center' }, 
+	 {field: 'out_money', title: '出库金额(元)', width:101,visible:false, halign: 'center' }, 
+	 {field: 'user_name', title: '出库人', width:117,visible:true, halign: 'center' }, 
+	 {field: 'audit_date', title: '审核时间', width:125,visible:true, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'audit_user_nane', title: '审核人', width:99,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:200,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '出库人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'out_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '部门id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'house_id', title: '出库仓库id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '公司id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'audit_user_id', title: '审核人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'apply_user_id', title: '领用人id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'apply_season', title: '领用用途', width:200,visible:false, halign: 'center' }, 
+	 {field: 'company_name', title: '公司名称', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'ims_store_out.auditing',control_name:'imsoutstatusData',formatter:'imsoutstatusFormatter'}, 
+	  out_type:{addedit:true,edit:true,type:'combobox',required:true,default:'use',orgfield:'ims_store_out.out_type',control_name:'imsouttypeData',formatter:'imsouttypeFormatter'}, 
+	  out_date:{addedit:false,edit:false,type:'datetime',required:false,default:'{CURRENTTIME}',orgfield:'ims_store_out.out_date',formatter:'dateTimeFormatter'}, 
+	  out_no:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out.out_no'}, 
+	  house_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out.house_code'}, 
+	  house_name:{addedit:false,edit:false,type:'selectwindow',required:true,default:'',orgfield:'ims_store_out.house_name',control_name:'imsstoreShopSelect',source_cols:'stock_id;stock_code;stock_name',target_cols:'house_id;house_code;house_name',control_where:'stock_level=1'}, 
+	  apply_user_nane:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'ims_store_out.apply_user_nane'}, 
+	  dept_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'{CURRENTDEPTNAME}',orgfield:'ims_store_out.dept_name',control_name:'deptSelect',source_cols:'dept_id;dept_name',target_cols:'dept_id;dept_name'}, 
+	  out_num:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'ims_store_out.out_num'}, 
+	  out_money:{addedit:false,edit:false,type:'number',required:false,default:'0',orgfield:'ims_store_out.out_money'}, 
+	  user_name:{addedit:false,edit:false,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'ims_store_out.user_name'}, 
+	  audit_date:{addedit:false,edit:false,type:'datetime',required:false,default:'',orgfield:'ims_store_out.audit_date',formatter:'dateTimeFormatter'}, 
+	  audit_user_nane:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'ims_store_out.audit_user_nane'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.memo'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.project_id'}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'ims_store_out.user_id'}, 
+	  out_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.out_id'}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTDEPTID}',orgfield:'ims_store_out.dept_id'}, 
+	  house_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.house_id'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTCOMPANYID}',orgfield:'ims_store_out.company_id'}, 
+	  audit_user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.audit_user_id'}, 
+	  apply_user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.apply_user_id'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.record_flag'}, 
+	  apply_season:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.apply_season'}, 
+	  company_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'ims_store_out.company_name'} 
+	 }; 
+</script>  

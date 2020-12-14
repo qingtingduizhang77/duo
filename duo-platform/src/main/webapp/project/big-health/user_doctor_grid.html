@@ -1,0 +1,73 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '是否发布', width:78,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'address', title: '联系地址', width:200,visible:false, halign: 'center' }, 
+	 {field: 'doctor_name', title: '专家名称*', width:118,visible:true, halign: 'center' }, 
+	 {field: 'doctor_type', title: '专家类型', width:200,visible:true, halign: 'center',formatter:doctortypeFormatter }, 
+	 {field: 'hospital_name', title: '所在医院*', width:198,visible:true, halign: 'center' }, 
+	 {field: 'office_room', title: '出诊科室', width:200,visible:true, halign: 'center' }, 
+	 {field: 'special_area', title: '专业领域', width:358,visible:true, halign: 'center' }, 
+	 {field: 'applying_money', title: '申请提现中', width:200,visible:false, halign: 'center' }, 
+	 {field: 'user_code', title: '系统帐号*', width:138,visible:true, halign: 'center' }, 
+	 {field: 'class_type', title: '值班方式*', width:98,visible:true, halign: 'center',formatter:classtypeFormatter }, 
+	 {field: 'balance_money', title: '余额', width:200,visible:false, halign: 'center' }, 
+	 {field: 'descript', title: '专家简介', width:476,visible:true, halign: 'center' }, 
+	 {field: 'birth_date', title: '出生日期', width:200,visible:false, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'img_url', title: '照片url', width:179,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:180,visible:true, halign: 'center' }, 
+	 {field: 'doctor_id', title: '主键id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'user_id', title: '系统帐号id', width:183,visible:false, halign: 'center' }, 
+	 {field: 'from_date', title: '从医起始日期', width:200,visible:false, halign: 'center',formatter:dateTimeFormatter }, 
+	 {field: 'record_flag', title: '数据标识', width:183,visible:false, halign: 'center' }, 
+	 {field: 'id_card', title: '身份证号', width:200,visible:false, halign: 'center' }, 
+	 {field: 'mobile_no', title: '联系电话', width:200,visible:false, halign: 'center' }, 
+	 {field: 'normal_price', title: '普通问诊价格', width:200,visible:false, halign: 'center' }, 
+	 {field: 'qualify_level', title: '资质级别', width:200,visible:false, halign: 'center' }, 
+	 {field: 'qualify_no', title: '资格证号', width:200,visible:false, halign: 'center' }, 
+	 {field: 'sex', title: '性别', width:200,visible:false, halign: 'center' }, 
+	 {field: 'sum_money', title: '总收入', width:200,visible:false, halign: 'center' }, 
+	 {field: 'special_price', title: '专家问诊价格', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'user_doctor.auditing',control_name:'recordsatusData',max_length:10,formatter:'recordsatusFormatter'}, 
+	  address:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.address',max_length:200}, 
+	  doctor_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'user_doctor.doctor_name',max_length:40}, 
+	  doctor_type:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'user_doctor.doctor_type',control_name:'doctortypeData',max_length:20,formatter:'doctortypeFormatter'}, 
+	  hospital_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'user_doctor.hospital_name',control_name:'healthhospitalSelect',source_cols:'hospital_name',target_cols:'hospital_name',max_length:32}, 
+	  office_room:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'user_doctor.office_room',control_name:'healthRoomSelect',source_cols:'room_name',target_cols:'office_room',max_length:40}, 
+	  special_area:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.special_area',max_length:1000}, 
+	  applying_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_doctor.applying_money'}, 
+	  user_code:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'user_doctor.user_code',control_name:'userSelect',source_cols:'user_code;user_id',target_cols:'user_code;user_id',max_length:40}, 
+	  class_type:{addedit:true,edit:true,type:'combobox',required:true,default:'1',orgfield:'user_doctor.class_type',control_name:'classtypeData',max_length:20,formatter:'classtypeFormatter'}, 
+	  balance_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_doctor.balance_money'}, 
+	  descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.descript'}, 
+	  birth_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'user_doctor.birth_date',formatter:'dateTimeFormatter'}, 
+	  img_url:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.img_url',max_length:400}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.memo',max_length:200}, 
+	  doctor_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.doctor_id',max_length:32}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.project_id',max_length:32}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.user_id',max_length:32}, 
+	  from_date:{addedit:true,edit:true,type:'datetime',required:false,default:'',orgfield:'user_doctor.from_date',formatter:'dateTimeFormatter'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.record_flag',max_length:10}, 
+	  id_card:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.id_card',max_length:40}, 
+	  mobile_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.mobile_no',max_length:40}, 
+	  normal_price:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_doctor.normal_price'}, 
+	  qualify_level:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.qualify_level',max_length:20}, 
+	  qualify_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.qualify_no',max_length:40}, 
+	  sex:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'user_doctor.sex',max_length:20}, 
+	  sum_money:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_doctor.sum_money'}, 
+	  special_price:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'user_doctor.special_price'} 
+	 }; 
+</script>  

@@ -1,0 +1,33 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '发布状态', width:80,visible:true, halign: 'center',formatter:publicstateFormatter }, 
+	 {field: 'order_index', title: '排序', width:60,visible:true, halign: 'center' }, 
+	 {field: 'portal_name', title: 'Portal名称', width:252,visible:true, halign: 'center' }, 
+	 {field: 'portal_type', title: 'portal类型', width:164,visible:true, halign: 'center',formatter:portaltypeFormatter }, 
+	 {field: 'portal_version', title: '版本号', width:164,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:673,visible:true, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'portal_id', title: '主键id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'tool_portal.auditing',control_name:'publicstateData',formatter:'publicstateFormatter'}, 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'5',orgfield:'tool_portal.order_index'}, 
+	  portal_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_portal.portal_name'}, 
+	  portal_type:{addedit:true,edit:true,type:'combobox',required:true,default:'fun',orgfield:'tool_portal.portal_type',control_name:'portaltypeData',formatter:'portaltypeFormatter'}, 
+	  portal_version:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_portal.portal_version'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_portal.memo'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_portal.project_id'}, 
+	  portal_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_portal.portal_id'} 
+	 }; 
+</script>  

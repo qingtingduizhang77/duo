@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >停机状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= 	recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >点位编号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="position_code" type="text"     readonly />
+				</div>
+				<label class="col-sm-2 control-label "  >设备编号：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_code" type="text"     readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >设备类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="device_kind"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= devicekindData;
+						 for(var key in optionJson)  $('select[name="device_kind"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >设备名称*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="device_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deviceSelect","device_id;device_name;position_code;device_code;device_kind;company_name","device_id;device_name;position_code;device_code;device_kind;company_name","null")'/>
+					<button type='button'  name="btn_device_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deviceSelect","device_id;device_name;position_code;device_code;device_kind;company_name","device_id;device_name;position_code;device_code;device_kind;company_name","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue" >停机开始时间*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="begin_time" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label thBlue" >停机结束时间*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="end_time" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >发送远程控制*：</label>
+				<div class=col-sm-3_5>
+					<input   name="is_sent" type="checkbox"       />
+				</div>
+				<label class="col-sm-2 control-label "  >运营商户：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="company_name" type="text"     readonly />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >停机原因：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="stop_reason" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:110px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:105px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>device_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="device_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="stop_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >停机类型：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="stop_type"      >
+					 <script type="text/javascript"> 
+						  var optionJson= stoptypeData;
+						 for(var key in optionJson)  $('select[name="stop_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+	</form>
+</div>  

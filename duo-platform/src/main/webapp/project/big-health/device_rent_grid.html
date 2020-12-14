@@ -1,0 +1,51 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:67,visible:true, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'rent_date', title: '办理日期', width:100,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'rent_no', title: '出租单号', width:115,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '租用商户', width:144,visible:true, halign: 'center' }, 
+	 {field: 'begin_time', title: '出租开始时间', width:145,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'end_time', title: '出租到期时间', width:145,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'settle_type', title: '结算方式', width:145,visible:true, halign: 'center',formatter:rentsettletypeFormatter }, 
+	 {field: 'per_price', title: '月租金或费率', width:145,visible:true, halign: 'center' }, 
+	 {field: 'apply_username', title: '提交人', width:75,visible:true, halign: 'center' }, 
+	 {field: 'check_username', title: '审核人', width:82,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:482,visible:true, halign: 'center' }, 
+	 {field: 'company_id', title: '租用商户id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'rent_id', title: '主键id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'apply_userid', title: '提交人id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'check_userid', title: '审核人id', width:146,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:146,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'device_rent.auditing',control_name:'recordsatusData',formatter:'recordsatusFormatter'}, 
+	  rent_date:{addedit:true,edit:true,type:'date',required:true,default:'{CURRENTDATE}',orgfield:'device_rent.rent_date',formatter:'dateFormatter'}, 
+	  rent_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.rent_no'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'device_rent.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id'}, 
+	  begin_time:{addedit:true,edit:true,type:'date',required:true,default:'',orgfield:'device_rent.begin_time',formatter:'dateFormatter'}, 
+	  end_time:{addedit:true,edit:true,type:'date',required:true,default:'',orgfield:'device_rent.end_time',formatter:'dateFormatter'}, 
+	  settle_type:{addedit:true,edit:true,type:'combobox',required:true,default:'free',orgfield:'device_rent.settle_type',control_name:'rentsettletypeData',formatter:'rentsettletypeFormatter'}, 
+	  per_price:{addedit:true,edit:true,type:'number',required:true,default:'0',orgfield:'device_rent.per_price'}, 
+	  apply_username:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'device_rent.apply_username'}, 
+	  check_username:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.check_username'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.memo'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.company_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.project_id'}, 
+	  rent_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.rent_id'}, 
+	  apply_userid:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'device_rent.apply_userid'}, 
+	  check_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.check_userid'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent.record_flag'} 
+	 }; 
+</script>  

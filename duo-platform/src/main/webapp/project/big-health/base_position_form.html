@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"     disabled >
+					 <script type="text/javascript"> 
+						  var optionJson= recordsatusData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >所属区域*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="field_name"       style='width:80%;float:left; '  onclick='formSelectWindow("fieldSelect","field_name;field_id","field_name;field_id","null")'/>
+					<button type='button'  name="btn_field_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("fieldSelect","field_name;field_id","field_name;field_id","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >点位编号*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="position_code" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >点位性质*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="position_property"      >
+					 <script type="text/javascript"> 
+						  var optionJson= positionpropertyData;
+						 for(var key in optionJson)  $('select[name="position_property"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >详细地址*：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="address" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >是否室内*：</label>
+				<div class=col-sm-3_5>
+					<input   name="is_indoor" type="checkbox"       />
+				</div>
+				<label class="col-sm-2 control-label "  >位置特点：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="advantage" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue" >合同到期时间*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="contract_expire" type="text"    onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss', autoPickDate: true ,onpicked:function(){blur();},onpicking:function(dp){blur();},isShowClear:false,readOnly:true})"    />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >所属业主*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="provider_name"       style='width:80%;float:left; '  onclick='formSelectWindow("companySelect","company_name;company_id","provider_name;provider_id","null")'/>
+					<button type='button'  name="btn_provider_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("companySelect","company_name;company_id","provider_name;provider_id","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >责任人*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="owner_username"       style='width:80%;float:left; '  onclick='formSelectWindow("userSelect","user_name;user_id","owner_username;owner_userid","null")'/>
+					<button type='button'  name="btn_owner_username"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("userSelect","user_name;user_id","owner_username;owner_userid","null")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >管理部门*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="dept_name"       style='width:80%;float:left; '  onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","null")'/>
+					<button type='button'  name="btn_dept_name"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("deptSelect","dept_name;dept_id","dept_name;dept_id","null")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >经度：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="longitude" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >纬度：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="latitude" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >网络摄像头id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="video_id" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >可用面积：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="usable_area" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:97px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:92px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>数据标识：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="record_flag" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>责任人id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="owner_userid" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>所属区域id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="field_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="position_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>所属业主id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="provider_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>管理部门id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="dept_id" type="text"   style='display:none;'  readonly />
+				</div>
+		</div>
+	</form>
+</div>  

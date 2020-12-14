@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'dept_name', title: '部门名称', width:171,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '用户名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:379,visible:true, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'group_id', title: 'group_id', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  dept_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.dept_name',max_length:10}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_user.user_name',max_length:10}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_usergroup_det.memo',max_length:200}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_usergroup_det.user_id',max_length:32}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_usergroup_det.det_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_usergroup_det.record_flag',max_length:10}, 
+	  group_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_usergroup_det.group_id',max_length:32} 
+	 }; 
+</script>  

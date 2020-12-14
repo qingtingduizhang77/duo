@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'user_status', title: '状态', width:109,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'user_code', title: '用户编号*', width:151,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '用户名称*', width:193,visible:true, halign: 'center' }, 
+	 {field: 'limit_ip', title: '指定访问ip', width:200,visible:true, halign: 'center' }, 
+	 {field: 'last_ip', title: '最近登录ip', width:200,visible:true, halign: 'center' }, 
+	 {field: 'valid_date', title: '有效期', width:149,visible:true, halign: 'center',formatter:dateFormatter }, 
+	 {field: 'has_num', title: '可访问次数', width:124,visible:true, halign: 'center' }, 
+	 {field: 'used_num', title: '已访问次数', width:117,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:510,visible:true, halign: 'center' }, 
+	 {field: 'user_id', title: 'user_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  user_status:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'tool_api_user.user_status',control_name:'effectivestateData',max_length:10,formatter:'effectivestateFormatter'}, 
+	  user_code:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_api_user.user_code',max_length:40}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_api_user.user_name',max_length:80}, 
+	  limit_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user.limit_ip',max_length:400}, 
+	  last_ip:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user.last_ip',max_length:40}, 
+	  valid_date:{addedit:true,edit:true,type:'date',required:false,default:'',orgfield:'tool_api_user.valid_date',formatter:'dateFormatter'}, 
+	  has_num:{addedit:true,edit:true,type:'number',required:false,default:'0',orgfield:'tool_api_user.has_num'}, 
+	  used_num:{addedit:true,edit:true,type:'number',required:false,default:'0',orgfield:'tool_api_user.used_num'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user.memo',max_length:200}, 
+	  user_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user.user_id',max_length:32}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_api_user.record_flag',max_length:10} 
+	 }; 
+</script>  

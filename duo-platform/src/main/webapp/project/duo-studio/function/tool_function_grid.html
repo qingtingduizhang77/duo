@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript">
+
+//列字段定义
+var _tableColumns=[
+                {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter
+                },{field:'number',
+                    title: 'No.',visible:false,
+                    width: 38,  formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+                },
+                {field: 'fun_id', width: 180, title: 'funId', sortable: true, halign: 'center' },
+                {field: 'ico_img', width:60, title: '图标',   halign: 'center',align: 'center',formatter:icoFormatter},
+                {field: 'fun_name', width:200, title: '功能名称*', sortable: true, halign: 'center' },
+                {field: 'fun_type', width:120,title: '功能类型*', sortable: true, halign: 'center',formatter:funtypeFormatter },
+                {field: 'order_index', width:70, title: '排序', sortable: true, halign: 'center'},
+                {field: 'module_id', width:130,title: '所属模块',  halign: 'center',formatter:moduleFormatter },
+                {field: 'layout_url', width:200,title: '布局路径',   halign: 'center'},
+                {field: 'is_show', width:80,title: '是否显示?',  halign: 'center',align: 'center',formatter:chekboxFormatter}, 
+                {field: 'db_source', width:90,title: '数据源',   halign: 'center'},
+                {field: 'table_name', width:150,title: '数据表',   halign: 'center'},
+                {field: 'key_column', width:150,title: '主键列',   halign: 'center'},
+                {field: 'is_audit', width:80,title: '是否归档?',  halign: 'center',align: 'center',formatter:chekboxFormatter}, 
+                {field: 'memo', width:300,title: '备注',   halign: 'center'},
+                {field: 'project_id', width:100, title: 'project_id', sortable: true, halign: 'center',visible:false,} 
+            ];
+//可编辑列设置信息
+editData={
+        fun_id:{edit:true,type:"text",required:true,default:"",formatter:""},
+        ico_img:{edit:true,type:"text",required:false,default:"",formatter:"icoFormatter"},
+        fun_name:{edit:true,type:"text",required:true,default:"",formatter:""},
+        fun_type:{edit:true,type:"combobox",required:true,default:"main",formatter:"funtypeFormatter",control_name:"funtypeData"},
+        order_index:{edit:true,type:"number",required:true,default:"5",formatter:""},
+        module_id:{edit:true,type:"text",required:true,default:"{tree}",formatter:"moduleFormatter"},
+        layout_url:{edit:true,type:"text",required:true,default:"/layout/layout-common-grid",formatter:""},
+        is_show:{edit:true,type:"checkbox",required:true,default:"1",formatter:"chekboxFormatter"}, 
+        db_source:{edit:true,type:"text",required:true,default:"default",formatter:""},
+        table_name:{edit:true,type:"text",required:true,default:"",formatter:""},
+        key_column:{edit:true,type:"text",required:true,default:"",formatter:""},
+        is_audit:{edit:true,type:"text",required:false,default:"0",formatter:""},
+        memo:{edit:true,type:"text",required:false,default:"",formatter:""}
+    };
+</script>

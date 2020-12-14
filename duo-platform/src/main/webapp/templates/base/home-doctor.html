@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3" >
+<div  th:fragment="home-wrapper">
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <h1>
+        HOME
+        <small>请每天请及时处理待办任务等重要事项</small>
+    </h1>
+</section>
+
+<!-- Main content -->
+<section class="content">
+
+    <div id="toolbar">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" onclick="editLayout()">
+                <i class="glyphicon glyphicon-tasks"></i> 编辑布局
+            </button>
+            <button type="button" class="btn btn-default" onclick="save2Layout()">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 保存布局
+            </button>
+        </div>
+    </div>
+    <!--显示区域开始-->
+    <div id="portalLayout" style=" padding-top: 20px;height:760px;overflow-y: scroll;position: relative;">
+
+            <div class="modal-content" style="position: absolute;z-index:999;width:1360px;height:200px;left:20px;top:20px;">
+                <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                    <h4 class="modal-title">Portal1</h4>
+                </div>
+                <div class="modal-body"  style="height:155px;padding:0px;margin:0px;padding-top: 10px;">
+                    <div  style="float:left;height:130px;width:300px;margin:0px 20px 0px 20px;background-color:#7460ee  !important;color:#fff;text-align: center;font-size:40px;line-height:130px">预约2000 </div>
+                    <div  style="float:left;height:130px;width:300px;margin:0px 20px 0px 20px;background-color:#1e88e5 !important;color:#fff;text-align: center;font-size:40px;line-height:130px">sssss </div>
+                    <div  style="float:left;height:130px;width:300px;margin:0px 20px 0px 20px;background-color:#fc4b6c !important;color:#fff;text-align: center;font-size:40px;line-height:130px">555 </div>
+                    <div  style="float:left;height:130px;width:300px;margin:0px 20px 0px 20px;background-color:#26c6da  !important;color:#fff;text-align: center;font-size:40px;line-height:130px">xxxx </div>
+                </div>
+            </div>
+
+        <div class="modal-content" style="position: absolute;z-index:999;width:460px;left:20px;top:250px;">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title">Portal2</h4>
+            </div>
+            <div class="modal-body"  style="background: #fff;margin: 5px;">
+                <div id="calendar"></div>
+            </div>
+        </div>
+        <div style="height: 5000px;">
+        </div>
+    </div>
+    <!--显示区域结束-->
+    <script type="text/javascript">
+        function editLayout() {
+            $("#portalLayout").find("div.modal-content").each(function(){
+                $(this).draggable({
+                    containment: "parent",
+                     handle: ".modal-header"   // 只能点击头部拖动
+                }).resizable({containment: "parent"});
+            })
+        }
+
+        calendarJson.editable=false;
+        //获取事件
+        calendarJson.events= function (start, end, timezone, callback) {
+            let events = [{
+                "title": "标题456",
+                "start": "2020-08-16T10:30:00",
+                "end": "2020-08-16T12:30:00",
+                "className": "red"
+            },{
+                "title": "标题789",
+                "start": "2020-08-16T12:00:00",
+                "end": "2020-08-19T14:00:00",
+                "className": "red"
+            }];
+
+
+            callback(events);
+        };
+        calendarJson.height=500;
+        //日程事件点击，非空白的日期区点击
+        calendarJson.eventClick= function (event, jsEvent) {
+            alert(1);
+        };
+        // 点击某一天响应事件，空白的日期区点击
+        calendarJson.dayClick=  function(date, allDay, jsEvent, view) {
+        };
+        //点击空白区域/选择区域内容触发
+        calendarJson.select=function(start, end, allDay) {
+            alert( start.format() + '—' + end.format() + '被选中！');
+        }
+        calendarJson.height=100;
+
+        //	$("#calendar").fullCalendar({
+        var calendar = $('#calendar').fullCalendar(calendarJson);
+
+    </script>
+</section>
+<!-- /.content -->
+</div>
+
+</html>

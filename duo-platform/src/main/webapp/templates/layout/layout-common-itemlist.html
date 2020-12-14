@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+
+<section class="content-header" style="">
+    <h1 ><span th:text="${funName}">功能名称</span>
+        <small th:text="${funDescript}"> 功能描述 </small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> <span  th:text="${topModuleName}">一级模块</span></li>
+        <li  th:text="${moduleName}"> 二级模块</li>
+        <li class="active"  th:text="${funName}">功能名称</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div id="toolbar">
+                        <div class="form-inline" id="queryDatasBar"  style="display:none; ">
+                            <button  type='button'  class='btn btn-default'  onclick=""> 全部</button>
+                        </div>
+                        <form class="form-inline" id="searchForm"  style="margin-top: 3px;margin-bottom: 5px;">
+                            <div class="input-group" >
+                                <input type="text" class="form-control input-sm" name="baseSQL" style="display: none;" />
+                                <input type="text" class="form-control input-sm" name="query__selectCombo" style="display: none;" placeholder="选中查询方案" />
+                                <select class="form-control"  onchange="querySelectFun(this.options[this.options.selectedIndex].value)"   id="queryCombo" th:utext="${querySelect}"  th:if="${querySelect} ne ''">
+                                    <!--<option value="123456">默认查询</option>-->
+                                    <!--<option value="222">高级查询</option>-->
+                                </select>
+                            </div>
+                            <div class="form-group"   th:utext="${queryBar}" >
+                                <!--<div query-id="query_123456">-->
+                                <!--<label  > 用户名</label>-->
+                                <!--<input type="text" class="form-control input-sm" name="username"   placeholder="请输入用户名">-->
+                                <!--</div>-->
+                                <!--<div query-id="query_222" style="display: none;">-->
+                                    <!--<label  > 用户名222</label>-->
+                                    <!--<input type="text" class="form-control input-sm" name="username" placeholder="请输入用户名">-->
+                                <!--</div>-->
+                            </div>
+                            <div class="btn-group btn-group-sm" th:if="${queryBar} ne ''">
+                                <button type="button" class="btn btn-default" onclick="query();">
+                                    <i class="glyphicon glyphicon-search"></i>
+                                    查询
+                                </button>
+                                <button type="reset" class="btn btn-default">
+                                    <i class="glyphicon glyphicon-trash"></i>
+                                    清空
+                                </button>
+                            </div>
+                        </form>
+                        <div th:if="${#strings.isEmpty(eventBar)} ne true " class="btn-group btn-group-sm"   id="event_bar"  th:utext="${eventBar}">
+                            <!-- Indicates a dangerous or potentially negative action -->
+                            &nbsp;&nbsp; &nbsp;&nbsp; <span title="[已复核]状态数据自动归档"><input th:type="checkbox"/> 显示归档</span>
+                        </div>
+                    </div>
+                    <!--自动出现滚动条-->
+                    <div class="table-responsive" style="width:100%">
+                        <div id="portalLayout" style=" padding-top: 10px;overflow-y: scroll;position: relative;width: 100%">
+
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+<!-- /.content -->
+
+<!--defineModal页面-->
+<div th:if="${#strings.isEmpty(defineModalUrl)} ne true ">
+    <div th:replace="${defineModalUrl} :: formWindowModal"></div>
+</div>
+
+<!--自定义JS3333-->
+<div th:if="${#strings.isEmpty(defineJsUrl)} ne true ">
+    <script th:replace="${defineJsUrl} :: gridScript"></script>
+</div>
+<!--grid页面 -->
+<div th:if="${#strings.isEmpty(gridUrl)} ne true ">
+<script th:replace="${gridUrl} :: gridScript"></script>
+</div>
+<script th:inline="javascript">
+
+    //后台Controller传回来下列值
+    var topModuleId = [[${topModuleId}]];//一级模块id
+    var moduleId = [[${moduleId}]];//二级模块id
+    funId = [[${funId}]];//功能id
+    funName = [[${funName}]];//功能名称
+    var pageType = [[${pageType}]];//页面类型
+     keyIDColumn = [[${keyIDColumn}]];//主键id列
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    defaultQueryId= [[${defaultQueryId}]];//默认查询条id
+    var foreignColumn = [[${foreignColumn}]];//外键名
+    foreignKeyId = [[${foreignKeyId}]];//外键值
+    importforeignKeyId = [[${importforeignKeyId}]];//导入目标表的外键值
+    targetFunID = [[${targetFunID}]];//导入目标功能funid
+    auditColumn= [[${auditColumn}]];//复核字段
+    var orgSQL = [[${orgSQL}]];//orgSQL
+    var funParames = [[${funParames}]];//其他自定义参数
+    var isSingleSelect=false;
+    GlobalDefaults= [[${GlobalDefaults}]];//全局默认值
+    var eventGridBtn = [[${eventGridBtn}]];
+
+    allowEidtRole=allowEidtRole=="true";
+
+
+    var $table = $('#table');
+
+    $(function () {
+        try {//刷新浏览器时，点击链接进入时，默认选中对应模块菜单
+            funParames= unEscapeHTML(funParames);
+            if(funParames.indexOf("{")>-1) eval("funParames="+funParames);
+            if(funParames!=null&&funParames["isSingleSelect"]!=null){
+                isSingleSelect=funParames["isSingleSelect"];
+            }
+            if(pageType=="select"){
+                isSingleSelect=true;
+            }
+            if(funParames!=null&&funParames["queryDatas"]!=null){
+                var dataWhereCol=funParames["dataWhereCol"] ;
+                if(dataWhereCol!=null) {
+                    $("#queryDatasBar").show();
+                    let options = '<button  type="button"  name="all" class="btn btn-default btnselected"  onclick=""> 全部</button>&nbsp;&nbsp;';
+                    eval(" var optionJson=" + funParames["queryDatas"] + ";");
+                    for (var key in optionJson) {//遍历设置options
+                        options += '<button  type="button"  name="' + key + '" class="btn btn-default"  onclick=""> ' + optionJson[key] + '</button>&nbsp;&nbsp;'
+                    }
+                    $("#queryDatasBar").html(options);
+                    $("#queryDatasBar").find("button").each(function () {
+                        $(this).click(function () {
+                            $("#queryDatasBar").find("button").removeClass("btnselected");
+                            $(this).addClass("btnselected");
+                            var val = $(this).attr("name");
+                            if (val == "all") {
+                                $("input[name='baseSQL']").val("");
+                            }else{
+                                $("input[name='baseSQL']").val(dataWhereCol+"='"+val+"'");
+                            }
+                            query();
+                        })
+                    })
+                }
+            }
+            if(pageType="grid") {
+                if (urlentry) {
+                    var selectNav = top.$('#mainNav').find("li[module-id='menu-" + topModuleId + "']");
+                    var rgb = selectNav.css("color");
+                    if (rgb.indexOf("#") < 0) {//ie是#333333格式
+                        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                        function hex(x) {
+                            return ("0" + parseInt(x).toString(16)).slice(-2);
+                        }
+
+                        rgb = "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+                    }
+                    if (rgb == "#333333" && pageType != "sub" && pageType != "select" && pageType != "import" && pageType != "") {
+                        selectNav.click();
+                        if (!top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").parent().hasClass("menu-open")) {
+                            top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").click();
+                        }
+
+                    }
+                }
+            }
+            //处理查询默认值
+            $("#searchForm").find("[default-data]").each(function (i) {
+                var defaultValue = $(this).attr('default-data');
+                var value =defaultChange(defaultValue);
+                if(value==null||value=="null"||value=="") return;
+                try {
+                    if ($(this).attr('type') == 'checkbox') {
+                        $(this).prop('checked', (value==true||value=="true"||value=="1"||value=="on"? true:false));
+                    } else {
+                        $(this).val(value);
+                    }
+                } catch (err) {
+                }
+            });
+
+        }catch (e){}
+
+        $('#portalLayout').height( document.body.clientHeight - 150);
+
+        query();
+
+    });
+
+    function query() {
+        var params={};
+        var value=$("#queryCombo").val();
+        if(value==null||value=="") value= defaultQueryId;
+        $("input[name='query__selectCombo']").val(value);
+        params.orgSQL = unEscapeHTML(orgSQL);
+        var formJson=form2Json('searchForm');
+        $.extend(params,formJson);
+
+        var url=[[${getDataUrl}]]+"?funId="+funId
+            +(foreignKeyId==null?"":"&foreignColumn="+foreignColumn+"&foreignKeyId="+foreignKeyId)
+            +(importforeignKeyId==null?"":"&importforeignKeyId="+importforeignKeyId)+"&t="+Math.random();
+
+        $.ajax({
+            type: 'post',
+            url: url,
+            dataType: 'json',
+            data: params,
+            success: function (data) {
+                itemCallback(data);
+            },
+            error: function (data) {
+                $.myNotify.warning(data.msg);
+            }
+        });
+    }
+
+
+
+    function itemCallback(result){
+        $("#portalLayout").find(".item-content").remove();
+        if(result.rows!=null){
+            for(var i=0;i<result.rows.length;i++){
+                var template='  <div class="item-content" >'
+                    +'      <div class="item-btn" style="left:0px;top:130px;" >'
+                    +'          <button type="button" name="lastPage"  class="btn btn-primary"  onclick="lastPage(this)">上一页</button>'
+                    +'      </div>'
+                    +'      <div  class="item-btn" style="right:20px;top:130px;" >'
+                    +'          <button type="button"  name="nextPage" class="btn btn-primary"  onclick="nextPage(this)">下一页</button>'
+                    +'      </div>'
+                    +'      <div  class="item-btn" style="left:160px;top:130px;" >'
+                    +'          <button type="button" name="runPage"  class="btn btn-success"  onclick="pausePage(this)">暂停</button>'
+                    +'      </div>'
+                    +'       <div class="item-body" >'
+                    +'           <div class="item-pic"><img src="../static/images/devices/monitor.png" /></div>'
+                    +'          <div style="width:100%;text-align:center;"><h4>'+result.rows[i]["device_code"]+'</h4></div>'
+                    +'          <div style="width:100%;text-align:center;"><h4>'+result.rows[i]["device_name"]+'</h4></div>'
+                    +'          <div style="position:absolute;right:0px;bottom:0px;width:60px;"><h4>'+(result.rows[i]["online_ststue"]=="1"?"<span style='color: green;font-weight: 600;'>在线</span>":"<span style='color: red;font-weight: 600;'>离线</span>")+'</h4></div>'
+                    +'          <div style="position:absolute;left:10px;bottom:0px;width:60px;"><h4>'+(result.rows[i]["auditing"]=="1"?"<span style='color: green;font-weight: 600;'>播放中</span>":"<span style='color: red;font-weight: 600;'>暂停中</span>")+'</h4></div>'
+                    +'      </div>'
+                    +'  </div>';
+                var obj=$(template);
+                if(result.rows[i]["auditing"]=="1"){
+                    obj.find("button[name=runPage]").removeClass("btn-success");
+                    obj.find("button[name=runPage]").addClass("btn-danger");
+                    obj.find("button[name=runPage]").text("暂停");
+                }else{
+                    obj.find("button[name=runPage]").removeClass("btn-danger");
+                    obj.find("button[name=runPage]").addClass("btn-success");
+                    obj.find("button[name=runPage]").text("启动");
+                }
+                obj.dblclick(  function (e) {
+                    maxBtn(obj);
+
+                });
+                $("#portalLayout").append(obj);
+            }
+            $("#portalLayout").find(".item-btn").hide();
+
+            $("#portalLayout").find(".item-content").on( 'click',  function (e) {
+                $("#portalLayout").find(".item-content").removeClass("item-selected");
+                $(this).addClass("item-selected");
+
+            });
+            $("#portalLayout").find(".item-content").mouseover(function(){
+                $(this).find(".item-btn").show();
+            });
+            $("#portalLayout").find(".item-content").mouseleave(function(){
+                $(this).find(".item-btn").hide();
+            });
+        }
+    }
+
+
+    //最大化组件
+    function maxBtn(that){
+        // var div= $(that).clone();
+        // div.css("z-index","9999");
+        // div.css("position","absolute");
+        // div.css("top","0px");
+        // div.css("left","0px");
+        // div.width(document.body.clientWidth-30);
+        // div.height(document.body.clientHeight-50);
+        // div.find("img").width(document.body.clientWidth-30);
+        // div.find("img").height(document.body.clientHeight-50);
+        // div.find(".item-btn").show();
+        // $("#portalLayout").append(div);
+    }
+
+</script>
+
+</html>

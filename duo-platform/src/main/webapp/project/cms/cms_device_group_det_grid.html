@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'position_code', title: '区域位置', width:155,visible:true, halign: 'center' }, 
+	 {field: 'device_code', title: '设备编号', width:161,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '设备名称', width:176,visible:true, halign: 'center' }, 
+	 {field: 'device_type', title: '设备型号', width:180,visible:true, halign: 'center' }, 
+	 {field: 'device_size', title: '设备规格', width:180,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '管理部门', width:180,visible:true, halign: 'center' }, 
+	 {field: 'device_factory', title: '生产厂家', width:180,visible:true, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '运营商户id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: '管理部门id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'position_id', title: '点位_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:182,visible:false, halign: 'center' }, 
+	 {field: 'auditing', title: '播放状态', width:87,visible:false, halign: 'center',formatter:recordsatusFormatter }, 
+	 {field: 'company_name', title: '运营商户', width:180,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  position_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.position_code',max_length:40}, 
+	  device_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_code',max_length:40}, 
+	  device_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_name',max_length:80}, 
+	  device_type:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_type',max_length:80}, 
+	  device_size:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_size',max_length:200}, 
+	  dept_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.dept_name',max_length:60}, 
+	  device_factory:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.device_factory',max_length:80}, 
+	  device_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_group_device.device_id',max_length:32}, 
+	  det_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_group_device.det_id',max_length:32}, 
+	  company_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.company_id',max_length:32}, 
+	  dept_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.dept_id',max_length:32}, 
+	  position_id:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.position_id',max_length:32}, 
+	  memo:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_group_device.memo',max_length:200}, 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'',orgfield:'device_info.auditing',max_length:20,formatter:'recordsatusFormatter'}, 
+	  company_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'device_info.company_name',max_length:60} 
+	 }; 
+</script>  

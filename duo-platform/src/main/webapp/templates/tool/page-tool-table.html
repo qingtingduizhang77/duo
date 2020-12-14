@@ -1,0 +1,409 @@
+  <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<style type="text/css">
+    div#rMenu {
+        position: absolute;
+        visibility: hidden;
+        text-align: left;
+        padding: 2px;
+        width: auto;
+        border: 1px
+    }
+
+    .ztree li {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        line-height: 20px;
+        text-align: left;
+        white-space: nowrap
+    }
+
+    .ztree li span {
+        margin-right: 2px;
+        font-weight: lighter;
+        font-size: 14px;
+        color: #000;
+        font-family: inherit;
+    }
+</style>
+<section class="content-header" style="">
+    <h1 ><span th:text="${funName}">功能名称</span>
+        <small th:text="${funDescript}"> 功能描述 </small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> <span  th:text="${topModuleName}">一级模块</span></li>
+        <li  th:text="${moduleName}"> 二级模块</li>
+        <li class="active"  th:text="${funName}">功能名称</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-2"  style="padding-right: 0px;padding-left: 0px;line-height: 1.75;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">数据表树</div>
+                            <div class="panel-body" id="treeBody"  style=" border: 0px;padding-bottom: 10px;overflow:auto;">
+                                <ul id="tree" class="ztree"></ul>
+                            </div>
+                        </div>
+                        <div class="panel panel-default">
+                            <div class="panel-heading"><span class="fa fa-bookmark"></span> 提示</div>
+                            <div class="panel-body" style="padding:10px;border: 0px;">
+                                <span style="font-size: 10px">🌹</span> 鼠标右键树节点可<span style="color: orangered"><i>新增、修改、删除</i></span> 表
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-10"  style="padding-right: 0px;">
+                        <div class="panel panel-default">
+                            <div class="panel-heading" style="padding: 0px 5px;">
+                                <ul id="myTab" class="nav nav-tabs">
+                                    <li class="active">
+                                        <a href="#divMain" data-toggle="tab">
+                                            表字段管理
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="box-body"  id="divMain">
+                                <div id="toolbar">
+                                    <form class="form-inline" id="searchForm">
+                                        <input type="text" class="form-control input-sm" name="pId" style="display: none;" placeholder="点击树id值">
+                                        <div class="form-group" style="padding-left: 5px;">
+                                            <label for="column_name"> 字段名</label>
+                                            <input type="text" class="form-control input-sm" name="column_name" id="column_name" placeholder="请输入字段名">
+                                            <label for="column_comment"> 字段描述</label>
+                                            <input type="text" class="form-control input-sm" name="column_comment" id="column_comment" placeholder="请输入字段描述">
+                                            <input type="hidden" class="form-control input-sm" name="table_id" id="table_id">
+                                        </div>
+                                        <div class="btn-group btn-group-sm">
+                                            <button type="button" class="btn btn-default" onclick="javascript:$('table').bootstrapTable('refresh', {silent: true});isEditing=0;">
+                                                <i class="glyphicon glyphicon-search"></i>
+                                                查询
+                                            </button>
+                                            <button type="reset" class="btn btn-default">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                                清空
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div class="btn-group btn-group-sm"  th:utext="${eventBar}">
+                                    </div>
+                                </div>
+                                <!--表格自动出现水平滚动条-->
+                                <div class="table-responsive" style="width:100%">
+                                    <table id="table" class="table text-nowrap" style="table-layout:fixed;word-break:break-all;"></table>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+            <!-- /.box-body -->
+        </div>
+        <!-- /.box -->
+
+    </div>
+    <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!-- 隐藏的右键菜单 -->
+<div id="rMenu">
+    <ul role="menu" class="dropdown-menu" aria-labelledby="dropdownMenu3">
+        <li  data-toggle="modal" data-target="#addModal"><a href="javastript:void();"   id="rRoot">添加根目录</a></li>
+        <li  data-toggle="modal" data-target="#addModal"><a href="javastript:void();"   id="rAdd">添加表</a></li>
+        <li  data-toggle="modal" data-target="#editModal"><a href="javastript:void();" id="rEdit">修改表</a></li>
+        <li  data-toggle="modal" data-target="#deleteModal"><a href="javastript:void();" id="rDel">删除表</a></li>
+    </ul>
+</div>
+<!--defineModal页面-->
+<div th:if="${#strings.isEmpty(defineModalUrl)} ne true ">
+    <div th:replace="${defineModalUrl} :: formWindowModal"></div>
+</div>
+
+
+<!--自定义JS-->
+<div th:if="${#strings.isEmpty(defineJsUrl)} ne true ">
+    <script th:replace="${defineJsUrl} :: gridScript"></script>
+</div>
+<!--grid页面 -->
+<div th:if="${#strings.isEmpty(gridUrl)} ne true ">
+    <script th:replace="${gridUrl} :: gridScript"></script>
+</div>
+<script  th:inline="javascript">
+
+    //后台Controller传回来下列值
+    var topModuleId = [[${topModuleId}]];//一级模块id
+    var moduleId = [[${moduleId}]];//二级模块id
+    funId = [[${funId}]];//功能id
+    funName = [[${funName}]];//功能名称
+    var pageType = [[${pageType}]];//页面类型
+    keyIDColumn = "column_id";//[[${keyIDColumn}]];//主键id列
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    var treeURL = [[${getTreeDataUrl}]];//树获取
+    var treeTopId = [[${treeTopId}]];//树顶级id
+    var treeWhereSQL = [[${treeWhereSQL}]];//树过滤sql
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    defaultQueryId= [[${defaultQueryId}]];//默认查询条id
+    var getDataUrl = [[${getDataUrl}]];//grid获取数据url
+    importforeignKeyId = [[${importforeignKeyId}]];//导入目标表的外键值
+    targetFunID = [[${targetFunID}]];//导入目标功能funid
+    auditColumn= [[${auditColumn}]];//复核字段
+
+    allowEidtRole=allowEidtRole=="true";
+
+    var $table = $('#table');
+    var changeRows = new Array();
+
+
+    $(function () {
+        try{//刷新浏览器时，点击链接进入时，默认选中对应模块菜单
+
+            if (urlentry) {
+                var selectNav = $('#mainNav').find("li[module-id='menu-" + topModuleId + "']");
+                var rgb = selectNav.css("color");
+                if (rgb.indexOf("#") < 0) {//ie是#333333格式
+                    rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                    function hex(x) {
+                        return ("0" + parseInt(x).toString(16)).slice(-2);
+                    }
+
+                    rgb = "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+                }
+                if (rgb == "#333333" && pageType != "sub" && pageType != "select" && pageType != "import" && pageType != "") {
+                    selectNav.click();
+                    if (!$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").parent().hasClass("menu-open")) {
+                        $("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").click();
+                    }
+
+                }
+            }
+        }catch (e){}
+        $("#treeBody").css("height",document.body.clientHeight-280);
+        // bootstrap table初始化
+        // http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + getDataUrl+ (getDataUrl.indexOf("?")>0?"&":"?")+"funId="+funId,
+            idField: 'column_id',
+            toolbar: '#toolbar',
+            classes:"table table-bordered table-condensed table-hover table-striped",
+            height:document.body.clientHeight-185,
+            pageSize: 50,                       //每页的记录行数（*）
+            pageList: [ 20, 50, 100,500, 1000],        //可供选择的每页的行数（*）
+            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            showFullscreen: false,         //是否显示全屏按钮
+            clickToSelect: true,  //点击row选中radio或CheckBox
+            undefinedText:"",
+            editable:true,//开启编辑模式
+            minimumCountColumns:3,//最少允许的列数
+//            rowStyle: function (row, index) {
+//                //这里有5个取值代表5中颜色['active', 'success', 'info', 'warning', 'danger'];
+//                var strclass = "";
+//                if(row.is_pk=="1") strclass='warning';
+//                return { classes: strclass }
+//            },
+            columns: _tableColumns,
+            onDblClickCell:function (field, value, row, $element) {
+                if(!allowEidt){
+                    allowEidt=true;//双击打开编辑状态
+                    editTableCell(field, value, row, $element);
+                }
+            },
+            onClickCell: editTableCell ,
+            initBodySuccess:function (data) {
+                isEditing=0;//将编辑标记清除
+                allowEidt=false;
+                //鼠标悬停显示全部内容~
+                $('.bootstrap-table tr td').each(function () {
+                    $(this).attr("title", $(this).text());
+                    // $(this).css("cursor", 'pointer')
+                });
+                eventFresh();//事件按钮可用性判断
+            },
+            onClickRow:function(item, $element){
+
+            }  ,
+            showFooter: false  //显示隐藏底部
+            //    footerStyle: footerStyle //底部样式函数
+        });
+
+
+    });
+
+
+
+
+
+    $(function () {
+        var rMenu = $('#rMenu'),
+            setting = {
+                data: {
+                    simpleData: {
+                        enable: true,
+                        idKey: 'id',
+                        pIdKey: 'pId',
+                        rootPId: ''
+                    }
+                },
+                view: {
+                    expandSpeed: 300,
+                    // 设置树展开的动画速度，IE6下面没效果
+                },
+                async: {
+                    enable: true,
+                    // dataFilter: filter,   //function filter(treeId, parentNode, childNodes) { return childNodes;}
+                    url: getAsyncUrl
+
+                },
+                callback: {
+                    asyncError: zTreeOnAsyncError, // 加载错误的fun
+                    beforeClick: beforeClick, // 捕获单击节点之前的事件回调函数
+                    onRightClick: OnRightClick,
+                    onAsyncSuccess: onAsyncSuccess
+                }
+            }, zNodes = [];
+
+        var treeObj = $.fn.zTree.init($("#tree"), setting, zNodes);
+        //展开第一层 begin
+        var openNum=0;//默认打开层数
+        function expandAll(treename) {
+            var zTree = $.fn.zTree.getZTreeObj(treename);
+            expandNodes(treename,zTree.getNodes());
+        }
+        function expandNodes(treename,nodes) {
+            if (!nodes) return;
+            var zTree = $.fn.zTree.getZTreeObj(treename);
+            for (var i=0, l=nodes.length; i<l; i++) {
+                zTree.expandNode(nodes[i], true, false, false);//展开节点就会调用后台查询子节点
+                if (nodes[i].isParent && nodes[i].zAsync) {
+                    expandNodes(treename,nodes[i].children);//递归
+                }
+            }
+        }
+
+        function onAsyncSuccess(event, treeId, treeNode, msg) {
+            //  var node = treeObj.getNodeByParam("id",'1002');
+            //  treeObj.selectNode(node, true);
+            if(openNum>0){
+                expandAll("tree");
+                openNum--;
+            }
+        }
+
+
+        //展开第一层  end
+
+        // 获取异步连接
+        function getAsyncUrl(treeId, treeNode) {
+            return CONTEXT_PATH + treeURL + '&funId=' + funId + '&pId=' + (treeNode == undefined ? treeTopId : treeNode.id);
+        }
+
+        // 加载错误的fun
+        function zTreeOnAsyncError(event, treeId, treeNode) {
+            alert('数据加载失败!');
+        }
+
+        // 点击之后的动作
+        function beforeClick(treeId, treeNode) {
+            $("#searchForm input[name='pId']").val(treeNode.id);
+            //alert(treeNode.id);
+            $("#table_id").val(treeNode.id);
+
+            $("button[name='copyimport']").attr("default-disabled","0");
+            $("button[name='importBtn']").attr("default-disabled","0");
+            $("button[name='gridaddBtn']").attr("default-disabled","0");
+            $("button[name='gridsaveBtn']").attr("default-disabled","0");
+            $("button[name='sqlBtn']").attr("default-disabled","0");
+            $("button[name='entityBtn']").attr("default-disabled","0");
+
+            $("button[name='copyimport']").prop("disabled",false);
+            $("button[name='importBtn']").prop("disabled",false);
+            $("button[name='gridaddBtn']").prop("disabled",false);
+            $("button[name='gridsaveBtn']").prop("disabled",false);
+            $("button[name='sqlBtn']").prop("disabled",false);
+            $("button[name='entityBtn']").prop("disabled",false);
+            $('#table').bootstrapTable('refresh', {silent: true});
+            isEditing=0;
+        }
+
+        //  右键触发事件
+        // 在ztree上的右击事件
+        function OnRightClick(event, treeId, treeNode) {
+            // 是否叶子节点
+            try {
+                // 在这里运行代码
+                showRMenu(event.clientX, event.clientY, treeNode.id, treeNode.name, treeNode.pId, treeNode);
+            } catch (err) {
+                // 在这里处理错误
+                console.log(err);
+            }
+        }
+
+        // 显示右键菜单
+        function showRMenu(x, y, id, pName, pId, treeNode) {
+            $('#addForm [name="parentId"]').val(id);
+            $('#addForm [name="parentName"]').val(pName);
+            $('#editForm [name="table_id"]').val(id);
+            $('#editForm [name="table_name"]').val(treeNode.obj["table_name"]);
+            $('#editForm [name="table_comment"]').val(treeNode.obj["table_comment"]);
+            $('#editForm [name="order_index"]').val(treeNode.obj["order_index"]);
+            var is_tree=treeNode.obj["is_tree"]==null||treeNode.obj["is_tree"]==""?"0":treeNode.obj["is_tree"];
+
+            $('#editForm [name="is_tree"]').val(is_tree);
+            $('#deleteForm [name="ids"]').val(id);
+            $('#rMenu ul').show();
+            // 是否父id为0
+            if (treeNode.isParent) {
+                $('#rDel').hide();
+            } else {
+                $('#rDel').show();
+            };
+            // 是否第一级树
+            if (pId!=""&&pId!="0") {
+                $('#rRoot').hide();
+            } else {
+                $('#rRoot').show();
+            }
+
+            rMenu.css({
+                "top": y + "px",
+                "left": x + "px",
+                "visibility": "visible"
+            }); // 设置右键菜单的位置、可见
+            $("body").bind("mousedown", onBodyMouseDown);
+        }
+
+
+        // 鼠标按下事件
+        function onBodyMouseDown(event) {
+            if (!(event.target.id == "rMenu" || $(event.target).parents("#rMenu").length > 0)) {
+                rMenu.css({
+                    "visibility": "hidden"
+                });
+            }
+        }
+
+        //  rRoot节点
+        $('#rRoot').click(function () {
+            $('#addForm [name="parentId"]').val("");
+            $('#addForm [name="parentName"]').val("");
+        });
+
+
+
+    });
+
+
+</script>
+</html>

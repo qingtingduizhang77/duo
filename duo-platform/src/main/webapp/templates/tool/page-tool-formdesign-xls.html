@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<style type="text/css">
+    .form-groupt {
+        background-color: rgba(157, 229, 245, 0.33);
+        margin: 10px 20px 5px 10px;
+        position: absolute;
+        line-height: 35px;
+    }
+
+    .form-group {
+        background-color: rgba(59, 204, 79, 0.33);
+        margin: 10px 20px 5px 10px;
+        position: absolute;
+        line-height: 35px;
+    }
+
+    .OSelect{
+        border:1px solid #1d34cc;
+        border-style:dotted;
+    }
+
+    .OHide{
+        background-color:#cccccc;
+    }
+
+
+</style>
+
+<section class="content-header" style="">
+    <h1><span>表单设计器</span>
+        <small> 用于实现托拉拽可视化开发</small>
+    </h1>
+</section>
+
+<section class="content">
+
+    <div id="toolbar">
+        <div class="btn-group btn-group-sm">
+            <button type="button" class="btn btn-default" onclick="">
+                <i class="glyphicon glyphicon-plus"></i> 载入xls设计文件
+            </button>
+            <button type="button" class="btn btn-default" onclick="openSelectColumnWin()">
+                <i class="glyphicon glyphicon-tasks"></i> 选择字段列表
+            </button>
+            <button type="button" class="btn btn-default" onclick="">
+                <i class="glyphicon glyphicon-plus"></i> 选择子功能
+            </button>
+            <button type="button" class="btn btn-default" onclick="save2Json()">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 保存设计
+            </button>
+            <button type="button" class="btn btn-default" onclick="save2Json(true)">
+                <i class="glyphicon glyphicon-floppy-disk"></i> 生成Form页面
+            </button>
+        </div>
+    </div>
+    <!--表单的显示区域开始-->
+    <div id="formContext" class="col-xs-12">
+        <div th:utext="${templateHTML}" style=""></div>
+        <div style="height: 20px;">
+        </div>
+    </div>
+    <!--表单的显示区域结束-->
+    </div>
+
+
+    <!-- importModal -->
+    <div class="modal fade" id="selectColumnModal"    style="width:360px;height:600px;top :130px;left:100px; " tabindex="-1" >
+        <div class="modal-content" style="width:360px;height:600px; ">
+            <div class="modal-header" style="height:45px;background: #c7e6f5;">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <!--<button type="button" class="close" onclick="window.history.go(-1);">×</button>-->
+                <h4 class="modal-title" >选择字段列</h4>
+            </div>
+            <div id="selecttoolbar">
+                <div class="btn-group btn-group-sm">
+                    <button type="button"  class="btn btn-default" onclick="checkall();"><i class="glyphicon glyphicon-check"></i>全选
+                    </button>
+                </div>
+            </div>
+            <div class="panel-body"  style=" border: 0px;padding: 0px;height:525px;overflow:auto"    id="table-content">
+                <table class="table table-bordered table-hover text-nowrap content-table" id="column-table">
+                    <tbody th:utext="${selectColumnList}" >
+                    <!--<tr>-->
+                    <!--<td style="width:13%;"><input type="checkbox"/></td>-->
+                    <!--<td style="width:32%;">column_name</td>-->
+                    <!--<td style="width:35%;">字段名称</td>-->
+                    <!--<td style="width:20%;">200</td>-->
+                    <!--</tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+<script type="text/javascript">
+    var curSelectObj;
+    var objnum=1;
+
+    //后台Controller传回来下列值
+    var foreignKeyId = '[[${foreignKeyId}]]';//外键值
+
+    $(function () {
+        var height = 600;
+        if (document.body.clientHeight > 1) {
+            height = document.body.clientHeight;
+        }
+        $('#formContext').height(height - 40);
+        $(document).on("show.bs.modal", ".modal", function () {
+            $(this).draggable({
+                 handle: ".modal-header"   // 只能点击头部拖动
+            });
+            $(this).css("overflow", "hidden"); // 防止出现滚动条，出现的话，你会把滚动条一起拖着走的
+        });
+
+        //表格点击高亮事件
+        $(document).on('click', '#table-content .content-table > tbody > tr', function () {
+            if ($(this).hasClass("showColor") == false) {
+                $(this).addClass('showColor').css("background-color", "#cce7fc");
+                //创建对象
+                var column_name=$(this).find("td").eq(0).text();
+                var column_comment=$(this).find("td").eq(1).text();
+                var objtype=$(this).find("td").eq(2).text();
+                var bean={column_name:column_name,column_comment:column_comment,num:objnum++};
+                createObj(objtype,bean);
+            } else {
+                $(this).removeClass('showColor').css("background-color", "white");
+                //去掉对象
+                var column_name=$(this).find("td").eq(0).text();
+                $("#formContext").find(".form-group").each(function () {
+                    var name =$(this).attr("name");
+                    if(name!=null){
+                        if(name==column_name){
+                            $(this).remove();
+                            return;
+                        }
+                    }
+                })
+            }
+        });
+        // openSelectColumnWin();//打开字段列表
+
+
+    });
+
+
+
+</script>
+
+</html>

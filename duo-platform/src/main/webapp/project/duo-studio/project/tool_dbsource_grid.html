@@ -1,0 +1,45 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:60,visible:true, halign: 'center' }, 
+	 {field: 'system_row_fileid', title: '附件', width:48,visible:true, halign: 'center',formatter:fileIcoFormatter }, 
+	 {field: 'auditing', title: '状态', width:97,visible:true, halign: 'center',formatter:effectivestateFormatter }, 
+	 {field: 'dbsource_type', title: '数据源类型', width:60,visible:false, halign: 'center',formatter:dbsourcetypeFormatter }, 
+	 {field: 'dbsource_name', title: '数据源名称*', width:209,visible:true, halign: 'center' }, 
+	 {field: 'db_driver', title: '驱动类*', width:105,visible:true, halign: 'center',formatter:jdbcdriverFormatter }, 
+	 {field: 'jdbc_url', title: '连接串*', width:349,visible:true, halign: 'center' }, 
+	 {field: 'user_name', title: '用户名*', width:114,visible:true, halign: 'center' }, 
+	 {field: 'user_password', title: '密码', width:119,visible:true, halign: 'center',formatter:encryptionRuleFormatter }, 
+	 {field: 'load_status', title: '已加载?', width:129,visible:true, halign: 'center',formatter:yesnoFormatter }, 
+	 {field: 'memo', title: '备注', width:645,visible:true, halign: 'center',formatter:gridButtonFormatter }, 
+	 {field: 'record_flag', title: '是否删除', width:128,visible:false, halign: 'center' }, 
+	 {field: 'dbsource_id', title: 'dbsource_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'add_userid', title: 'add_userid', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'5',orgfield:'tool_dbsource.order_index'}, 
+	  system_row_fileid:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'',max_length:32,formatter:'fileIcoFormatter'}, 
+	  auditing:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'tool_dbsource.auditing',control_name:'effectivestateData',max_length:10,formatter:'effectivestateFormatter'}, 
+	  dbsource_type:{addedit:true,edit:true,type:'combobox',required:false,default:'system',orgfield:'tool_dbsource.dbsource_type',control_name:'dbsourcetypeData',max_length:20,formatter:'dbsourcetypeFormatter'}, 
+	  dbsource_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_dbsource.dbsource_name',max_length:20}, 
+	  db_driver:{addedit:true,edit:true,type:'combobox',required:true,default:'com.mysql.jdbc.Driver',orgfield:'tool_dbsource.db_driver',control_name:'jdbcdriverData',max_length:60,formatter:'jdbcdriverFormatter'}, 
+	  jdbc_url:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_dbsource.jdbc_url',max_length:400}, 
+	  user_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_dbsource.user_name',max_length:60}, 
+	  user_password:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_dbsource.user_password',max_length:60,formatter:'encryptionRuleFormatter'}, 
+	  load_status:{addedit:false,edit:false,type:'combobox',required:false,default:'0',orgfield:'tool_dbsource.load_status',max_length:10,formatter:'yesnoFormatter'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_dbsource.memo',max_length:200,formatter:'gridButtonFormatter'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_dbsource.record_flag',max_length:10}, 
+	  dbsource_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_dbsource.dbsource_id',max_length:32}, 
+	  add_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_dbsource.add_userid'} 
+	 }; 
+</script>  

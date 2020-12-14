@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<div class="form-group">
+				<label class="col-sm-2 control-label "  >排序：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="order_index" type="number"   onkeyup="value=value.replace(/[^\d.]/g,'')"        />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >事件类型*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="event_type" type="text"      maxlength="10"     required=true />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >源funid*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="source_funid"       style='width:80%;float:left; '  onclick='formSelectWindow("funSelect","fun_id","source_funid","")'  required=true  />
+					<button type='button'  name="btn_source_funid"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("funSelect","fun_id","source_funid","")'    >...</button>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >目标funid*：</label>
+				<div class=col-sm-3_5>
+					<input type="text" class="form-control input-sm" readonly    name="target_funid"       style='width:80%;float:left; '  onclick='formSelectWindow("funSelect","fun_id","target_funid","")'  required=true  />
+					<button type='button'  name="btn_target_funid"   class='form-control' style='width:15%;float:left; ' onclick='formSelectWindow("funSelect","fun_id","target_funid","")'    >...</button>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:97px;"   >源sql：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:92px" name="source_sql"       maxlength="800"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:89px;"   >目标sql：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:84px" name="target_sql"       maxlength="800"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:80px;"   >执行SQL/Class：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:75px" name="bo_function"       maxlength="800"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >备注：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="memo" type="text"      maxlength="200"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>eventsql_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="eventsql_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>eventdet_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="event_id" type="text"   style='display:none;'   maxlength="32"      />
+				</div>
+		</div>
+	</form>
+</div>  

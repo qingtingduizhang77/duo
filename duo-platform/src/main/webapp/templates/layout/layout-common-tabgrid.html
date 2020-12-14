@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+<style type="text/css">
+
+</style>
+<section class="content-header" style="">
+    <h1 ><span th:text="${funName}">功能名称</span>
+        <small th:text="${funDescript}"> 功能描述 </small>
+    </h1>
+    <ol class="breadcrumb">
+        <li><i class="fa fa-dashboard"></i> <span  th:text="${topModuleName}">一级模块</span></li>
+        <li  th:text="${moduleName}"> 二级模块</li>
+        <li class="active"  th:text="${funName}">功能名称</li>
+    </ol>
+</section>
+
+<section class="content">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box">
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <div class="col-xs-12 col-sm-12"  style="padding-right: 0px;">
+                        <div class="panel-heading" style="padding: 0px 5px;">
+                            <ul id="myFormTab" class="nav nav-tabs"  th:utext="${subFuns}">
+                                <li class="active">
+                                    <a href="javascript:void(0);"   onclick="funFormTab(this,'grid')" >
+                                        列表页面
+                                    </a>
+                                </li>
+                                <li th:if="${#strings.isEmpty(formUrl)} ne true" >
+                                    <a href="javascript:void(0);"   onclick="funFormTab(this,'form')" >
+                                        表单页面
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div id="toolbar">
+                            <div class="form-inline" id="queryDatasBar"  style="display:none; ">
+                                <button  type='button'  class='btn btn-default'  onclick=""> 全部</button>
+                            </div>
+                            <form class="form-inline" id="searchForm" >
+                                <div class="input-group" >
+                                    <input type="text" class="form-control input-sm" name="baseSQL" style="display: none;" >
+                                    <input type="text" class="form-control input-sm" name="query__selectCombo" style="display: none;" placeholder="选中查询方案">
+                                    <select class="form-control"  onchange="querySelectFun(this.options[this.options.selectedIndex].value)"   id="queryCombo" th:utext="${querySelect}"  th:if="${querySelect} ne ''">
+                                        <!--<option value="123456">默认查询</option>-->
+                                        <!--<option value="222">高级查询</option>-->
+                                    </select>
+                                </div>
+                                <div class="form-group"   th:utext="${queryBar}" >
+                                    <!--<div query-id="query_123456">-->
+                                    <!--<label  > 用户名</label>-->
+                                    <!--<input type="text" class="form-control input-sm" name="username"   placeholder="请输入用户名">-->
+                                    <!--</div>-->
+                                    <!--<div query-id="query_222" style="display: none;">-->
+                                    <!--<label  > 用户名222</label>-->
+                                    <!--<input type="text" class="form-control input-sm" name="username" placeholder="请输入用户名">-->
+                                    <!--</div>-->
+                                </div>
+                                <div class="btn-group btn-group-sm" th:if="${queryBar} ne ''">
+                                    <button type="button" class="btn btn-default" onclick="query();">
+                                        <i class="glyphicon glyphicon-search"></i>
+                                        查询
+                                    </button>
+                                    <button type="reset" class="btn btn-default">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                        清空
+                                    </button>
+                                </div>
+                            </form>
+                            <div  th:if="${#strings.isEmpty(eventBar)} ne true " class="btn-group btn-group-sm"  th:utext="${eventBar}">
+                                <!-- Indicates a dangerous or potentially negative action -->
+                                &nbsp;&nbsp; &nbsp;&nbsp; <span title="[已复核]状态数据自动归档"><input th:type="checkbox"/> 显示归档</span>
+                            </div>
+                        </div>
+                        <!--表格自动出现水平滚动条-->
+                        <div class="table-responsive" id="gridFrameDiv" style="width:100%">
+                            <table id="table" class="table text-nowrap" style="table-layout:fixed;word-break:break-all;"></table>
+                        </div>
+
+                        <div class="modal-body" id="formFrameDiv" style="padding:0px;margin:0px;display:none;">
+                            <iframe id="subIframe" width="100%" height="100%" frameborder="0" scrolling="no" src="" ></iframe>
+                        </div>
+                        <div class="modal-body" style="display:none;" id="formInfoDiv">
+                            <div class="btn-group btn-group-sm"  th:utext="${eventFormBar}" style="margin-bottom:5px;">
+                                <!-- Indicates a dangerous or potentially negative action -->
+                            </div>
+                            <div class="box-body" style="height:100%;overflow-y:auto;overflow-x:hidden;margin-left:20px;margin-right:20px;" >
+                                <!--Form页面-->
+                                <div th:if="${#strings.isEmpty(formUrl)} ne true ">
+                                    <div th:replace="${formUrl} :: formPage"></div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /.box -->
+
+        </div>
+        <!-- /.col -->
+    </div>
+    <!-- /.row -->
+</section>
+
+<!--defineModal页面-->
+<div th:if="${#strings.isEmpty(defineModalUrl)} ne true ">
+    <div th:replace="${defineModalUrl} :: formWindowModal"></div>
+</div>
+
+
+<!--自定义JS-->
+<div th:if="${#strings.isEmpty(defineJsUrl)} ne true ">
+    <script th:replace="${defineJsUrl} :: gridScript"></script>
+</div>
+<!--grid页面 -->
+<div th:if="${#strings.isEmpty(gridUrl)} ne true ">
+    <script th:replace="${gridUrl} :: gridScript"></script>
+</div>
+<script  th:inline="javascript">
+
+    //后台Controller传回来下列值
+    var topModuleId = [[${topModuleId}]];//一级模块id
+    var moduleId = [[${moduleId}]];//二级模块id
+    funId = [[${funId}]];//功能id
+    funName = [[${funName}]];//功能名称
+    var pageType = [[${pageType}]];//页面类型
+    keyIDColumn = [[${keyIDColumn}]];//主键id列
+    var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+    defaultQueryId= [[${defaultQueryId}]];//默认查询条id
+    var foreignColumn = [[${foreignColumn}]];//外键名
+    var foreignKeyId = [[${foreignKeyId}]];//外键值
+    auditColumn= [[${auditColumn}]];//复核字段
+    var orgSQL = [[${orgSQL}]];//orgSQL
+    var funParames = [[${funParames}]];//其他自定义参数
+    var isSingleSelect=false;
+    GlobalDefaults= [[${GlobalDefaults}]];//全局默认值
+
+    allowEidtRole=allowEidtRole=="true";
+
+    var $table = $('#table');
+    var changeRows = new Array();
+
+
+    $(function () {
+        try{//刷新浏览器时，点击链接进入时，默认选中对应模块菜单
+
+            //功能设计器增加工具tab
+            funParames= unEscapeHTML(funParames);
+            if(funParames.indexOf("{")>-1) eval("funParames="+funParames);
+            if(funParames!=null&&funParames["isSingleSelect"]!=null){
+                isSingleSelect=funParames["isSingleSelect"];
+            }
+            if(funParames!=null&&funParames["tabfun"]!=null){
+                for(var i=0;i<funParames["tabfun"].length;i++){
+                    var tool=" <li>  <a href=\"javascript:void(0);\"   onclick=\"funFormTab(this,'"+funParames["tabfun"][i]["url"]+"')\"  style=\"color:green;\">  <i class=\"glyphicon glyphicon-wrench\"></i><b> "+funParames["tabfun"][i]["name"]+"</b></a></li>";
+                    $("#myFormTab").append(tool);
+                }
+            }
+
+
+            if(funParames!=null&&funParames["queryDatas"]!=null){
+                var dataWhereCol=funParames["dataWhereCol"] ;
+                var dataCompareType=funParames["dataCompareType"] ;
+                if(dataWhereCol!=null) {
+                    $("#queryDatasBar").show();
+                    let options = '<button  type="button"  name="all" class="btn btn-default btnselected"  onclick=""> 全部</button>&nbsp;&nbsp;';
+                    eval(" var optionJson=" + funParames["queryDatas"] + ";");
+                    for (var key in optionJson) {//遍历设置options
+                        options += '<button  type="button"  name="' + key + '" class="btn btn-default"  onclick=""> ' + optionJson[key] + '</button>&nbsp;&nbsp;'
+                    }
+                    $("#queryDatasBar").html(options);
+                    $("#queryDatasBar").find("button").each(function () {
+                        $(this).click(function () {
+                            $("#queryDatasBar").find("button").removeClass("btnselected");
+                            $(this).addClass("btnselected");
+                            var val = $(this).attr("name");
+                            if (val == "all") {
+                                $("input[name='baseSQL']").val("");
+                            }else{
+                                if(dataCompareType!=null&&dataCompareType=="like"){
+                                    $("input[name='baseSQL']").val(dataWhereCol+" like '%"+val+"%'");
+                                }else if(dataCompareType!=null&&dataCompareType=="llike"){
+                                    $("input[name='baseSQL']").val(dataWhereCol+" like '%"+val+"'");
+                                }else if(dataCompareType!=null&&dataCompareType=="rlike"){
+                                    $("input[name='baseSQL']").val(dataWhereCol+" like '"+val+"%'");
+                                } else $("input[name='baseSQL']").val(dataWhereCol+"='"+val+"'");
+                            }
+                            query();
+                        })
+                    })
+                }
+            }
+            if(pageType="grid") {
+                if (urlentry) {
+                    var selectNav = top.$('#mainNav').find("li[module-id='menu-" + topModuleId + "']");
+                    var rgb = selectNav.css("color");
+                    if (rgb.indexOf("#") < 0) {//ie是#333333格式
+                        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+
+                        function hex(x) {
+                            return ("0" + parseInt(x).toString(16)).slice(-2);
+                        }
+
+                        rgb = "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+                    }
+                    if (rgb == "#333333" && pageType != "sub" && pageType != "select" && pageType != "import" && pageType != "") {
+                        selectNav.click();
+                        if (!top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").parent().hasClass("menu-open")) {
+                            top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").click();
+                        }
+
+                    }
+                }
+            }
+
+            //处理查询默认值
+            $("#searchForm").find("[default-data]").each(function (i) {
+                var defaultValue = $(this).attr('default-data');
+                var value =defaultChange(defaultValue);
+                if(value==null||value=="null"||value=="") return;
+                try {
+                    if ($(this).attr('type') == 'checkbox') {
+                        $(this).prop('checked', (value==true||value=="true"||value=="1"||value=="on"? true:false));
+                    } else {
+                        $(this).val(value);
+                    }
+                } catch (err) {
+                }
+            });
+
+            if($("#editor1").length>0) {
+                var config={
+                    height : $("#editor1").height(),
+                    width : 'auto',
+                    filebrowserImageUploadUrl : CONTEXT_PATH+"/file/uploadCK?funId="+funId+"&typeId=img"
+                    // fullPage: true,
+                    // allowedContent: true
+                };
+               ckObject= CKEDITOR.replace( 'editor1' , config);
+                ckInitSuccess=true;
+            }
+        }catch (e){}
+        // bootstrap table初始化
+        // http://bootstrap-table.wenzhixin.net.cn/zh-cn/documentation/
+        $table.bootstrapTable({
+            url: CONTEXT_PATH + [[${getDataUrl}]]+"?funId="+funId
+                +(foreignKeyId==null?"":"&foreignColumn="+foreignColumn+"&foreignKeyId="+foreignKeyId)+"&t="+Math.random(),
+            queryParams : function(params)
+            {
+                params.orgSQL = unEscapeHTML(orgSQL);
+                var formJson=form2Json('searchForm');
+                $.extend(params,formJson);
+                return params;
+            },
+            idField: keyIDColumn,
+            toolbar: '#toolbar',
+            classes:"table table-bordered table-condensed table-hover table-striped",
+            height:document.body.clientHeight-165,
+            pageSize: 50,                       //每页的记录行数（*）
+            pageList: [ 20, 50, 100,500, 1000],        //可供选择的每页的行数（*）
+            showToggle: false,                    //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            showFullscreen: false,         //是否显示全屏按钮
+            showColumns:false,
+            showRefresh:false,
+            clickToSelect: true,  //点击row选中radio或CheckBox
+            editable:false,//开启编辑模式
+            minimumCountColumns:3,//最少允许的列数
+            undefinedText:"",
+            singleSelect : isSingleSelect, // 单选checkbox
+
+            columns: _tableColumns,
+            onDblClickCell:function (field, value, row, $element) {
+                if(!allowEidtRole) return;//无可编辑权限
+                if(!allowEidt){
+                    allowEidt=true;//双击打开编辑状态
+                    editTableCell(field, value, row, $element);
+                }
+            },
+            onClickCell: editTableCell ,
+            initBodySuccess:function (data) {
+                isEditing=0;//将编辑标记清除
+                allowEidt=false;
+                //鼠标悬停显示全部内容~
+                $('.bootstrap-table tr td').each(function () {
+                    $(this).attr("title", $(this).text());
+                    // $(this).css("cursor", 'pointer')
+                });
+                eventFresh();//事件按钮可用性判断
+                var count = $table.bootstrapTable('getData', {useCurrentPage: true, includeHiddenRows: true}).length;
+                if(count>0&&(lastSelectRows==null||lastSelectRows.length==0)) $table.bootstrapTable('check', 0);
+            },
+            showFooter: false  //显示隐藏底部
+            //    footerStyle: footerStyle //底部样式函数
+        });
+    });
+
+</script>
+</html>

@@ -1,0 +1,35 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'dept_code', title: '部门编号', width:157,visible:true, halign: 'center' }, 
+	 {field: 'dept_name', title: '部门名称', width:219,visible:true, halign: 'center' }, 
+	 {field: 'dept_leader', title: '部门领导', width:157,visible:true, halign: 'center' }, 
+	 {field: 'dept_introduce', title: '部门职责', width:388,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:493,visible:true, halign: 'center' }, 
+	 {field: 'dept_level', title: '层级', width:81,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'dept_id', title: 'dept_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  dept_code:{addedit:true,edit:true,type:'text',required:true,default:''}, 
+	  dept_name:{addedit:true,edit:true,type:'text',required:true,default:''}, 
+	  dept_leader:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  dept_introduce:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  dept_level:{addedit:false,edit:false,type:'number',required:false,default:''}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  dept_id:{addedit:true,edit:true,type:'text',required:false,default:''}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

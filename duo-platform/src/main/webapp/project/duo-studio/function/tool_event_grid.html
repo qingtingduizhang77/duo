@@ -1,0 +1,47 @@
+<script  th:fragment="gridScript">
+
+//列字段定义
+var _tableColumns=[
+                {field: 'state', width:30,checkbox: true,footerFormatter:function(data) { return "∑" ; }
+                },{field:'number',
+                    title: 'No.',visible:false,
+                    width: 38,  formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+
+                },
+                {field: 'order_index', width:80, title: '排序', sortable: true, halign: 'center'},
+                {field: 'ico_img', width:80, title: '图标', sortable: true, halign: 'center',align: 'center',formatter:icoFormatter},
+                {field: 'event_code', width:120, title: '事件编号', sortable: true, halign: 'center'},
+                {field: 'event_name', width:150, title: '事件名', sortable: true, halign: 'center'},
+                {field: 'page_type', width:150,title: '页面类型', sortable: true, halign: 'center'},
+                {field: 'js_function', width:200,title: '前台方法', sortable: true, halign: 'center'},
+                {field: 'default_disabled', width:120, title: '默认不可编辑', sortable: true, halign: 'center'} ,
+                {field: 'selection_type', width:130, title: '多选/单选控制', sortable: true, halign: 'center'} ,
+                {field: 'bo_function', width:200, title: '后台方法', sortable: true, halign: 'center'} ,
+                {field: 'forward_function', width:200,title: '响应方法', sortable: true, halign: 'center'},
+                {field: 'permission_type', width:150, title: '权限类型', sortable: true, halign: 'center'}  ,
+                {field: 'is_show', width:100,title: '是否显示?', sortable: true, halign: 'center',align: 'center',formatter:chekboxFormatter},
+                {field: 'memo', width:300, title: '备注', sortable: true, halign: 'center'} ,
+                {field: 'event_id', width:100, title: 'event_id', sortable: true, halign: 'center',visible:false,} 
+            ];
+//可编辑列设置信息
+editData={
+        order_index:{edit:true,type:"number",required:true,default:"5",formatter:""},
+        ico_img:{edit:true,type:"text",required:true,default:"",formatter:"icoFormatter"},
+        event_code:{edit:true,type:"text",required:true,default:"",formatter:""},
+        event_name:{edit:true,type:"text",required:true,default:"",formatter:""},
+        page_type:{edit:true,type:"text",required:true,default:";grid;",formatter:""},
+        js_function:{edit:true,type:"text",required:true,default:"",formatter:""},
+        default_disabled:{edit:true,type:"text",required:false,default:"",formatter:""},
+        selection_type:{edit:true,type:"text",required:false,default:"",formatter:""},
+        bo_function:{edit:true,type:"text",required:false,default:"",formatter:""},
+        forward_function:{edit:true,type:"text",required:false,default:"",formatter:""},
+        permission_type:{edit:true,type:"text",required:false,default:"",formatter:"",control_name:""},
+        is_show:{edit:true,type:"checkbox",required:false,default:"1",formatter:"chekboxFormatter"},
+        memo:{edit:true,type:"text",required:false,default:"",formatter:""},
+        event_id:{edit:false,type:"text",required:false,default:"",formatter:""}
+    };
+</script>

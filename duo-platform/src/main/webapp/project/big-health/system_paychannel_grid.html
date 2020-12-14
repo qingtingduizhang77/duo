@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:164,visible:false, halign: 'center' }, 
+	 {field: 'pay_type', title: '支付方式', width:118,visible:true, halign: 'center',formatter:paytypeFormatter }, 
+	 {field: 'pay_descript', title: '账户描述', width:201,visible:true, halign: 'center' }, 
+	 {field: 'pay_usercode', title: '账号', width:164,visible:true, halign: 'center' }, 
+	 {field: 'pay_password', title: '密码', width:164,visible:true, halign: 'center' }, 
+	 {field: 'company_name', title: '商户名称', width:191,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:368,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'company_id', title: '商户id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'paychannel_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:164,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.auditing'}, 
+	  pay_type:{addedit:true,edit:true,type:'combobox',required:false,default:'',orgfield:'data_value',control_name:'paytypeData',formatter:'paytypeFormatter'}, 
+	  pay_descript:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.pay_descript'}, 
+	  pay_usercode:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_paychannel.pay_usercode'}, 
+	  pay_password:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'system_paychannel.pay_password'}, 
+	  company_name:{addedit:true,edit:true,type:'selectwindow',required:false,default:'',orgfield:'system_paychannel.company_name',control_name:'companySelect',source_cols:'company_name;company_id',target_cols:'company_name;company_id'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.record_flag'}, 
+	  company_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.company_id'}, 
+	  paychannel_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.paychannel_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'system_paychannel.project_id'} 
+	 }; 
+</script>  

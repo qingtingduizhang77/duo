@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>DUO大数据开发平台 | 登录</title>
+        <!-- Tell the browser to be responsive to screen width -->
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <!-- Bootstrap 3.3.7 -->
+        <link rel="stylesheet" th:href="@{/static/css/bootstrap.min.css}">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" th:href="@{/static/css/font-awesome.min.css}">
+        <!-- Ionicons -->
+        <link rel="stylesheet" th:href="@{/static/css/ionicons.min.css}">
+        <!-- Theme style -->
+        <link rel="stylesheet" th:href="@{/static/css/AdminLTE.min.css}">
+        <!-- iCheck -->
+        <link rel="stylesheet" th:href="@{/static/css/iCheck/square/blue.css}">
+
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/html5shiv.min.js}"></script>
+        <script th:inline="javascript" th:src="@{/static/libs/html5shiv/respond.min.js}"></script>
+        <![endif]-->
+
+        <!-- Google Font -->
+        <!--<link rel="stylesheet"
+              href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">-->
+        <style>
+            body{
+                overflow-y: auto;
+                overflow: hidden;
+                background: url(static/img/photo.jpg) no-repeat 0 0px;background-attachment:fixed;background-size:100%;height:auto;
+            }
+        </style>
+    </head>
+    <body class="hold-transition login-page">
+        <div class="login-box">
+            <div class="login-logo">
+                <a href="#" style="color:#fff;"><b>DUO大数据开发平台</b></a>
+            </div>
+            <!-- /.login-logo -->
+            <div class="login-box-body">
+                <p class="login-box-msg">登录界面</p>
+
+                <form method="post" data-toggle="validator">
+                    <input type="hidden" name="ProjectID" class="form-control" th:value="${projectID}">
+                    <div class="form-group has-feedback">
+                        <select name="SystemID" class="form-control" placeholder="选择子系统"  required   th:utext="${systemList}">
+                            <option value="1001" >DUO大数据开发平台</option>
+                            <option value="1002">EAM资产管理系统</option>
+                        </select>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="text" name="username" class="form-control" placeholder="用户名" data-error="用户名不能为空" required>
+                        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <input type="password" name="password" class="form-control" placeholder="密码" data-error="密码不能为空" required>
+                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                        <div class="help-block with-errors"></div>
+                    </div>
+                    <div style="color:red;" th:text="${error}"></div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                            <div class="checkbox ">
+                                <label>
+                                    <input name="rememberMe" type="checkbox"> 自动登录
+                                </label>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-info btn-block">登录</button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                </form>
+
+                <div class="social-auth-links text-center">
+                    <div class="row">
+                        <div class="col-xs-6">
+
+                        </div>
+                        <div class="col-xs-6">
+                        </div>
+                    </div>
+                </div>
+                <!-- /.social-auth-links -->
+
+                <a href="#">忘记密码</a>&nbsp;&nbsp;
+                <a href="#" class="text-center">注册</a>
+
+            </div>
+            <!-- /.login-box-body -->
+        </div>
+        <!-- /.login-box -->
+
+    <!-- jQuery 3 -->
+    <script th:src="@{/static/libs/jquery/jquery-3.3.1.min.js}"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-v3.3.7.min.js}"></script>
+    <!-- iCheck -->
+    <script th:src="@{/static/libs/iCheck/icheck.min.js}"></script>
+    <!-- Bootstrap-validator-0.11.9 -->
+    <script th:src="@{/static/libs/bootstrap/bootstrap-validator.min.js}"></script>
+    <script>
+        //<![CDATA[
+
+        $(function () {
+            if( $('div[class="wrapper"]').length>0||self != top){
+                //alert("不是顶层窗口");
+                top.location.reload();
+            }else{
+
+                 //alert("是顶层窗口!");
+            }
+            $('input').iCheck({
+                checkboxClass: 'icheckbox_square-blue',
+                radioClass: 'iradio_square-blue',
+                increaseArea: '20%' /* optional */
+            });
+            kickout();
+        });
+
+        function kickout(){
+            var href=location.href;
+            if(href.indexOf("kickout")>0){
+                alert("您的账号在另一台设备上登录,如非本人操作，请立即修改密码！");
+            }
+        }
+        //]]>
+    </script>
+    </body>
+</html>

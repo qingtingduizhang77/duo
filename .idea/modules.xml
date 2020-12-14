@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/duo-bean/duo-bean.iml" filepath="$PROJECT_DIR$/duo-bean/duo-bean.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-bi/duo-bi.iml" filepath="$PROJECT_DIR$/duo-bi/duo-bi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-core/duo-core.iml" filepath="$PROJECT_DIR$/duo-core/duo-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-core-controller/duo-core-controller.iml" filepath="$PROJECT_DIR$/duo-core-controller/duo-core-controller.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-core-controller-feign/duo-core-controller-feign.iml" filepath="$PROJECT_DIR$/duo-core-controller-feign/duo-core-controller-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-netty-client/duo-netty-client.iml" filepath="$PROJECT_DIR$/duo-netty-client/duo-netty-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-netty-server/duo-netty-server.iml" filepath="$PROJECT_DIR$/duo-netty-server/duo-netty-server.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-platform/duo-platform.iml" filepath="$PROJECT_DIR$/duo-platform/duo-platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/duo-rest-api/duo-rest-api.iml" filepath="$PROJECT_DIR$/duo-rest-api/duo-rest-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/uid-generator/uid-generator.iml" filepath="$PROJECT_DIR$/uid-generator/uid-generator.iml" />
+    </modules>
+  </component>
+</project>

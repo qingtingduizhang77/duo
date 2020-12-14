@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<div  th:fragment="formPage">
+	<form class="form-horizontal" role="form" id="infoform" 
+>		<fieldset>
+			<legend style="font-size:16px;">基础设置</legend>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >图表模版：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="chart_type"      >
+					 <script type="text/javascript"> 
+						  var optionJson= charttemplateData;
+						 for(var key in optionJson)  $('select[name="chart_type"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >数据来自？*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="data_from"      >
+					 <script type="text/javascript"> 
+						  var optionJson= chartsourceData;
+						 for(var key in optionJson)  $('select[name="data_from"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >标题名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="chart_title" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >数据源：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="data_source" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >子标题名称：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="chart_subtitle" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >是否显示legend过滤：</label>
+				<div class=col-sm-3_5>
+					<input   name="has_legend" type="checkbox"       />
+				</div>
+				<label class="col-sm-2 control-label "  >是否显示工具栏：</label>
+				<div class=col-sm-3_5>
+					<input   name="has_tool" type="checkbox"       />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:76px;"   >sql语句：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:71px" name="sql_statement"      ></textarea>
+				</div>
+		</div>
+		</fieldset>
+		<fieldset>
+			<legend style="font-size:16px;">X轴定义</legend>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >x轴-名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="x_name" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >x轴-取值方式*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="x_valuetype"      >
+					 <script type="text/javascript"> 
+						  var optionJson= chartxdataData;
+						 for(var key in optionJson)  $('select[name="x_valuetype"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >x轴-值参数：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="x_value" type="text"      />
+				</div>
+		</div>
+		</fieldset>
+		<fieldset>
+			<legend style="font-size:16px;">Y轴1</legend>
+		<div class="form-group">
+				<label class="col-sm-2 control-label thBlue"  >y轴1-名称*：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y1_name" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label thBlue"  >y轴1-取值方式*：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="y1_valuetype"      >
+					 <script type="text/javascript"> 
+						  var optionJson= chartydataData;
+						 for(var key in optionJson)  $('select[name="y1_valuetype"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >y轴1-最小值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y1_min" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >y轴1-最大值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y1_max" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >y轴1-步长：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y1_interval" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >y轴1-后缀单位：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y1_unit" type="text"      />
+				</div>
+		</div>
+		</fieldset>
+		<fieldset>
+			<legend style="font-size:16px;">Y轴2</legend>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >y轴2-名称：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y2_name" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >y轴2-取值方式：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="y2_valuetype"      >
+					 <script type="text/javascript"> 
+						  var optionJson= chartydataData;
+						 for(var key in optionJson)  $('select[name="y2_valuetype"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >y轴2-最小值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y2_min" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >y轴2-最大值：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y2_max" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >y轴2-步长：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y2_interval" type="text"      />
+				</div>
+				<label class="col-sm-2 control-label "  >y轴2-后缀单位：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="y2_unit" type="text"      />
+				</div>
+		</div>
+		</fieldset>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  >预设颜色：</label>
+				<div class=col-sm-9>
+					<input class="form-control"  name="fix_colors" type="text"      />
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style="height:111px;"   >备注：</label>
+				<div class=col-sm-9>
+				<textarea class="form-control" style="height:106px" name="memo"      ></textarea>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>主键id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="chart_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>状态：</label>
+				<div class=col-sm-3_5>
+					 <select  class="form-control"  name="auditing"    style='display:none;'  >
+					 <script type="text/javascript"> 
+						  var optionJson= effectivestateData;
+						 for(var key in optionJson)  $('select[name="auditing"]').append("<option value='"+key+"' >"+optionJson[key]+"</option>"); 
+					 </script> 
+					 </select>
+				</div>
+		</div>
+		<div class="form-group">
+				<label class="col-sm-2 control-label "  style='display:none;'>fun_id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="fun_id" type="text"   style='display:none;'   />
+				</div>
+				<label class="col-sm-2 control-label "  style='display:none;'>项目id：</label>
+				<div class=col-sm-3_5>
+					<input class="form-control"  name="project_id" type="text"   style='display:none;'   />
+				</div>
+		</div>
+	</form>
+</div>  

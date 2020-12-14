@@ -1,0 +1,39 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'part_code', title: '网格编号', width:137,visible:true, halign: 'center' }, 
+	 {field: 'part_name', title: '网格名称', width:200,visible:true, halign: 'center' }, 
+	 {field: 'content_title', title: '内容标题*', width:254,visible:true, halign: 'center' }, 
+	 {field: 'part_param', title: '网格参数', width:324,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:339,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:200,visible:false, halign: 'center' }, 
+	 {field: 'column_id', title: 'column_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'content_id', title: '内容id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'det_id', title: '主键id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'part_id', title: 'part_id', width:200,visible:false, halign: 'center' }, 
+	 {field: 'content_body', title: '文本内容', width:200,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  part_code:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_column_part.part_code',max_length:40}, 
+	  part_name:{addedit:false,edit:false,type:'text',required:false,default:'',orgfield:'cms_column_part.part_name',max_length:80}, 
+	  content_title:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'cms_column_part.content_title',control_name:'cmscontentSelect',source_cols:'content_title;content_id',target_cols:'content_title;content_id',max_length:100}, 
+	  part_param:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.part_param'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.memo',max_length:200}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.record_flag',max_length:10}, 
+	  column_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.column_id',max_length:32}, 
+	  content_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.content_id',max_length:32}, 
+	  det_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.det_id',max_length:32}, 
+	  part_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.part_id',max_length:32}, 
+	  content_body:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'cms_column_part.content_body'} 
+	 }; 
+</script>  

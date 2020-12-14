@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义
+var _tableColumns=[
+                {field: 'state', width:30,checkbox: true,footerFormatter:function(data) { return "∑" ; }
+                },{field:'number',
+                    title: 'No.',visible:false,
+                    width: 38,  formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+
+                },
+                {field: 'order_index', width:100, title: '排序', sortable: true, halign: 'center'},
+                {field: 'data_value', width:120, title: '真实值', sortable: true, halign: 'center'},
+                {field: 'data_text', width:150, title: '显示值', sortable: true, halign: 'center'},
+                {field: 'data_color', width:150,title: '颜色', sortable: true, halign: 'center',formatter:colorFormatter},
+                {field: 'memo', width:300, title: '备注', sortable: true, halign: 'center'} ,
+                {field: 'data_id', width:100, title: 'data_id', sortable: true, halign: 'center',visible:false,}
+            ];
+//可编辑列设置信息
+editData={
+        order_index:{edit:true,type:"number",required:true,default:"5",formatter:""},
+        data_value:{edit:true,type:"text",required:true,default:"",formatter:""},
+        data_text:{edit:true,type:"text",required:true,default:"",formatter:""},
+        data_color:{edit:true,type:"text",required:false,default:"",formatter:"colorFormatter"},
+        memo:{edit:true,type:"text",required:false,default:"",formatter:""},
+        event_id:{edit:false,type:"text",required:false,default:"",formatter:""}
+    };
+</script>

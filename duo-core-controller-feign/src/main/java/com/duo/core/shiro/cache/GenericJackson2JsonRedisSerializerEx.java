@@ -1,0 +1,67 @@
+package com.duo.core.shiro.cache;
+
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.databind.SerializerProvider;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.fasterxml.jackson.databind.ser.std.StdSerializer;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.cache.support.NullValue;
+import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.RedisSerializer;
+import org.springframework.data.redis.serializer.SerializationException;
+
+import java.io.IOException;
+
+/**
+ * @author [ Yonsin ] on [2019/5/15]
+ * @Description： [ 遇到类中有 LocalDateTime 等类型时， 反序列化会有问题 ]
+ * @Modified By： [修改人] on [修改日期] for [修改说明]
+ */
+
+public class GenericJackson2JsonRedisSerializerEx implements RedisSerializer<Object> {
+
+    protected GenericJackson2JsonRedisSerializer serializer = null;
+
+    public GenericJackson2JsonRedisSerializerEx() {
+        ObjectMapper om = new ObjectMapper();
+        om.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        om.registerModule(new JavaTimeModule());
+        om.registerModule((new SimpleModule())
+                .addSerializer(new NullValueSerializer()));
+        om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        this.serializer = new GenericJackson2JsonRedisSerializer(om);
+    }
+
+    public GenericJackson2JsonRedisSerializerEx(ObjectMapper om) {
+        this.serializer = new GenericJackson2JsonRedisSerializer(om);
+    }
+
+    @Override
+    public byte[] serialize(Object o) throws SerializationException {
+        return serializer.serialize(o);
+    }
+
+    @Override
+    public Object deserialize(byte[] bytes) throws SerializationException {
+        return serializer.deserialize(bytes);
+    }
+
+
+    protected class NullValueSerializer extends StdSerializer<NullValue> {
+        private final String classIdentifier="@class";
+
+        NullValueSerializer() {
+            super(NullValue.class);
+        }
+
+        public void serialize(NullValue value, JsonGenerator jgen, SerializerProvider provider) throws IOException {
+            jgen.writeStartObject();
+            jgen.writeStringField(this.classIdentifier, NullValue.class.getName());
+            jgen.writeEndObject();
+        }
+    }
+}
+

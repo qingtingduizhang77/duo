@@ -1,0 +1,24 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},
+    {field: 'sequence_id', title: '表名或标识', width:300,visible:true, halign: 'center' },
+    {field: 'max_num', title: '次数', width:200,visible:true, halign: 'center' },
+    {field: 'project_id', title: '项目id', width:200,visible:false, halign: 'center' },
+    {field: '', title: '', width:800,visible:true, halign: 'center' }
+	 ]; 
+
+//可编辑列设置信息 
+ editData={
+	  sequence_id:{addedit:false,edit:false,type:'text',required:false,default:''},
+      max_num:{addedit:true,edit:true,type:'number',required:true,default:''},
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:''} 
+	 }; 
+</script>  

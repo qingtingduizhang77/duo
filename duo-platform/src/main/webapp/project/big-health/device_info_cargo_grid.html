@@ -1,0 +1,41 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'cargo_code', title: '货道编号', width:153,visible:true, halign: 'center' }, 
+	 {field: 'group_name', title: '组柜', width:40,visible:true, halign: 'center' }, 
+	 {field: 'cargo_level', title: '层号', width:51,visible:true, halign: 'center' }, 
+	 {field: 'cargo_column', title: '列号', width:38,visible:true, halign: 'center' }, 
+	 {field: 'safe_num', title: '安全库存', width:97,visible:true, halign: 'center' }, 
+	 {field: 'max_num', title: '最大容量', width:96,visible:true, halign: 'center' }, 
+	 {field: 'merge_column', title: '合并列', width:162,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:316,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:164,visible:false, halign: 'center' }, 
+	 {field: 'cargo_id', title: '主键id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: 'device_id', width:164,visible:false, halign: 'center' }, 
+	 {field: 'cargo_status', title: '状态', width:162,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  cargo_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.cargo_code'}, 
+	  group_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.group_name'}, 
+	  cargo_level:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'device_info_cargo.cargo_level'}, 
+	  cargo_column:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'device_info_cargo.cargo_column'}, 
+	  safe_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'device_info_cargo.safe_num'}, 
+	  max_num:{addedit:true,edit:true,type:'number',required:false,default:'',orgfield:'device_info_cargo.max_num'}, 
+	  merge_column:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.merge_column'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.record_flag'}, 
+	  cargo_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.cargo_id'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.device_id'}, 
+	  cargo_status:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_info_cargo.cargo_status'} 
+	 }; 
+</script>  

@@ -1,0 +1,53 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'auditing', title: '状态', width:82,visible:true, halign: 'center' }, 
+	 {field: 'vary_date', title: '变动日期', width:130,visible:true, halign: 'center' }, 
+	 {field: 'apply_username', title: '提交人', width:106,visible:true, halign: 'center' }, 
+	 {field: 'org_device_code', title: '原设备编号', width:138,visible:true, halign: 'center' }, 
+	 {field: 'org_device_name', title: '原设备名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'device_code', title: '新设备编号', width:149,visible:true, halign: 'center' }, 
+	 {field: 'device_name', title: '新设备名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'check_username', title: '审核人', width:99,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:180,visible:true, halign: 'center' }, 
+	 {field: 'record_flag', title: '数据标识', width:182,visible:false, halign: 'center' }, 
+	 {field: 'rent_no', title: '出租单号', width:182,visible:false, halign: 'center' }, 
+	 {field: 'device_id', title: '新设备id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'org_device_id', title: '原设备id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'project_id', title: '项目id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'rent_id', title: 'rent_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'vary_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'apply_userid', title: '提交人id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'check_userid', title: '审核人id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  auditing:{addedit:true,edit:true,type:'combobox',required:false,default:'0',orgfield:'device_rent_vary.auditing',control_name:'recordsatusFormatter',source_cols:'recordsatusData'}, 
+	  vary_date:{addedit:true,edit:true,type:'datetime',required:false,default:'{CURRENTDATE}',orgfield:'device_rent_vary.vary_date'}, 
+	  apply_username:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERNAME}',orgfield:'device_rent_vary.apply_username'}, 
+	  org_device_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.org_device_code'}, 
+	  org_device_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'device_rent_vary.org_device_name',control_name:'deviceSelect',source_cols:'device_id;device_code;device_name',target_cols:'org_device_id;org_device_code;org_device_name'}, 
+	  device_code:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.device_code'}, 
+	  device_name:{addedit:true,edit:true,type:'selectwindow',required:true,default:'',orgfield:'device_rent_vary.device_name',control_name:'deviceSelect',source_cols:'device_id;device_code;device_name',target_cols:'device_id;device_code;device_name'}, 
+	  check_username:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.check_username'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.memo'}, 
+	  record_flag:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.record_flag'}, 
+	  rent_no:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.rent_no'}, 
+	  device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.device_id'}, 
+	  org_device_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.org_device_id'}, 
+	  project_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.project_id'}, 
+	  rent_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.rent_id'}, 
+	  vary_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.vary_id'}, 
+	  apply_userid:{addedit:true,edit:true,type:'text',required:false,default:'{CURRENTUSERID}',orgfield:'device_rent_vary.apply_userid'}, 
+	  check_userid:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'device_rent_vary.check_userid'} 
+	 }; 
+</script>  

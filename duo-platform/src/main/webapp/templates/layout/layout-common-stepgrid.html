@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" >
+    <style type="text/css">
+
+        .stepul {
+            list-style-type:none
+        }
+        .stepul li{
+            width:150px;
+            height:50px;
+            margin: 10px 30px 10px 30px;
+            border: 2px solid #d6f0f5;
+            text-align: center;
+            line-height: 50px;
+            /*font-weight: bold;*/
+            font-size: 16px;
+            border-radius: 10%;//圆角百分比
+            display: inline;
+            float:left;
+        }
+        .stepulselected{
+            background: #d6f0f5;
+        }
+    </style>
+    <section class="content-header" style="">
+        <h1 ><span th:text="${funName}">功能名称</span>
+            <small th:text="${funDescript}"> 功能描述 </small>
+        </h1>
+        <ol class="breadcrumb">
+            <li><i class="fa fa-dashboard"></i> <span  th:text="${topModuleName}">一级模块</span></li>
+            <li  th:text="${moduleName}"> 二级模块</li>
+            <li class="active"  th:text="${funName}">功能名称</li>
+        </ol>
+    </section>
+
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <div class="col-xs-12 col-sm-12"  style="padding-right: 0px;">
+                            <div class="panel-heading" style="padding: 0px 5px;">
+                                <ul id="myFormTab"  class="stepul"  th:utext="${subFuns}">
+
+                                </ul>
+                            </div>
+
+                            <div id="toolbar">
+                                <form class="form-inline" id="searchForm" >
+                                    <div class="input-group" >
+                                        <input type="text" class="form-control input-sm" name="baseSQL" style="display: none;" >
+                                        <input type="text" class="form-control input-sm" name="query__selectCombo" style="display: none;" placeholder="选中查询方案">
+                                        <select class="form-control"  onchange="querySelectFun(this.options[this.options.selectedIndex].value)"   id="queryCombo" th:utext="${querySelect}"  th:if="${querySelect} ne ''">
+                                            <!--<option value="123456">默认查询</option>-->
+                                            <!--<option value="222">高级查询</option>-->
+                                        </select>
+                                    </div>
+                                    <div class="form-group"   th:utext="${queryBar}" >
+                                        <!--<div query-id="query_123456">-->
+                                        <!--<label  > 用户名</label>-->
+                                        <!--<input type="text" class="form-control input-sm" name="username"   placeholder="请输入用户名">-->
+                                        <!--</div>-->
+                                        <!--<div query-id="query_222" style="display: none;">-->
+                                        <!--<label  > 用户名222</label>-->
+                                        <!--<input type="text" class="form-control input-sm" name="username" placeholder="请输入用户名">-->
+                                        <!--</div>-->
+                                    </div>
+                                    <div class="btn-group btn-group-sm" th:if="${queryBar} ne ''">
+                                        <button type="button" class="btn btn-default" onclick="query();">
+                                            <i class="glyphicon glyphicon-search"></i>
+                                            查询
+                                        </button>
+                                        <button type="reset" class="btn btn-default">
+                                            <i class="glyphicon glyphicon-trash"></i>
+                                            清空
+                                        </button>
+                                    </div>
+                                </form>
+                                <div  th:if="${#strings.isEmpty(eventBar)} ne true " class="btn-group btn-group-sm"  th:utext="${eventBar}">
+                                    <!-- Indicates a dangerous or potentially negative action -->
+                                    &nbsp;&nbsp; &nbsp;&nbsp; <span title="[已复核]状态数据自动归档"><input th:type="checkbox"/> 显示归档</span>
+                                </div>
+                            </div>
+
+
+                            <div class="modal-body" id="formFrameDiv" style="padding:0px;margin:0px;display:none;">
+                                <iframe id="subIframe" width="100%" height="100%" frameborder="0" scrolling="no" src="" ></iframe>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+
+    <!--defineModal页面-->
+    <div th:if="${#strings.isEmpty(defineModalUrl)} ne true ">
+        <div th:replace="${defineModalUrl} :: formWindowModal"></div>
+    </div>
+
+
+    <!--自定义JS-->
+    <div th:if="${#strings.isEmpty(defineJsUrl)} ne true ">
+        <script th:replace="${defineJsUrl} :: gridScript"></script>
+    </div>
+    <!--grid页面 -->
+    <div th:if="${#strings.isEmpty(gridUrl)} ne true ">
+        <script th:replace="${gridUrl} :: gridScript"></script>
+    </div>
+    <script  th:inline="javascript">
+
+        //后台Controller传回来下列值
+        var topModuleId = [[${topModuleId}]];//一级模块id
+        var moduleId = [[${moduleId}]];//二级模块id
+        funId = [[${funId}]];//功能id
+        funName = [[${funName}]];//功能名称
+        var pageType = [[${pageType}]];//页面类型
+        keyIDColumn = [[${keyIDColumn}]];//主键id列
+        var allowEidtRole = [[${allowEidtRole}]];//编辑权限
+        defaultQueryId= [[${defaultQueryId}]];//默认查询条id
+        var foreignColumn = [[${foreignColumn}]];//外键名
+        var foreignKeyId = [[${foreignKeyId}]];//外键值
+        auditColumn= [[${auditColumn}]];//复核字段
+        var orgSQL = [[${orgSQL}]];//orgSQL
+        var funParames = [[${funParames}]];//其他自定义参数
+        GlobalDefaults= [[${GlobalDefaults}]];//全局默认值
+
+        allowEidtRole=allowEidtRole=="true";
+
+        var $table = $('#table');
+        var changeRows = new Array();
+
+
+        $(function () {
+            try{//刷新浏览器时，点击链接进入时，默认选中对应模块菜单
+                var tabs=$("#myFormTab").find("li");
+                if(tabs!=null&&tabs.length>0){
+                    for(var i=0;i<tabs.length;i++){
+                        var a=$(tabs[i]).find("a");
+                        var divurl=$(a).attr("onclick") ;
+                        divurl=divurl.substring(17);
+                        divurl=divurl.substring(0,divurl.length-2);
+                        $(a).removeAttr("onclick");
+                        $(tabs[i]).attr("onclick","stepGridTab(this,'"+divurl+"')");
+                        $(tabs[i]).removeClass("stepulselected");
+                       if(i==0){
+                           stepGridTab($(tabs[i]),divurl);
+                       }
+                       // $('<span class="am-badge">1</span>').appendTo(a);
+                    }
+                }
+
+
+
+                if (urlentry) {
+                    var selectNav = top.$('#mainNav').find("li[module-id='menu-" + topModuleId + "']");
+                    var rgb = selectNav.css("color");
+                    if (rgb.indexOf("#") < 0) {//ie是#333333格式
+                        rgb = rgb.match(/^rgb\((\d+),\s*(\d+),\s*(\d+)\)$/);
+                        function hex(x) {
+                            return ("0" + parseInt(x).toString(16)).slice(-2);
+                        }
+
+                        rgb = "#" + hex(rgb[1]) + hex(rgb[2]) + hex(rgb[3]);
+                    }
+                    if (rgb == "#333333" && pageType != "sub" && pageType != "select" && pageType != "import" && pageType != "") {
+                        selectNav.click();
+                        if (!top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").parent().hasClass("menu-open")) {
+                            top.$("#menu-" + topModuleId).find("a[module-id='" + moduleId + "']").click();
+                        }
+
+                    }
+                }
+            }catch (e){}
+
+        });
+
+        function stepGridTab(that,divurl){
+            var tabs=$("#myFormTab").find("li").removeClass("stepulselected");
+            $(that).addClass("stepulselected");
+            $("#subIframe").height(document.body.clientHeight-220);
+            $("#subIframe").attr("src",CONTEXT_PATH + "/iframe/subfun-window?foreignColumn="+keyIDColumn+"&foreignKeyId=&height=660&url="+divurl);
+           if($("#gridFrameDiv")) $("#gridFrameDiv").hide();
+           if($("#formInfoDiv")) $("#formInfoDiv").hide();
+           if($("#formFrameDiv")) $("#formFrameDiv").show();
+        }
+
+    </script>
+</html>

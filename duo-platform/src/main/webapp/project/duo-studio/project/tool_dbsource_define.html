@@ -1,0 +1,31 @@
+<script  th:fragment="gridScript">
+
+    //生效/失效数据源
+    function managerDbsource(isRemove) {
+
+
+        var datas=$table.bootstrapTable('getSelections');
+        if(datas==null||datas.length==0){
+            alert("请选择至少一条记录后再操作！");
+            return;
+        }
+        var ids="";
+        for(var i=0;i<datas.length;i++){
+            let  keyId=datas[i][keyIDColumn];
+            if(keyId==null||keyId=="") {
+                alert("新增行需要保存后才能复制！");
+                return;
+            }
+            ids+= keyId+";";
+//            for(var key in datas[i]) {//遍历
+//                alert(key + "==" + datas[i][key]);
+//            }
+        }
+        var url=isRemove!=null&&isRemove ? '/tool/removeDbsource' : '/tool/setDbsource';
+
+        ajaxSumit(url+'?funId='+funId,{ids:ids.substring(0,ids.length-1)}, callback);
+    }
+
+
+
+</script>

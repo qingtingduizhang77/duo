@@ -1,0 +1,41 @@
+<script  th:fragment="gridScript"> 
+
+//列字段定义  
+var _tableColumns=[  
+	 {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter },  
+	 {field: 'number',  title: 'No.',visible:false, width: 38, 
+	   formatter: function (value, row, index) { 
+ 		   var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条 
+		   var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页 
+		   return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号 
+ 	}},  
+	 {field: 'order_index', title: '排序', width:69,visible:true, halign: 'center' }, 
+	 {field: 'task_type', title: '任务类型*', width:98,visible:true, halign: 'center',formatter:timertasktypeFormatter }, 
+	 {field: 'task_name', title: '任务名称*', width:243,visible:true, halign: 'center' }, 
+	 {field: 'is_transaction', title: '事务控制?', width:76,visible:true, halign: 'center',align: 'center',formatter:chekboxFormatter }, 
+	 {field: 'service_name', title: '模型服务名称', width:180,visible:true, halign: 'center' }, 
+	 {field: 'request_parames', title: '传入参数', width:180,visible:true, halign: 'center' }, 
+	 {field: 'exec_sql', title: '执行SQL', width:538,visible:true, halign: 'center' }, 
+	 {field: 'exec_class', title: '执行Class', width:511,visible:true, halign: 'center' }, 
+	 {field: 'memo', title: '备注', width:226,visible:true, halign: 'center' }, 
+	 {field: 'task_id', title: '主键id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'timer_id', title: 'timer_id', width:182,visible:false, halign: 'center' }, 
+	 {field: 'service_id', title: '模型服务id', width:182,visible:false, halign: 'center' } 
+	 ]; 
+
+//可编辑列设置信息 
+ editData={ 
+	  order_index:{addedit:true,edit:true,type:'number',required:false,default:'10',orgfield:'tool_timer_task.order_index'}, 
+	  task_type:{addedit:true,edit:true,type:'combobox',required:true,default:'sql',orgfield:'tool_timer_task.task_type',control_name:'timertasktypeData',formatter:'timertasktypeFormatter'}, 
+	  task_name:{addedit:true,edit:true,type:'text',required:true,default:'',orgfield:'tool_timer_task.task_name'}, 
+	  is_transaction:{addedit:true,edit:true,type:'checkbox',required:false,default:'1',orgfield:'tool_timer_task.is_transaction',formatter:'chekboxFormatter'}, 
+	  service_name:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.service_name'}, 
+	  request_parames:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.request_parames'}, 
+	  exec_sql:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.exec_sql'}, 
+	  exec_class:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.exec_class'}, 
+	  memo:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.memo'}, 
+	  task_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.task_id'}, 
+	  timer_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.timer_id'}, 
+	  service_id:{addedit:true,edit:true,type:'text',required:false,default:'',orgfield:'tool_timer_task.service_id'} 
+	 }; 
+</script>  

@@ -1,0 +1,27 @@
+<script  th:fragment="gridScript">
+
+
+//生成指令
+function devicecontrol(that,control_type) {
+
+    var datas=$table.bootstrapTable('getSelections');
+    if(datas==null||datas.length==0){
+        alert("请选择至少一条记录后再操作！");
+        return;
+    }
+    var ids="";
+    for(var i=0;i<datas.length;i++){
+        let  keyId=datas[i][keyIDColumn];
+        if(keyId==null||keyId=="") {
+            continue;
+        }
+        ids+= keyId+";"
+    }
+    if(ids==""){
+        alert("没有选中要操作的记录数据，请确认后再操作！");
+        return;
+    }
+	 ajaxSumit(  '/health/control'  ,{ids:ids,control_type:control_type},  callback);
+}
+
+</script>

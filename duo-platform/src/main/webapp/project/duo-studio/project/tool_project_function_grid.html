@@ -1,0 +1,35 @@
+<script  th:fragment="gridScript">
+
+//列字段定义
+var _tableColumns=[
+                {field: 'state', width:30,checkbox: true,footerFormatter:totalFormatter
+                },{field:'number',
+                    title: 'No.',visible:false,
+                    width: 38,  formatter: function (value, row, index) {
+                        var pageSize = $table.bootstrapTable('getOptions').pageSize;     //通过table的#id 得到每页多少条
+                        var pageNumber =$table.bootstrapTable('getOptions').pageNumber; //通过table的#id 得到当前第几页
+                        return pageSize * (pageNumber - 1) + index + 1;    // 返回每条的序号： 每页条数 *（当前页 - 1 ）+ 序号
+                    }
+                },
+                {field: 'order_index', width:70, title: '排序', sortable: true, halign: 'center'},
+                {field: 'fun_id', width: 180, title: 'funId', sortable: true, halign: 'center' },
+                {field: 'fun_name', width:200, title: '功能名称*', sortable: true, halign: 'center' },
+                {field: 'fun_ico', width:120,title: '图标', sortable: true, halign: 'center' },  
+                {field: 'module_id', width:150,title: '所属模块',  halign: 'center',align: 'center' },
+                {field: 'url_parames', width:300,title: '个性参数',  halign: 'center',align: 'center' },
+                {field: 'is_show', width:100,title: '是否显示',  halign: 'center',align: 'center',formatter:dbHasFormatter},
+                {field: 'memo', width:300,title: '备注',   halign: 'center'},
+                {field: 'project_funid', width:100, title: 'project_funid', sortable: true, halign: 'center',visible:false} 
+            ];
+//可编辑列设置信息
+editData={
+        order_index:{edit:true,type:"number",required:true,default:"5",formatter:""},
+        fun_id:{edit:true,type:"text",required:true,default:"",formatter:""},
+        fun_name:{edit:true,type:"text",required:true,default:"",formatter:""},
+        fun_ico:{edit:true,type:"text",required:false,default:"",formatter:"",control_name:""},
+        module_id:{edit:true,type:"text",required:true,default:"",formatter:""},  
+        url_parames:{edit:true,type:"text",required:false,default:"",formatter:""},  
+        is_show:{edit:true,type:"checkbox",required:false,default:"1",formatter:"chekboxFormatter"},  
+        memo:{edit:true,type:"text",required:false,default:"",formatter:""}
+    };
+</script>
