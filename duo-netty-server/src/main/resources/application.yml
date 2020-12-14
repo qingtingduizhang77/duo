@@ -1,0 +1,249 @@
+netty:
+  server:
+    port: 7000
+server:
+  port: 8085
+  servlet:
+    context-path: /
+  maxHttpHeaderSize: 102400000   #设定HttpHeader请求头大小
+  tomcat:
+    additional-tld-skip-patterns: jaxb-api.jar,jaxb-core.jar,activation.jar,jsr173_1.0_api.jar,jaxb1-impl.jar,pdq.jar,jaxb-api-2.2.12-b140109.1041.jar,txw2-2.2.11.jar,istack-commons-runtime-2.21.jar,jaxb-core-2.2.11.jar,jaxb-api-2.2.12-b140109.1041.jar,txw2-2.2.11.jar,istack-commons-runtime-2.21.jar,xsom-20140925.jar,relaxngDatatype-20020414.jar,codemodel-2.2.11.jar,rngom-2.2.11.jar,dtd-parser-1.1.jar,istack-commons-tools-2.21.jar
+
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://129.204.151.30:8088/eureka/
+    instance:
+      lease-renewal-interval-in-seconds: 10
+    register-with-eureka: true
+    registryFetchIntervalSeconds: 5
+feign:
+  httpclient:
+    enabled: true
+  compression:
+    request:
+      enabled: true #开请求压缩
+      mimeTypes: #媒体类型 text/xml,application/xml,application/json
+      minRequestSize: 2048 #最小的请求大小
+    response:
+      enabled: true #开启响应的压缩
+ribbon:
+   eager-load:
+     enabled: true
+hystrix:
+  command:
+    default:
+      circuitBreaker:
+        sleepWindowInMilliseconds: 30000
+        requestVolumeThreshold: 50
+      execution:
+        timeout:
+          enabled: true
+        isolation:
+          strategy: SEMAPHORE
+          semaphore:
+            maxConcurrentRequests: 50
+          thread:
+            timeoutInMilliseconds: 100000
+
+#oss配置
+oss:
+  enabled: true
+  name: minio
+  tenant-mode: false
+  endpoint: http://129.204.151.30:9000
+  bucket-name: bizz
+  access-key: minioadmin
+  secret-key: minioadmin
+spring:
+  application:
+    name: duo-service-provider
+  messages:
+    basename: i18n/messages
+    cache-second: 3600
+    encoding: UTF-8
+  servlet:
+    multipart:
+       max-file-size: -1 #最大文件大小。值可以使用后缀“MB”或“KB”。指示兆字节或千字节大小。
+       max-request-size: -1 # 最大请求大小可以是mb也可以是kb
+  security:
+    user:
+      name: admin
+      password: 123456
+  boot:
+    context-path: /admin
+    admin:
+      ui:
+        title: DUO平台
+  http:
+    encoding:
+      force: true
+      charset: UTF-8
+  mvc:
+    view: # 视图相关
+      #首先寻找.html文件，如果找不到再找.jsp文件
+      prefix: /page/
+      suffix: .jsp
+      order: 2
+  output:
+    ansi:
+     enabled: ALWAYS # 输出带颜色的日志信息
+  thymeleaf:
+     mode: LEGACYHTML5
+     prefix: /templates/
+     suffix: .html
+     encoding: utf-8
+     cache: false
+  profiles:
+    active: dev # 设置激活的环境
+
+mybatis: # mybatis 配置
+  mapper-locations: classpath:com/duo/modules/**/mapper/*.xml
+  type-aliases-package: com.duo.modules.*.po
+  configuration:
+      map-underscore-to-camel-case: true  #开启驼峰命名,l_name -> lName
+      jdbc-type-for-null: NULL
+      lazy-loading-enabled: true
+      aggressive-lazy-loading: true
+      cache-enabled: true #开启二级缓存
+      call-setters-on-nulls: true #map空列不显示问题
+  interceptors:
+    - com.duo.core.interceptor.FullSQLInterceptor
+#mapper: # 通用 Mapper 配置
+#  identity: MYSQL
+#  mappers: com.duo.core.MyMapper
+#  not-empty: false
+
+pagehelper: # 分页插件配置
+  offsetAsPageNum: true
+  rowBoundsWithCount: true
+  pageSizeZero: true
+  helperDialect: mysql
+  params: pageNum=pageHelperStart;pageSize=pageHelperRows;count=countSql
+  reasonable: true
+  supportMethodsArguments: true
+
+password: #shiro
+  algorithmName: md5
+  hashIterations: 2
+
+redis: #ace-cache
+  pool:
+     maxActive: 300
+     maxIdle: 100
+     maxWait: 1000
+  host: 192.168.2.241
+  port: 6379
+  password:
+  timeout: 2000
+  # 服务或应用名
+  sysName: duo
+  enable: true
+  database: 3
+#eureka:
+#  instance:
+#    hostname: localhost
+#  client:
+#    registerWithEureka: false
+#    fetchRegistry: false
+#    serviceUrl:
+#      defaultZone: http://localhost:8080/eureka/
+
+tomcat:
+    remote-ip-header: x-forward-for
+    uri-encoding: UTF-8
+    max-threads: 30
+    background-processor-delay: 30
+duo:
+  filePath: E:/fileUpload/
+  tag: #多个采用,分割
+      classnames: com.duo.tag.processor.DuoHiddenTagProcessor,com.duo.tag.processor.MyTagProcessor
+  shiroanon:
+      authlist:
+  sqlformat:
+     DBO: #自定义对象的用户名,函数写法:{DBO}
+          paramNum: 0
+          Oracle: ""
+          SQLServer: "dbo."
+          MySQL: ""
+     DUAL: #自定义对象的用户名,虚拟表写法:{DUAL}
+          paramNum: 0
+          Oracle: " from dual"
+          SQLServer: ""
+          MySQL: ""
+     ISNULL: #返回字段为空的缺省值,函数写法:{ISNULL}
+          paramNum: 0
+          Oracle: "nvl"
+          SQLServer: "isnull"
+          MySQL: "ifnull"
+     SUBSTR: #获取子字符串，第一个字符的序号为1,函数写法:{SUBSTR}
+          paramNum: 0
+          Oracle: "substr"
+          SQLServer: "substring"
+          MySQL: "substring"
+     JOINSTR: #把字符串1、字符串2拼起来,函数写法:{JOINSTR}(v_str1, v_str2)
+          paramNum: 2
+          Oracle: "@v1 || @v2"
+          SQLServer: "@v1 + @v2"
+          MySQL: "concat(@v1, @v2)"
+     TODAY: #取当前日期,函数写法:{TODAY}
+          paramNum: 0
+          Oracle: "sysdate"
+          SQLServer: "getdate()"
+          MySQL: "curdate()"
+     TO_STR: #日期型值转换成字符串型值,函数写法:{TO_STR}(v_date)
+          paramNum: 1
+          Oracle: "to_char(@v1, 'yyyy-mm-dd')"
+          SQLServer: "CONVERT(varchar(10), @v1, 20)"
+          MySQL: "date_format(@v1, '%Y-%m-%d')"
+     TO_TIMESTR: #日期型值转换成日期时间字符串型值,函数写法:{TO_TIMESTR}(v_date)
+          paramNum: 1
+          Oracle: "to_char(@v1, 'yyyy-mm-dd hh24:mi:ss')"
+          SQLServer: "CONVERT(varchar(19), @v1, 20)"
+          MySQL: "date_format(@v1, '%Y-%m-%d %H:%i:%s')"
+     TO_YEARMONTH: #日期型值转换成年月字符串型值,函数写法:{TO_YEARMONTH}(v_date)
+          paramNum: 1
+          Oracle: "to_char(@v1, 'yyyy-mm')"
+          SQLServer: "CONVERT(varchar(7), @v1, 20)"
+          MySQL: "date_format(@v1, '%Y-%m')"
+     TO_YEAR: #日期型值转换成年字符串型值,函数写法:{TO_YEAR}(v_date)
+          paramNum: 1
+          Oracle: "to_char(@v1, 'yyyy')"
+          SQLServer: "year(@v1)"
+          MySQL: "date_format(@v1, '%Y')"
+     TO_MONTH: #日期型值转换成月字符串型值,函数写法:{TO_MONTH}(v_date)
+          paramNum: 1
+          Oracle: "to_char(@v1, 'mm')"
+          SQLServer: "month(@v1)"
+          MySQL: "date_format(@v1, '%m')"
+     TO_DATE: #字符串型值转换成日期型值,函数写法:{TO_DATE}(v_str)
+          paramNum: 1
+          Oracle: "to_date(@v1, 'yyyy-mm-dd')"
+          SQLServer: "CONVERT(datetime, @v1, 20)"
+          MySQL: "date_format(@v1, GET_FORMAT(date,'ISO'))"
+     TO_DATETIME: #字符串型值转换成日期时间型值,函数写法:{TO_DATETIME}(v_str)
+          paramNum: 1
+          Oracle: "to_date(@v1, 'yyyy-mm-dd hh24:mi:ss')"
+          SQLServer: "CONVERT(datetime, @v1, 20)"
+          MySQL: "date_format(@v1, GET_FORMAT(datetime,'ISO'))"
+     DATEDIFF: #返回日期型值1-日期型值2 的天数,函数写法:{DATEDIFF}(v_date1, v_date2)
+          paramNum: 2
+          Oracle: "(@v1 - @v2)"
+          SQLServer: "datediff(day, @v2, @v1)"
+          MySQL: "datediff(@v1, @v2)"
+     MONTHDIFF: #返回日期型值1-日期型值2 的月数,函数写法:{MONTHDIFF}(v_date1, v_date2)
+          paramNum: 2
+          Oracle: "months_between(@v1, @v2)"
+          SQLServer: "datediff(month, @v2, @v1)"
+          MySQL: "period_diff(date_format(@v1, '%Y%m'), date_format(@v2, '%Y%m'))"
+     DATEADD: #返回日期型值+天数,函数写法:{DATEADD}(v_date, v_day)
+          paramNum: 2
+          Oracle: "(@v1 + @v2)"
+          SQLServer: "dateadd(day, @v2, @v1)"
+          MySQL: "date_add(@v1, interval @v2 day)"
+     MONTHADD: #返回日期型值+月数,函数写法:{MONTHADD}(v_date, v_mon)
+          paramNum: 2
+          Oracle: "add_months(@v1, @v2)"
+          SQLServer: "dateadd(month, @v2, @v1)"
+          MySQL: "date_add(@v1, interval @v2 month)"

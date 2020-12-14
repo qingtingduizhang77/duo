@@ -1,0 +1,127 @@
+debug: true
+logging:
+  level:
+    root: info
+    org.springframework.web: error        ##Spring框架中的日志级别
+    com.duo: info    ##自己项目包名下的日志级别
+    com.duo.core.aspect.ResponseAspect: info
+    com.duo.core.service.DUOResponseBodyAdvice: info
+    org.springframework.boot.actuate.endpoint.web: info
+
+spring:
+  redis:
+    host: 192.168.2.241
+    port: 6379
+    database: 3
+    timeout: 2000
+    lettuce:
+      pool:
+        max-active: 300
+        max-idle: 100
+        min-idle: 50
+        max-wait: 1000ms
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource   #com.zaxxer.hikari.HikariDataSource
+    druid:
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      maxWait: 10000
+      connectTimeout: 10000 #SHOW GLOBAL VARIABLES LIKE '%timeout%';
+      timeBetweenEvictionRunsMillis: 60000
+      stat-view-servlet:
+        allow: true
+      test-on-borrow: true
+      filters: stat,wall,log4j
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+    hikari:
+      maximum-pool-size: 100
+      minimum-idle: 5
+      idle-timeout: 300000
+      max-lifetime: 1200000
+      connection-timeout: 10000
+      auto-commit: true
+    default:  #数据源Default
+      name: default
+      type: com.alibaba.druid.pool.DruidDataSource   #com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.2.241:3306/duo?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://192.168.2.241:3306/duo?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      username: root
+      password: admin@db
+      poolPingEnabled: true
+      poolPingQuery: select 1
+      poolPingConnectionsNotUsedFor: 3600000
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      connectTimeout: 10000 #SHOW GLOBAL VARIABLES LIKE '%timeout%';
+      stat-view-servlet:
+        allow: true
+      test-on-borrow: true
+      filters: stat,wall,log4j
+    platform:  #数据源Platform
+      name: platform
+      type: com.alibaba.druid.pool.DruidDataSource   #com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://192.168.2.241:3306/duo?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://192.168.2.241:3306/duo?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      username: root
+      password: admin@db
+      poolPingEnabled: true
+      poolPingQuery: select 1
+      poolPingConnectionsNotUsedFor: 3600000
+      initial-size: 5
+      max-active: 100
+      min-idle: 5
+      connectTimeout: 10000 #SHOW GLOBAL VARIABLES LIKE '%timeout%';
+      stat-view-servlet:
+        allow: true
+      test-on-borrow: true
+      filters: stat,wall,log4j
+  data:
+  ##elasticsearch配置
+    elasticsearch:
+      cluster-name: elasticsearch
+      cluster-nodes: localhost:9300
+  cache:
+    type: redis
+    cache-names: duocache
+  #jta相关参数配置
+  jta:
+    log-dir: classpath:tx-logs
+    transaction-manager-id: txManager
+hbase:
+  config:
+    hbase.zookeeper.quorum: 127.0.0.1
+    hbase.zookeeper.property.clientPort: 2181
+    hbase.client.keyvalue.maxsize: 500000
+    fs.defaultFS: hdfs://cc-11:8020
+    fs.trash.interval: 1
+elaticjob:
+  zookeeper:
+    server-lists: 127.0.0.1:2181
+    namespace: job-project
+#endpoints in Spring Boot 2.0
+#http://127.0.0.1:8008/actuator
+#management:
+#  endpoints:
+#    enabled-by-default: true
+#    web:
+#       expose: "*"
+#       exposure:
+#         include: "/admin/*"
+#    beans:
+#       enabled: true
+#    info:
+#       enabled: true
+#    health:
+#       enabled: true
+#  endpoint:
+#    health:
+#      show-details: ALWAYS
+#配置启用 kk-anti-reptile
+anti:
+  reptile:
+     manager:
+        enabled: false

@@ -1,0 +1,126 @@
+Manifest-Version: 1.0
+Main-Class: com.duo.Application
+Class-Path: jetty-alpn-client-9.4.26.v20200117.jar tomcat-embed-el-9.0.3
+ 1.jar jetty-http-9.4.26.v20200117.jar reactor-stream-2.0.8.RELEASE.jar 
+ spring-websocket-5.2.4.RELEASE.jar log4j-api-2.12.1.jar guava-26.0-jre.
+ jar xmlenc-0.52.jar zookeeper-3.5.5.jar byte-buddy-1.10.8.jar netty-all
+ -4.1.45.Final.jar solr-solrj-8.2.0.jar jetty-6.1.26.jar gson-2.8.6.jar 
+ jets3t-0.9.0.jar springfox-spring-web-2.7.0.jar jetty-alpn-java-client-
+ 9.4.26.v20200117.jar jul-to-slf4j-1.7.30.jar hadoop-mapreduce-client-co
+ mmon-2.7.3.jar poi-ooxml-3.16.jar spring-boot-starter-validation-2.2.5.
+ RELEASE.jar slf4j-api-1.7.30.jar httpcore-4.4.13.jar avatica-1.8.0.jar 
+ mybatis-spring-1.3.1.jar fluent-hc-4.5.11.jar netty-handler-4.1.45.Fina
+ l.jar jackson-module-parameter-names-2.10.2.jar javax.interceptor-api-1
+ .2.jar htrace-core-3.1.0-incubating.jar ace-cache-0.0.2.jar thymeleaf-3
+ .0.11.RELEASE.jar reactive-streams-1.0.3.jar lombok-1.18.12.jar sqlite-
+ jdbc-3.28.0.jar netty-common-4.1.45.Final.jar shiro-core-1.3.2.jar spri
+ ng-boot-starter-jdbc-2.2.5.RELEASE.jar poi-ooxml-schemas-3.16.jar hiber
+ nate-core-5.4.2.Final.jar mysql-connector-java-5.1.48.jar jersey-json-1
+ .9.jar attoparser-2.0.5.RELEASE.jar curvesapi-1.04.jar codemodel-2.3.2.
+ jar lettuce-core-5.2.2.RELEASE.jar commons-email-1.4.jar hadoop-distcp-
+ 2.7.3.jar opencsv-2.4.jar relaxngDatatype-20020414.jar cache-api-1.1.1.
+ jar jackson-jaxrs-1.9.13.jar spring-boot-devtools-2.2.5.RELEASE.jar had
+ oop-common-2.7.3.jar ant-1.7.0.jar pagehelper-spring-boot-starter-1.2.7
+ .jar apacheds-i18n-2.0.0-M15.jar druid-1.1.0.jar http2-common-9.4.26.v2
+ 0200117.jar xsom-20140925.jar error_prone_annotations-2.1.3.jar ant-lau
+ ncher-1.7.0.jar hadoop-annotations-2.7.3.jar protobuf-java-3.0.0-beta-1
+ .jar spring-aop-5.2.4.RELEASE.jar spring-boot-2.2.5.RELEASE.jar thymele
+ af-spring5-3.0.11.RELEASE.jar mssql-jdbc-7.4.1.jre8.jar animal-sniffer-
+ annotations-1.14.jar commons-beanutils-1.9.2.jar hadoop-yarn-api-2.7.3.
+ jar annotations-2.0.1.jar apacheds-kerberos-codec-2.0.0-M15.jar json-si
+ mple-1.1.1.jar springfox-spi-2.7.0.jar logback-core-1.2.3.jar javax.per
+ sistence-api-2.2.jar hessian-4.0.38.jar mybatis-3.4.5.jar log4j-to-slf4
+ j-2.12.1.jar aopalliance-1.0.jar uid-generator-1.0.0-SNAPSHOT.jar EasyC
+ aptcha-1.5.0.jar jsp-api-2.1.jar guice-3.0.jar statistics-1.0.2.jar ews
+ -java-api-2.0.jar jetty-io-9.4.26.v20200117.jar commons-logging-1.2.jar
+  woodstox-core-asl-4.4.1.jar jcc-11.5.0.0.jar java-xmlbuilder-0.4.jar s
+ pringfox-core-2.7.0.jar stax-api-1.0.1.jar jackson-mapper-asl-1.9.13.ja
+ r spring-boot-starter-logging-2.2.5.RELEASE.jar commons-dbcp2-2.7.0.jar
+  netty-3.6.2.Final.jar paranamer-2.3.jar jaxb-impl-2.2.3-1.jar hibernat
+ e-validator-6.0.18.Final.jar netty-transport-4.1.45.Final.jar stax2-api
+ -3.1.4.jar xercesImpl-2.11.0.jar jackson-databind-2.10.2.jar transactio
+ ns-4.0.6.jar jakarta.mail-1.6.4.jar spring-webmvc-5.2.4.RELEASE.jar sta
+ x-ex-1.7.7.jar commons-io-2.6.jar jodd-bean-3.7.1.jar logback-classic-1
+ .2.3.jar springfox-swagger-common-2.7.0.jar mybatis-spring-boot-starter
+ -2.1.2.jar poi-3.16.jar leveldbjni-all-1.8.jar spring-jcl-5.2.4.RELEASE
+ .jar istack-commons-runtime-2.21.jar spring-boot-starter-websocket-2.2.
+ 5.RELEASE.jar zookeeper-jute-3.5.5.jar guice-servlet-3.0.jar jackson-co
+ re-2.10.2.jar hadoop-yarn-client-2.7.3.jar jconsole.jar pagehelper-spri
+ ng-boot-autoconfigure-1.2.7.jar classmate-1.5.1.jar spring-plugin-metad
+ ata-1.2.0.RELEASE.jar jettison-1.1.jar swagger-bootstrap-ui-1.9.0.jar x
+ z-1.0.jar spring-boot-starter-web-2.2.5.RELEASE.jar shiro-web-1.3.2.jar
+  joda-time-2.10.5.jar transactions-jdbc-4.0.6.jar commons-fileupload-1.
+ 4.jar jakarta.annotation-api-1.3.5.jar kylin-jdbc-1.6.0.jar antlr4-runt
+ ime-4.7.jar cas-client-core-3.1.12.jar xml-apis-1.4.01.jar netty-codec-
+ 4.1.45.Final.jar commons-compress-1.4.1.jar commons-lang-2.4.jar spring
+ -boot-starter-jta-atomikos-2.2.5.RELEASE.jar druid-spring-boot-starter-
+ 1.1.0.jar h2-1.4.196.jar transactions-jta-4.0.6.jar activation-1.1.1.ja
+ r commons-collections4-4.1.jar commons-daemon-1.0.13.jar postgresql-42.
+ 2.10.jar avatica-metrics-1.8.0.jar spring-boot-starter-mail-2.2.5.RELEA
+ SE.jar jaxb-core-2.2.11.jar pagehelper-5.1.6.jar hadoop-mapreduce-clien
+ t-shuffle-2.7.3.jar rngom-2.2.11.jar spring-boot-starter-data-redis-2.2
+ .5.RELEASE.jar hadoop-yarn-server-nodemanager-2.7.3.jar jersey-core-1.9
+ .jar hadoop-yarn-server-common-2.7.3.jar spring-boot-autoconfigure-2.2.
+ 5.RELEASE.jar commons-lang3-3.1.jar spring-tx-5.2.4.RELEASE.jar jackson
+ -dataformat-yaml-2.10.2.jar snakeyaml-1.25.jar jetty-client-9.4.26.v202
+ 00117.jar xmlbeans-2.6.0.jar jodd-core-5.1.3.jar thymeleaf-extras-java8
+ time-3.0.4.RELEASE.jar presto-jdbc-0.161.jar hadoop-mapreduce-client-co
+ re-2.7.3.jar spring-boot-starter-log4j-1.3.5.RELEASE.jar jaxb-api-2.3.1
+ .jar fastjson-1.2.47.jar spring-boot-starter-quartz-2.2.5.RELEASE.jar s
+ igar-1.6.4.jar curator-framework-2.7.1.jar shiro-ehcache-1.3.2.jar comm
+ ons-math3-3.6.1.jar commons-collections-3.2.1.jar commons-digester-1.8.
+ jar apache-ant-zip-2.3.jar mapper-spring-1.0.0.jar mapper-2.3.0.jar swa
+ gger-models-1.5.13.jar UserAgentUtils-1.17.jar FastInfoset-1.2.13.jar d
+ td-parser-1.1.jar spring-messaging-5.2.4.RELEASE.jar ehcache-core-2.6.1
+ 1.jar spring-plugin-core-1.2.0.RELEASE.jar jakarta.activation-1.2.2.jar
+  spring-boot-starter-thymeleaf-2.2.5.RELEASE.jar jackson-datatype-joda-
+ 2.10.2.jar commons-codec-1.13.jar mapper-core-1.0.0.jar spring-boot-con
+ figuration-processor-2.2.5.RELEASE.jar commons-pool2-2.7.0.jar httpmime
+ -4.5.11.jar antlr-2.7.7.jar jackson-xc-1.9.13.jar hadoop-hdfs-2.7.3.jar
+  redisson-3.2.0.jar Saxon-HE-9.8.0-4.jar spring-beans-5.2.4.RELEASE.jar
+  jackson-datatype-jdk8-2.10.2.jar jandex-2.0.5.Final.jar jakarta.valida
+ tion-api-2.0.2.jar checkstyle-8.3.jar j2objc-annotations-1.1.jar ecj-3.
+ 18.0.jar jersey-guice-1.9.jar HikariCP-3.4.2.jar velocity-1.7.jar sprin
+ g-data-keyvalue-2.2.5.RELEASE.jar jersey-server-1.9.jar mapper-spring-b
+ oot-autoconfigure-2.0.0.jar hadoop-streaming-2.7.3.jar api-util-1.0.0-M
+ 20.jar http2-client-9.4.26.v20200117.jar spring-data-hadoop-core-2.6.0.
+ BUILD-SNAPSHOT.jar aviator-3.0.1.jar dom4j-2.1.1.jar http2-hpack-9.4.26
+ .v20200117.jar springfox-swagger2-2.7.0.jar spring-core-5.2.4.RELEASE.j
+ ar mariadb-java-client-2.4.4.jar spring-context-support-5.2.4.RELEASE.j
+ ar jsqlparser-1.2.jar thymeleaf-extras-shiro-2.0.0.jar springfox-swagge
+ r-ui-2.7.0.jar atomikos-util-4.0.6.jar spring-jdbc-5.2.4.RELEASE.jar is
+ tack-commons-tools-2.21.jar transactions-api-4.0.6.jar commons-net-3.1.
+ jar spring-boot-starter-aop-2.2.5.RELEASE.jar jackson-annotations-2.10.
+ 2.jar hadoop-mapreduce-client-jobclient-2.7.3.jar shiro-quartz-1.3.2.ja
+ r quartz-1.6.1.jar spring-data-commons-2.2.5.RELEASE.jar tomcat-embed-j
+ asper-9.0.31.jar jetty-util-9.4.26.v20200117.jar commons-configuration-
+ 1.6.jar jaxb-runtime-2.2.11.jar tools.jar api-asn1-api-1.0.0-M20.jar sh
+ iro-redis-3.1.0.jar swagger-annotations-1.5.13.jar slf4j-log4j12-1.7.30
+ .jar javax.inject-1.jar mchange-commons-java-0.2.15.jar ojdbc6-11.2.0.3
+ .jar spring-expression-5.2.4.RELEASE.jar jaxb-xjc-2.2.11.jar jersey-cli
+ ent-1.9.jar hibernate-commons-annotations-5.1.0.Final.jar httpclient-4.
+ 5.11.jar jboss-transaction-api_1.2_spec-1.1.1.Final.jar spring-boot-sta
+ rter-2.2.5.RELEASE.jar javax.mail-1.5.2.jar reflections-0.9.10.jar jsou
+ p-1.8.3.jar commons-httpclient-3.1.jar jsr305-3.0.2.jar hadoop-auth-2.7
+ .3.jar javax.activation-api-1.2.0.jar spring-data-redis-2.2.5.RELEASE.j
+ ar jedis-3.1.0.jar commons-cli-1.4.jar hibernate-entitymanager-5.4.2.Fi
+ nal.jar curator-recipes-2.7.1.jar jetty-util-6.1.26.jar spring-boot-sta
+ rter-json-2.2.5.RELEASE.jar quartz-2.3.2.jar hutool-all-4.1.19.jar jbos
+ s-logging-3.4.1.Final.jar hadoop-yarn-common-2.7.3.jar springfox-schema
+ -2.7.0.jar log4j-1.2.17.jar aspectjweaver-1.9.5.jar nekohtml-1.9.22.jar
+  netty-resolver-4.1.45.Final.jar asm-3.1.jar mapstruct-1.1.0.Final.jar 
+ persistence-api-1.0.jar reactor-core-3.3.3.RELEASE.jar unbescape-1.1.6.
+ RELEASE.jar jackson-core-asl-1.9.13.jar javassist-3.24.0-GA.jar jcl-ove
+ r-slf4j-1.7.30.jar jsch-0.1.42.jar mapper-weekend-1.1.3.jar commons-bea
+ nutils-core-1.8.0.jar shiro-spring-1.3.2.jar checker-qual-2.5.2.jar too
+ ls.jar curator-client-2.7.1.jar mybatis-spring-boot-autoconfigure-2.1.2
+ .jar txw2-2.3.2.jar avro-1.7.4.jar spring-context-5.2.4.RELEASE.jar ser
+ vlet-api-2.5.jar jackson-datatype-jsr310-2.10.2.jar ehcache-core-2.10.5
+ .jar spring-web-5.2.4.RELEASE.jar jolokia-core-1.6.2.jar tomcat-embed-c
+ ore-9.0.31.jar http2-http-client-transport-9.4.26.v20200117.jar zero-al
+ location-hashing-0.5.jar spring-data-hadoop-hbase-2.6.0.BUILD-SNAPSHOT.
+ jar jakarta.transaction-api-1.3.3.jar mapper-base-1.0.0.jar netty-buffe
+ r-4.1.45.Final.jar spring-oxm-5.2.4.RELEASE.jar ehcache-2.10.6.jar ehca
+ che-web-2.0.4.jar mapper-spring-boot-starter-2.0.0.jar transactions-jms
+ -4.0.6.jar logstash-logback-encoder-4.9.jar snappy-java-1.0.4.1.jar
+
